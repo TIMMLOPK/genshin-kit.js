@@ -1,11 +1,14 @@
 import type { ClientCookieManager } from "./clientCookieManager";
 import { getAbyssBattle } from "../api/abyssAPI";
+import { getGameRecordCard } from "../api/RecordCard";
+import type { Base } from "../interface/base";
+import type { AbyssBattle } from "../interface/abyss";
 
 
 export class Client {
     options: {
-        language: string;
-        retry: boolean;
+        language: string | 'en';
+        retry: boolean | false;
     }
     cookieManager: ClientCookieManager;
     /**
@@ -14,18 +17,34 @@ export class Client {
      */
 
     constructor(cookieManager: ClientCookieManager, options: {
-        language: string;
-        retry: boolean;
+        language: string | 'en';
+        retry: boolean | false;
     }) {
         this.cookieManager = cookieManager;
         this.options = options;
     }
 
-    public async getAbyssBattle(uid: string): Promise<any> {
+    /**
+     * @param {string} uid - Game uid.
+     */
+
+    public async getAbyssBattle(uid: string, previous?: boolean): Promise<AbyssBattle> {
         const ltoken = this.cookieManager.ltoken;
         const ltuid = this.cookieManager.ltuid;
         const { language } = this.options;
-        const res = new getAbyssBattle().requestAPI(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
+        const res = new getAbyssBattle().requestAPI(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid, previous);
+        return res;
+    }
+
+    /**
+     * @param {string} uid - Hoyolab uid.
+     */
+
+    public async getGameRecordCard(uid: string): Promise<Base> {
+        const ltoken = this.cookieManager.ltoken;
+        const ltuid = this.cookieManager.ltuid;
+        const { language } = this.options;
+        const res = new getGameRecordCard().requestAPI(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
         return res;
     }
 }
