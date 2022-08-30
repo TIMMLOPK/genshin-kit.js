@@ -5,6 +5,8 @@
 
 Genshin-kit.js is a Node.js module that allows you to easily interact with the Genshin Impact API.
 
+Nilou ❣️
+
 ---
 
 Documentation: Coming soon.
@@ -34,8 +36,8 @@ const { Client, ClientCookieManager } = require('genshin-kit.js');
         }
     );
 
-    const result = await client.getAbyssBattle("uid");
-    console.log(result);
+    const abyss = await client.getAbyssBattle("uid");
+    console.log(abyss);
 }
 )();
 ```
