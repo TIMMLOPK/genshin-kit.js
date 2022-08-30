@@ -1,5 +1,5 @@
-import type { Character } from "./character";
-import type { Home } from "./home";
+import type { Character } from "./genshinCharacterAPI";
+import type { Home } from "./teapotAPI";
 
 
 interface Info {

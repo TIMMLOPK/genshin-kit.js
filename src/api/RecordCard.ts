@@ -1,7 +1,7 @@
 import { request, setLanguage } from "../utils/request";
-import type { Base } from "../interface/base";
+import type { Base } from "../interface/recordCardAPI";
 
-export class getGameRecordCard {
+export class RecordCard {
     /**
        * 
        * @param {string} language The language to set

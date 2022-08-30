@@ -1,8 +1,3 @@
-/**
- * interface for abyss API
- * 
- */
-
 interface AbyssRank {
     avatar_id: number;
     avatar_icon: string;

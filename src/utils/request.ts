@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Genshin_Battle_API_URL, Genshin_Hoyolab_API_URL } from "../constants/constants";
+import { Genshin_Battle_API_URL, Genshin_Hoyolab_API_URL, Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
 
 
 /**
@@ -12,6 +12,9 @@ const request = (type?: string) => {
     let baseURL = Genshin_Battle_API_URL;
     if (type === "hoyolab") {
         baseURL = Genshin_Hoyolab_API_URL;
+    }
+    if (type === "dailyrewards") {
+        baseURL = Genshin_Hoyolab_REWARD_URL;
     }
 
     return axios.create({

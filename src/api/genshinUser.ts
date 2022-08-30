@@ -1,23 +1,20 @@
 import { request, setLanguage } from "../utils/request";
 import generate_dynamic_secret from "../utils/generate_ds";
-import type { AbyssBattle } from "../interface/abyss";
-import { checkServerRegion } from "../utils/server";
+import type { Full } from "../interface/genshinUserAPI";
 
-export class getAbyssBattle {
+export class GenshinUser {
     /**
        * 
        * @param {string} language The language to set
        * @param {string} cookie The cookie to set
-       * @param {string | number} uid game uid
-       * @param {}
+       * @param {string} uid The uid to set
+       * 
        */
 
-    public async requestAPI(language: string, cookie: string, uid: string | number, previous?: boolean): Promise<AbyssBattle> {
+    public async requestAPI(language: string, cookie: string, uid: string): Promise<Full> {
         const instance = request();
         setLanguage(language);
-        const region = checkServerRegion(uid);
-        if (region === "unknown") throw new Error("unknown server region");
-        const res = await instance.get("/spiralAbyss", {
+        const res = await instance.get("/index", {
             headers: {
                 "x-rpc-client_type": "4",
                 "x-rpc-app_version": "1.5.0",
@@ -25,9 +22,8 @@ export class getAbyssBattle {
                 "Cookie": cookie,
             },
             params: {
-                "server": region,
+                "server": "os_asia",
                 "role_id": uid,
-                "schedule_type": `${previous ? "2" : "1"}`,
             },
         });
 
