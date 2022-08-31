@@ -10,7 +10,7 @@ export class RecordCard {
        * 
        */
 
-    public async requestAPI(language: string, cookie: string, uid: string): Promise<Base> {
+    public async get(language: string, cookie: string, uid: string): Promise<Base> {
         const instance = request("hoyolab");
         setLanguage(language);
         const res = await instance.get("/getGameRecordCard", {

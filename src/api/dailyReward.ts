@@ -1,6 +1,6 @@
 import { request, setLanguage } from "../utils/request";
 import type { DayReward } from "../interface/rewardsAPI";
-import type { APIResponse } from "../interface/apiResponseAPI";
+import type { APIResponse } from "../interface/ResponseAPI";
 
 export class DailyRewards {
     /**

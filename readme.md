@@ -23,21 +23,39 @@ npm install genshin-kit.js
 Simple example:
 
 ```javascript
-const { Client, ClientCookieManager } = require('genshin-kit.js');
+const { Client, ClientCookieManager, Language, SpiralAbyss } = require('genshin-kit.js');
 
 (async () => {
     const manager = new ClientCookieManager();
-    manager.setCookie('ltoken', 'ltuid');
+    manager.set('', '');
+    // As HoYolab api have limit each cookie, you can set multiple cookies.
+    // we will return random cookie if you set multiple cookies.
+    const cookieForRequest = manager.get();
+    const ltoken = cookieForRequest.ltoken;
+    const ltuid = cookieForRequest.ltuid;
+
+    // you also can delete cookie manually.
+    manager.delete();
+    console.log(manager.getAll()); // it will return empty array because we only have one cookie.
+
     const client = new Client(
         manager,
         {
-            language: 'zh-tw',
-            retry: false
+            language: Language.ChineseTW,
         }
     );
 
-    const abyss = await client.getAbyssBattle("uid");
-    console.log(abyss);
+    // request by client
+    const abyss = await client.getAbyssBattle("uid")
+    console.log(abyss)
+
+    // request by endpoint
+    const abyssEndpoint = new SpiralAbyss();
+    const abyssEndpointResult = await abyssEndpoint.get(Language.ChineseTW, `ltoken=${manager.getAll().ltoken[0]}; ltuid=${manager.getAll().ltuid[0]}`, "uid")
+    // if you use endpoint, it allows you to visit last request result
+    const cache = abyssEndpoint.cache.get("uid")
+    console.log(cache)
+    console.log(abyssEndpointResult)
 }
 )();
 ```

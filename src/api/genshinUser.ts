@@ -11,7 +11,7 @@ export class GenshinUser {
        * 
        */
 
-    public async requestAPI(language: string, cookie: string, uid: string): Promise<Full> {
+    public async get(language: string, cookie: string, uid: string): Promise<Full> {
         const instance = request();
         setLanguage(language);
         const res = await instance.get("/index", {
