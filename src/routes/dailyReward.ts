@@ -72,18 +72,21 @@ export class DailyRewards {
         if (res.data?.retcode === -100) {
             return {
                 status: "Invalid cookie",
+                code: -100,
             }
         }
 
         if (res.data?.retcode === -5003) {
             return {
                 status: "Already claimed",
+                code: -5003,
             }
         }
 
         if (res.data?.data.code === "ok" && res.data?.data.retcode === 0) {
             return {
                 status: "success",
+                code: 0,
             }
         }
 

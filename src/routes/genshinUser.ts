@@ -1,7 +1,7 @@
 import { request, setLanguage } from "../utils/request";
 import generate_dynamic_secret from "../utils/generate_ds";
 import { checkServerRegion } from "../utils/getServer";
-import type { Full } from "../interface";
+import type { Full, APIResponse } from "../interface";
 
 export class GenshinUser {
     /**
@@ -12,7 +12,7 @@ export class GenshinUser {
        * 
        */
 
-    public async get(language: string, cookie: string, uid: string): Promise<Full> {
+    public async get(language: string, cookie: string, uid: string): Promise<Full | APIResponse> {
         const instance = request();
         setLanguage(language);
         const res = await instance.get("/index", {
@@ -29,6 +29,14 @@ export class GenshinUser {
         });
 
         if (res.data?.retcode === 0) return res.data.data;
+
+        if (res.data.retcode === 10101) {
+            return {
+                status: "Cannot get data for more than 30 accounts per cookie per day",
+                code: 10101,
+            }
+        }
+
 
         throw new Error(res.data.retcode);
 

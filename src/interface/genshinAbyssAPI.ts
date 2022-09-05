@@ -22,17 +22,17 @@ interface AbyssFloor {
 }
 
 export interface AbyssBattle {
-    damge_rank : AbyssRank[];
-    defeat_rank : AbyssRank[];
-    endTime : string;
+    damge_rank: AbyssRank[];
+    defeat_rank: AbyssRank[];
+    endTime: string;
     energy_skill_rank: AbyssRank[];
-    floor : AbyssFloor[];
-    is_unlock : boolean;
-    max_floor : string;
+    floor: AbyssFloor[];
+    is_unlock: boolean;
+    max_floor: string;
     normal_skill_rank: AbyssRank[];
     reveal_rank: AbyssRank[];
     schedule_id: number;
-    startTime : string;
+    startTime: string;
     take_damage_rank: AbyssRank[];
     total_battle_times: number;
     total_star: number;

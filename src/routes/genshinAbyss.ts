@@ -2,7 +2,7 @@ import { request, setLanguage } from "../utils/request";
 import generate_dynamic_secret from "../utils/generate_ds";
 import { checkServerRegion } from "../utils/getServer";
 import { ClientCache } from "../client/clientCache";
-import type { AbyssBattle } from "../interface";
+import type { AbyssBattle, APIResponse } from "../interface";
 
 export class SpiralAbyss {
 
@@ -14,7 +14,7 @@ export class SpiralAbyss {
        * @param {string} uid Genshin Impact game uid
        */
 
-    public async get(language: string, cookie: string, uid: string, previous?: boolean): Promise<AbyssBattle> {
+    public async get(language: string, cookie: string, uid: string, previous?: boolean): Promise<AbyssBattle | APIResponse> {
         const instance = request();
 
         setLanguage(language);
@@ -37,6 +37,13 @@ export class SpiralAbyss {
             const { data } = res;
             this.cache.set(uid, data.data);
             return data.data;
+        }
+
+        if (res.data.retcode === 10101) {
+            return {
+                status: "Cannot get data for more than 30 accounts per cookie per day",
+                code: 10101,
+            }
         }
 
         throw new Error(res.data.retcode);

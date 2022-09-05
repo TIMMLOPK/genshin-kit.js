@@ -1,5 +1,5 @@
 import { GameRecordCard, SpiralAbyss, GenshinUser, RealTimeNotes } from "../index";
-import type { RecordCard, AbyssBattle, Full, RealTimeNote } from "../interface";
+import type { RecordCard, AbyssBattle, Full, RealTimeNote, APIResponse } from "../interface";
 import type { Language } from "../constants/lang";
 import type { ClientCookieManager } from "./clientCookieManager";
 
@@ -26,7 +26,7 @@ export class Client {
      * @param {string} uid - Genshin Impact game uid.
      */
 
-    public async getAbyssBattle(uid: string, previous?: boolean): Promise<AbyssBattle> {
+    public async getAbyssBattle(uid: string, previous?: boolean): Promise<AbyssBattle | APIResponse> {
         const cookie = this.cookieManager.get();
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
@@ -51,7 +51,7 @@ export class Client {
     /**
      * @param {string} uid - Genshin Impact game uid.
      */
-    public async getGenshinUser(uid: string): Promise<Full> {
+    public async getGenshinUser(uid: string): Promise<Full | APIResponse> {
         const cookie = this.cookieManager.get();
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
