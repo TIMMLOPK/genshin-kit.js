@@ -4,7 +4,7 @@ interface Data {
     value: string;
 }
 
-interface BaseItem {
+interface ListItem {
     has_role: boolean;
     game_id: number;
     game_role_id: string;
@@ -18,6 +18,6 @@ interface BaseItem {
     url: string;
 }
 
-export interface Base {
-    list: BaseItem[];
+export interface RecordCard {
+    list: ListItem[];
 }

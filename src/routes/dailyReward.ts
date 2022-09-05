@@ -1,6 +1,5 @@
 import { request, setLanguage } from "../utils/request";
-import type { DayReward } from "../interface/rewardsAPI";
-import type { APIResponse } from "../interface/ResponseAPI";
+import type { APIResponse, DayReward } from "../interface"
 
 export class DailyRewards {
     /**
@@ -54,7 +53,7 @@ export class DailyRewards {
      * @param {string} cookie The cookie to set
      */
 
-    public async claimDailyReward(language: string, cookie: string): Promise<APIResponse> {
+    public async claim(language: string, cookie: string): Promise<APIResponse> {
         const instance = request("dailyrewards");
         const res = await instance.post("/sign", {
             "act_id": "e202102251931481",
@@ -83,7 +82,6 @@ export class DailyRewards {
         }
 
         if (res.data?.data.code === "ok" && res.data?.data.retcode === 0) {
-            console
             return {
                 status: "success",
             }

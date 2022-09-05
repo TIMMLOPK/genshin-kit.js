@@ -27,6 +27,7 @@ interface Stats {
     magic_chest_number: number;
     dendroculus_number: number;
 }
+
 interface World_explorations {
     level: number;
     exploration_percentage: number;

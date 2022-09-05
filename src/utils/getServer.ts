@@ -19,6 +19,6 @@ export function checkServerRegion(uid: string | number): string {
         case 6:
             return "os_usa";
         default:
-            return "unknown";
+            throw new Error("Invalid UID (server_region)");
     }
 }

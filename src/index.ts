@@ -1,8 +1,10 @@
 // export API REQUESTER
-export * from "./api/genshinAbyss";
-export * from "./api/RecordCard";
-export * from "./api/genshinUser";
-export * from "./api/dailyReward";
+export * from "./routes/genshinAbyss";
+export * from "./routes/GameRecordCard";
+export * from "./routes/genshinUser";
+export * from "./routes/dailyReward";
+export * from "./routes/realtimeNotes";
+export * from "./routes/genshinCharacters";
 
 // export CLIENT
 export * from "./client/clientCookieManager";

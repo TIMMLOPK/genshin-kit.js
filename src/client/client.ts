@@ -1,9 +1,5 @@
-import { SpiralAbyss } from "../api/genshinAbyss";
-import { RecordCard } from "../api/RecordCard";
-import { GenshinUser } from "../api/genshinUser";
-import type { Base } from "../interface/recordCardAPI";
-import type { AbyssBattle } from "../interface/genshinAbyssAPI";
-import type { Full } from "../interface/genshinUserAPI";
+import { GameRecordCard, SpiralAbyss, GenshinUser, RealTimeNotes } from "../index";
+import type { RecordCard, AbyssBattle, Full, RealTimeNote } from "../interface";
 import type { Language } from "../constants/lang";
 import type { ClientCookieManager } from "./clientCookieManager";
 
@@ -43,12 +39,12 @@ export class Client {
      * @param {string} uid - HoYolab uid.
      */
 
-    public async getRecordCard(uid: string): Promise<Base> {
+    public async getGameRecordCard(uid: string): Promise<RecordCard> {
         const cookie = this.cookieManager.get();
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new RecordCard().get(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
+        const res = new GameRecordCard().get(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
         return res;
     }
 
@@ -61,6 +57,18 @@ export class Client {
         const ltuid = cookie.ltuid;
         const { language } = this.options;
         const res = new GenshinUser().get(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
+        return res;
+    }
+
+    /**
+     * @param {string} uid - Genshin Impact game uid.
+     */
+    public async getRealTimeNotes(uid: string): Promise<RealTimeNote> {
+        const cookie = this.cookieManager.get();
+        const ltoken = cookie.ltoken;
+        const ltuid = cookie.ltuid;
+        const { language } = this.options;
+        const res = new RealTimeNotes().get(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
         return res;
     }
 }

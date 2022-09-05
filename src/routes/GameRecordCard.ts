@@ -1,7 +1,7 @@
 import { request, setLanguage } from "../utils/request";
-import type { Base } from "../interface/recordCardAPI";
+import type { RecordCard } from "../interface";
 
-export class RecordCard {
+export class GameRecordCard {
     /**
        * 
        * @param {string} language The language to set
@@ -10,7 +10,7 @@ export class RecordCard {
        * 
        */
 
-    public async get(language: string, cookie: string, uid: string): Promise<Base> {
+    public async get(language: string, cookie: string, uid: string): Promise<RecordCard> {
         const instance = request("hoyolab");
         setLanguage(language);
         const res = await instance.get("/getGameRecordCard", {
@@ -21,7 +21,7 @@ export class RecordCard {
                 "uid": uid,
             },
         });
-        if (res.data?.retcode === 0) return res.data.data;
+        if (res.data?.retcode !== 0) return res.data.data;
 
         throw new Error(res.data.retcode);
 
