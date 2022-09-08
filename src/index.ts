@@ -1,4 +1,4 @@
-// export API REQUESTER
+// export API ROUTES
 export * from "./routes/genshinAbyss";
 export * from "./routes/GameRecordCard";
 export * from "./routes/genshinUser";
