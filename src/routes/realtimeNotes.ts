@@ -2,6 +2,7 @@ import { request, setLanguage } from "../utils/request";
 import generate_dynamic_secret from "../utils/generate_ds";
 import { checkServerRegion } from "../utils/getServer";
 import type { RealTimeNote } from "../interface";
+import { APIError } from "../utils/error";
 
 export class RealTimeNotes {
     /**
@@ -12,7 +13,7 @@ export class RealTimeNotes {
        * 
        */
 
-    public async get(language: string, cookie: string, uid: string): Promise<RealTimeNote> {
+    public async get(uid: string,language: string, cookie: string): Promise<RealTimeNote> {
         const instance = request();
         setLanguage(language);
         const res = await instance.get("/dailyNote", {
@@ -30,7 +31,7 @@ export class RealTimeNotes {
 
         if (res.data?.retcode === 0) return res.data.data;
 
-        throw new Error(res.data.retcode);
+        throw new APIError(res.data.message, res.data.retcode);
 
     }
 }

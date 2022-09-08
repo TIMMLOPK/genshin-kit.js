@@ -1,4 +1,5 @@
 export class ClientCookieManager {
+
     private cookie = {
         vaild: {
             ltuid: [] as string[],
@@ -10,8 +11,6 @@ export class ClientCookieManager {
             ltoken: [] as string[],
         },
     }
-
-
 
     amount(): number {
         return this.cookie.vaild.ltoken.length;
@@ -31,7 +30,7 @@ export class ClientCookieManager {
      * @description Get the ltoken and ltuid for request.
      * @returns {Object} - The ltoken and ltuid.
      */
-    public get(): { ltoken: string | undefined, ltuid: string | undefined, key: number } {
+    public get(): { ltoken?: string, ltuid?: string, key: number } {
         if (this.amount() === 1) {
             return {
                 ltoken: this.cookie.vaild.ltoken[0],

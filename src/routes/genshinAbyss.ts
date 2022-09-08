@@ -3,10 +3,11 @@ import generate_dynamic_secret from "../utils/generate_ds";
 import { checkServerRegion } from "../utils/getServer";
 import { ClientCache } from "../client/clientCache";
 import type { AbyssBattle, APIResponse } from "../interface";
+import { APIError } from "../utils/error";
 
 export class SpiralAbyss {
 
-    cache: ClientCache = new ClientCache();
+    readonly cache: ClientCache = new ClientCache();
 
     /**
        * @param {string} language The response language
@@ -14,7 +15,7 @@ export class SpiralAbyss {
        * @param {string} uid Genshin Impact game uid
        */
 
-    public async get(language: string, cookie: string, uid: string, previous?: boolean): Promise<AbyssBattle | APIResponse> {
+    public async get(uid: string, language: string, cookie: string, previous?: boolean): Promise<AbyssBattle | APIResponse> {
         const instance = request();
 
         setLanguage(language);
@@ -46,7 +47,7 @@ export class SpiralAbyss {
             }
         }
 
-        throw new Error(res.data.retcode);
+        throw new APIError(res.data.message, res.data.retcode);
     }
 }
 

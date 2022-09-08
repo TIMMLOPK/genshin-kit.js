@@ -31,7 +31,7 @@ export class Client {
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new SpiralAbyss().get(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid, previous);
+        const res = new SpiralAbyss().get(uid, language, `ltoken=${ltoken}; ltuid=${ltuid};`, previous);
         return res;
     }
 
@@ -44,7 +44,7 @@ export class Client {
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new GameRecordCard().get(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
+        const res = new GameRecordCard().get(uid, language, `ltoken=${ltoken}; ltuid=${ltuid};`);
         return res;
     }
 
@@ -56,7 +56,7 @@ export class Client {
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new GenshinUser().get(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
+        const res = new GenshinUser().get(uid, language, `ltoken=${ltoken}; ltuid=${ltuid};`);
         return res;
     }
 
@@ -68,7 +68,7 @@ export class Client {
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new RealTimeNotes().get(language, `ltoken=${ltoken}; ltuid=${ltuid};`, uid);
+        const res = new RealTimeNotes().get(uid, language, `ltoken=${ltoken}; ltuid=${ltuid};`);
         return res;
     }
 }

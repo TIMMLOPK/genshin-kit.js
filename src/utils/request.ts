@@ -1,22 +1,34 @@
 import axios from "axios";
-import { Genshin_Battle_API_URL, Genshin_Hoyolab_API_URL, Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
+import { Genshin_Battle_API_URL, Genshin_Hoyolab_API_URL, Genshin_Hoyolab_REWARD_URL, UA } from "../constants/constants";
 
 
 /**
  * @description Creates a new axios instance with the base url set to the api url
- * @param {string} type The type of api
  */
 
 
-const request = (type?: string) => {
+export enum optionType {
+    hoyolab = "hoyolab",
+    dailyrewards = "dailyrewards",
+}
+
+type option = {
+    type: optionType,
+    withUA?: boolean,
+    withDS?: boolean,
+}
+
+const request = (option?: option) => {
     let baseURL = Genshin_Battle_API_URL;
-    if (type === "hoyolab") {
+    if (option?.type === optionType.hoyolab) {
         baseURL = Genshin_Hoyolab_API_URL;
     }
-    if (type === "dailyrewards") {
+    if (option?.type === optionType.dailyrewards) {
         baseURL = Genshin_Hoyolab_REWARD_URL;
     }
-
+    if (option?.withUA) {
+        axios.defaults.headers.common['User-Agent'] = UA;
+    }
     return axios.create({
         baseURL
     });

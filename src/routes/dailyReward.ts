@@ -1,18 +1,21 @@
-import { request, setLanguage } from "../utils/request";
+import { optionType, request, setLanguage } from "../utils/request";
 import type { APIResponse, DayReward } from "../interface"
+import { APIError } from "../utils/error";
 
 export class DailyRewards {
     /**
        * 
        * @description Get the daily rewards details
-       * @param {string} language The language to set
        * @param {string} cookie The cookie to set
-       * @param {string | number} day get the day's rewards
+       * @param {string} language The language to set
+       * @param {number} day get the day's rewards
        * 
        */
 
-    public async getDayReward(language: string, cookie: string, day?: string | number): Promise<DayReward> {
-        const instance = request("dailyrewards");
+    public async getDayReward(day: number, language: string, cookie: string): Promise<DayReward> {
+        const instance = request({
+            type: optionType.dailyrewards,
+        });
         setLanguage(language);
         const res = await instance.get("/home", {
             headers: {
@@ -24,26 +27,12 @@ export class DailyRewards {
             },
         });
 
-        const todayDate = new Date().toLocaleDateString("en-US", {
-            timeZone: "Asia/Hong_Kong",
-        });
-
-        let queryDay = Number(day);
-
-        if (typeof day === "string") {
-            queryDay = parseInt(day, 10);
-        }
-
-        if (!queryDay) {
-            queryDay = new Date(todayDate).getDate();
-        }
-
         if (res.data?.retcode === 0) {
             const { data } = res;
-            return data.data.awards[queryDay - 1];
+            return data.data.awards[day - 1];
         }
 
-        throw new Error(res.data.retcode);
+        throw new APIError(res.data.message, res.data.retcode);
     }
 
     /**
@@ -54,7 +43,10 @@ export class DailyRewards {
      */
 
     public async claim(language: string, cookie: string): Promise<APIResponse> {
-        const instance = request("dailyrewards");
+        const instance = request({
+            type: optionType.dailyrewards,
+            withUA: true,
+        });
         const res = await instance.post("/sign", {
             "act_id": "e202102251931481",
         },
@@ -62,7 +54,6 @@ export class DailyRewards {
                 headers: {
                     "Cookie": cookie,
                     "Content-Type": "application/json",
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36",
                 },
                 params: {
                     "lang": language,
@@ -90,7 +81,7 @@ export class DailyRewards {
             }
         }
 
-        throw new Error(res.data.retcode);
+        throw new APIError(res.data.message, res.data.retcode);
     }
 
 }

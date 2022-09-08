@@ -2,6 +2,7 @@ import { request, setLanguage } from "../utils/request";
 import generate_dynamic_secret from "../utils/generate_ds";
 import { checkServerRegion } from "../utils/getServer";
 import type { Full, APIResponse } from "../interface";
+import { APIError } from "../utils/error";
 
 export class GenshinUser {
     /**
@@ -12,7 +13,7 @@ export class GenshinUser {
        * 
        */
 
-    public async get(language: string, cookie: string, uid: string): Promise<Full | APIResponse> {
+    public async get(uid: string, language: string, cookie: string): Promise<Full | APIResponse> {
         const instance = request();
         setLanguage(language);
         const res = await instance.get("/index", {
@@ -38,7 +39,7 @@ export class GenshinUser {
         }
 
 
-        throw new Error(res.data.retcode);
+        throw new APIError(res.data.message, res.data.retcode);
 
     }
 }
