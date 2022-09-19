@@ -6,11 +6,9 @@ import { APIError } from "../utils/error";
 
 export class Charcters {
     /**
-       * 
        * @param {string} language The language to set
        * @param {string} cookie The cookie to set
        * @param {string} uid The uid to set
-       * 
        */
 
     public async get(uid: string, language: string, cookie: string): Promise<Characters | APIResponse> {
@@ -40,6 +38,12 @@ export class Charcters {
 
         throw new APIError(res.data.message, res.data.retcode);
     }
+
+    /**
+     * @param {number} characterId The avatar's id
+     * @param {string} language The language to set
+     * @param {string} cookie The cookie to set
+     */
 
     public async getAvatarInfo(characterId: number, language: string, cookie: string): Promise<CharacterInfo | APIResponse> {
         const instance = request();

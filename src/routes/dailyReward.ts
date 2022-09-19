@@ -74,7 +74,7 @@ export class DailyRewards {
             }
         }
 
-        if (res.data?.data.code === "ok" && res.data?.data.retcode === 0) {
+        if (res.data?.data.code === "ok" && res.data?.retcode === 0) {
             return {
                 status: "success",
                 code: 0,
