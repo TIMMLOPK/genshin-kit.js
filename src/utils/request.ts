@@ -85,7 +85,7 @@ class HTTPRequest {
                 "x-rpc-language": this.language,
                 ...headers,
             },
-            body: data,
+            body: JSON.stringify(data),
             query: params,
         });
         const resData = await res.json();
