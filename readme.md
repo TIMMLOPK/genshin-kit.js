@@ -23,7 +23,7 @@ npm install genshin-kit.js
 Simple example:
 
 ```javascript
-const { Client, ClientCookieManager, Language, SpiralAbyss } = require('genshin-kit.js');
+const { Client, ClientCookieManager, Language, CookieFormatter }= require('genshin-kit.js');
 
 (async () => {
     const manager = new ClientCookieManager();
@@ -51,7 +51,7 @@ const { Client, ClientCookieManager, Language, SpiralAbyss } = require('genshin-
 
     // request by endpoint
     const abyssEndpoint = new SpiralAbyss();
-    const abyssEndpointResult = await abyssEndpoint.get(Language.ChineseTW, `ltoken=${manager.getAll().ltoken[0]}; ltuid=${manager.getAll().ltuid[0]}`, "uid")
+    const abyssEndpointResult = await abyssEndpoint.get(Language.ChineseTW, CookieFormatter(ltoken, ltuid), "uid")
     // if you use endpoint, it allows you to visit last request result
     const cache = abyssEndpoint.cache.get("uid")
     console.log(cache)

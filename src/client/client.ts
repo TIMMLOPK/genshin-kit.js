@@ -2,7 +2,7 @@ import { GameRecordCard, SpiralAbyss, GenshinUser, RealTimeNotes, Charcters } fr
 import type { RecordCard, AbyssBattle, Full, RealTimeNote, APIResponse } from "../interface";
 import type { Language } from "../constants/lang";
 import type { ClientCookieManager } from "./clientCookieManager";
-import CookieFormatter from "../utils/cookieFormatter";
+import { CookieFormatter } from "../utils/cookieFormatter";
 
 
 export class Client {

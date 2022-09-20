@@ -9,10 +9,8 @@ interface Cookie {
 }
 
 
-function CookieFormatter (ltoken: string, ltuid: string): Cookie {
+export function CookieFormatter (ltoken: string, ltuid: string): Cookie {
     return {
         cookie: `ltoken=${ltoken}; ltuid=${ltuid};`,
     }
 }
-
-export default CookieFormatter;

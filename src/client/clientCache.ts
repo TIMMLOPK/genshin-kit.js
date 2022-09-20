@@ -5,7 +5,7 @@ export class ClientCache {
     private cache: { [key: string]: any } = {};
 
     public get(key: string | number): any {
-        const C =  this.cache[key];
+        const C = this.cache[key];
         this.delete(key);
         return C;
     }
