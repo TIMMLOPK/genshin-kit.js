@@ -12,6 +12,11 @@ export class ClientCookieManager {
         },
     }
 
+
+    /**
+     * 
+     * @returns {number} - The amount of cookies.
+     */
     amount(): number {
         return this.cookie.vaild.ltoken.length;
     }
@@ -30,22 +35,26 @@ export class ClientCookieManager {
      * @description Get the ltoken and ltuid for request.
      * @returns {Object} - The ltoken and ltuid.
      */
-    public get(): { ltoken?: string, ltuid?: string, key: number } {
+    public get(): { ltoken: string, ltuid: string, key: number } {
         if (this.amount() === 1) {
             return {
-                ltoken: this.cookie.vaild.ltoken[0],
-                ltuid: this.cookie.vaild.ltuid[0],
+                ltoken: this.cookie.vaild.ltoken[0] as string,
+                ltuid: this.cookie.vaild.ltuid[0] as string,
                 key: 0,
-            }
+            };
         }
         const randomIndex = Math.floor(Math.random() * this.amount());
         return {
-            ltoken: this.cookie.vaild.ltoken[randomIndex],
-            ltuid: this.cookie.vaild.ltuid[randomIndex],
+            ltoken: this.cookie.vaild.ltoken[randomIndex] as string,
+            ltuid: this.cookie.vaild.ltuid[randomIndex] as string,
             key: randomIndex,
         }
     }
 
+    /**
+     * 
+     * @param key - The key to remove.
+     */
     public delete(key: number): void {
         this.cookie.vaild.ltoken.splice(key, 1);
         this.cookie.vaild.ltuid.splice(key, 1);
@@ -61,10 +70,5 @@ export class ClientCookieManager {
             ltoken: this.cookie.vaild.ltoken,
             ltuid: this.cookie.vaild.ltuid,
         }
-    }
-
-    public mark(key: number): void {
-        this.cookie.invalid.ltoken.push(this.cookie.vaild.ltoken[key] as string);
-        this.cookie.invalid.ltuid.push(this.cookie.vaild.ltuid[key] as string);
     }
 }

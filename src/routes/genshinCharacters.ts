@@ -1,75 +1,63 @@
-import { request, setLanguage } from "../utils/request";
-import generate_dynamic_secret from "../utils/generate_ds";
+import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { Characters, APIResponse, CharacterInfo } from "../interface";
 import { APIError } from "../utils/error";
+import type { Language } from "../constants/lang";
 
 export class Charcters {
     /**
-       * @param {string} language The language to set
+       * @param {string} uid The uid to set       
+       * @param {Language} language The language to set
        * @param {string} cookie The cookie to set
-       * @param {string} uid The uid to set
        */
 
-    public async get(uid: string, language: string, cookie: string): Promise<Characters | APIResponse> {
-        const instance = request();
-        setLanguage(language);
-        const res = await instance.post('/character', {
-            "role_id": uid,
-            "server": checkServerRegion(uid),
-        },
+    public async get(uid: string, language: Language, cookie: string): Promise<Characters | APIResponse> {
+        const instance = new request({
+            withDS: true,
+        });
+        instance.setLanguage(language);
+        const res = await instance.post('character',
             {
-                headers: {
-                    "x-rpc-client_type": "4",
-                    "x-rpc-app_version": "1.5.0",
-                    "DS": generate_dynamic_secret(),
-                    "Cookie": cookie,
-                },
-            });
+                "x-rpc-client_type": "4",
+                "x-rpc-app_version": "1.5.0",
+                "Cookie": cookie,
+            },
+            {
+                "role_id": uid,
+                "server": checkServerRegion(uid),
+            },
+        );
 
-        if (res.data?.retcode === 0) return res.data.data.avatars;
+        if (res.retcode === 0) return res.data.avatars;
 
-        if (res.data.retcode === 10101) {
-            return {
-                status: "Cannot get data for more than 30 accounts per cookie per day",
-                code: 10101,
-            }
-        }
-
-        throw new APIError(res.data.message, res.data.retcode);
+        throw new APIError(res.message, res.retcode);
     }
 
     /**
      * @param {number} characterId The avatar's id
-     * @param {string} language The language to set
+     * @param {Language} language The language to set
      * @param {string} cookie The cookie to set
      */
 
-    public async getAvatarInfo(characterId: number, language: string, cookie: string): Promise<CharacterInfo | APIResponse> {
-        const instance = request();
-        setLanguage(language);
-        const res = await instance.post('/avatarBasicInfo', {
-            "character_ids": [characterId],
-        },
+    public async getAvatarInfo(characterId: number, language: Language, cookie: string): Promise<CharacterInfo | APIResponse> {
+        const instance = new request({
+            withDS: true,
+        });
+        instance.setLanguage(language);
+        const res = await instance.post('avatarBasicInfo',
             {
-                headers: {
-                    "x-rpc-client_type": "4",
-                    "x-rpc-app_version": "1.5.0",
-                    "DS": generate_dynamic_secret(),
-                    "Cookie": cookie,
-                },
-            });
-
-        if (res.data?.retcode === 0) return res.data.data.avatars[0];
-
-        if (res.data.retcode === 10101) {
-            return {
-                status: "Cannot get data for more than 30 accounts per cookie per day",
-                code: 10101,
+                "x-rpc-client_type": "4",
+                "x-rpc-app_version": "1.5.0",
+                "Cookie": cookie,
+            },
+            {
+                "character_ids": [characterId],
             }
-        }
+        );
 
-        throw new APIError(res.data.message, res.data.retcode);
+        if (res.retcode === 0) return res.data.avatars[0];
+
+        throw new APIError(res.message, res.retcode);
     }
 
 }

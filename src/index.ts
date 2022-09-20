@@ -16,3 +16,4 @@ export * from "./constants/lang";
 
 // export UTILS
 export * from "./utils/getServer";
+export * from "./utils/cookieFormatter";

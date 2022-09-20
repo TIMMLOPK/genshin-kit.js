@@ -1,7 +1,8 @@
-import { GameRecordCard, SpiralAbyss, GenshinUser, RealTimeNotes } from "../index";
+import { GameRecordCard, SpiralAbyss, GenshinUser, RealTimeNotes, Charcters } from "../index";
 import type { RecordCard, AbyssBattle, Full, RealTimeNote, APIResponse } from "../interface";
 import type { Language } from "../constants/lang";
 import type { ClientCookieManager } from "./clientCookieManager";
+import CookieFormatter from "../utils/cookieFormatter";
 
 
 export class Client {
@@ -31,7 +32,8 @@ export class Client {
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new SpiralAbyss().get(uid, language, `ltoken=${ltoken}; ltuid=${ltuid};`, previous);
+        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
+        const res = new SpiralAbyss().get(uid, language, cookieString, previous);
         return res;
     }
 
@@ -44,7 +46,8 @@ export class Client {
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new GameRecordCard().get(uid, language, `ltoken=${ltoken}; ltuid=${ltuid};`);
+        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
+        const res = new GameRecordCard().get(uid, language, cookieString);
         return res;
     }
 
@@ -56,7 +59,8 @@ export class Client {
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new GenshinUser().get(uid, language, `ltoken=${ltoken}; ltuid=${ltuid};`);
+        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
+        const res = new GenshinUser().get(uid, language, cookieString);
         return res;
     }
 
@@ -68,7 +72,18 @@ export class Client {
         const ltoken = cookie.ltoken;
         const ltuid = cookie.ltuid;
         const { language } = this.options;
-        const res = new RealTimeNotes().get(uid, language, `ltoken=${ltoken}; ltuid=${ltuid};`);
+        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
+        const res = new RealTimeNotes().get(uid, language, cookieString);
+        return res;
+    }
+
+    public async getCharacter(uid: string): Promise<any> {
+        const cookie = this.cookieManager.get();
+        const ltoken = cookie.ltoken;
+        const ltuid = cookie.ltuid;
+        const { language } = this.options;
+        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
+        const res = new Charcters().get(uid, language, cookieString);
         return res;
     }
 }

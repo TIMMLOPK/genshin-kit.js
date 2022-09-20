@@ -1,38 +1,43 @@
-import { optionType, request, setLanguage } from "../utils/request";
+import { urlOption, request } from "../utils/request";
 import type { RecordCard } from "../interface";
 import { APIError } from "../utils/error";
+import type { Language } from "../constants/lang";
 
 export class GameRecordCard {
     /**
        * 
-       * @param {string} language The language to set
-       * @param {string} cookie The cookie to set
        * @param {string} uid Hoyolab uid
+       * @param {Language} language The language to set
+       * @param {string} cookie The cookie to set
        * 
        */
 
-    public async get(uid: string, language: string, cookie: string): Promise<RecordCard> {
-        const instance = request({
-            type: optionType.hoyolab,
+    public async get(uid: string, language: Language, cookie: string): Promise<RecordCard> {
+        const instance = new request({
+            type: urlOption.hoyolab,
         });
-        setLanguage(language);
-        const res = await instance.get("/getGameRecordCard", {
-            headers: {
-                "Cookie": cookie,
+        
+        instance.setLanguage(language);
+
+        const res = await instance.get("getGameRecordCard",
+            {
+                Cookie: cookie,
             },
-            params: {
+            {
                 "uid": uid,
-            },
-        });
-        if (res.data?.retcode === 0) {
-            const { data } = res.data;
+            }
+        );
+
+
+        if (res.retcode === 0) {
+            const { data } = res;
             return {
                 list: data,
                 currecnt: data.list[0],
             }
         }
 
-        throw new APIError(res.data.message, res.data.retcode);
+        throw new APIError(res.message, res.retcode);
     }
 }
 
