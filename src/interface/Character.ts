@@ -17,7 +17,7 @@ export interface Character extends CharacterInfo {
 }
 
 
-export interface Characters extends Character {
+export interface CharacterData extends Character {
     weapon: Weapon;
     reliquaries: Reliquary[];
     constellation: Constellation[];

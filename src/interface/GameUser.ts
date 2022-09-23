@@ -49,7 +49,7 @@ interface World_explorations {
 }
 
 
-export interface Full {
+export interface GenshinUserData {
     avatars: Character[];
     homes: Home[];
     role: Info;

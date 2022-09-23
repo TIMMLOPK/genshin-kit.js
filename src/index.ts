@@ -1,6 +1,6 @@
 // export API ROUTES
 export * from "./routes/genshinAbyss";
-export * from "./routes/GameRecordCard";
+export * from "./routes/gameRecordCard";
 export * from "./routes/genshinUser";
 export * from "./routes/dailyReward";
 export * from "./routes/realtimeNotes";

@@ -1,17 +1,19 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
-import type { Characters, APIResponse, CharacterInfo } from "../interface";
+import type { CharacterData, CharacterInfo } from "../interface";
 import { APIError } from "../utils/error";
 import type { Language } from "../constants/lang";
+import { ClientCache } from "../client/clientCache";
 
 export class Charcters {
+    readonly cache: ClientCache = new ClientCache();
     /**
        * @param {string} uid The uid to set       
        * @param {Language} language The language to set
        * @param {string} cookie The cookie to set
        */
 
-    public async get(uid: string, language: Language, cookie: string): Promise<Characters | APIResponse> {
+    public async get(uid: string, language: Language, cookie: string): Promise<CharacterData> {
         const instance = new request({
             withDS: true,
         });
@@ -28,7 +30,11 @@ export class Charcters {
             },
         );
 
-        if (res.retcode === 0) return res.data.avatars;
+        if (res.retcode === 0) {
+            const { data } = res;
+            this.cache.set(uid, data);
+            return data.avatars
+        }
 
         throw new APIError(res.message, res.retcode);
     }
@@ -39,7 +45,7 @@ export class Charcters {
      * @param {string} cookie The cookie to set
      */
 
-    public async getAvatarInfo(characterId: number, language: Language, cookie: string): Promise<CharacterInfo | APIResponse> {
+    public async getAvatarInfo(characterId: number, language: Language, cookie: string): Promise<CharacterInfo> {
         const instance = new request({
             withDS: true,
         });
@@ -55,7 +61,10 @@ export class Charcters {
             }
         );
 
-        if (res.retcode === 0) return res.data.avatars[0];
+        if (res.retcode === 0) {
+            const { data } = res;
+            return data.avatars[0];
+        }
 
         throw new APIError(res.message, res.retcode);
     }

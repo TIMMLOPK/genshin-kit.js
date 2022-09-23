@@ -5,12 +5,10 @@ import type { Language } from "../constants/lang";
 
 export class DailyRewards {
     /**
-       * 
        * @description Get the daily rewards details
        * @param {string} cookie The cookie to set
        * @param {Language} language The language to set
        * @param {number} day get the day's rewards
-       * 
        */
 
     public async getDayReward(day: number, language: Language, cookie: string): Promise<DayReward> {
@@ -61,7 +59,6 @@ export class DailyRewards {
                 "lang": language,
             },
         );
-
 
         if (res.retcode === -5003) {
             return {

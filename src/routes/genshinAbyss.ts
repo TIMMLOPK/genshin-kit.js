@@ -1,7 +1,7 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import { ClientCache } from "../client/clientCache";
-import type { AbyssBattle, APIResponse } from "../interface";
+import type { AbyssBattle } from "../interface";
 import { APIError } from "../utils/error";
 import type { Language } from "../constants/lang";
 
@@ -15,7 +15,7 @@ export class SpiralAbyss {
        * @param {string} cookie The cookie to use for the request
        */
 
-    public async get(uid: string, language: Language, cookie: string, previous?: boolean): Promise<AbyssBattle | APIResponse> {
+    public async get(uid: string, language: Language, cookie: string, previous?: boolean): Promise<AbyssBattle> {
         const instance = new request({
             withDS: true
         });

@@ -1,17 +1,20 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
-import type { Full, APIResponse } from "../interface";
+import type { GenshinUserData } from "../interface";
 import { APIError } from "../utils/error";
 import type { Language } from "../constants/lang";
+import { ClientCache } from "../client/clientCache";
 
 export class GenshinUser {
+
+    readonly cache: ClientCache = new ClientCache();
     /**
        * @param {string} uid The uid to set
        * @param {Language} language The language to set
        * @param {string} cookie The cookie to set
        */
 
-    public async get(uid: string, language: Language, cookie: string): Promise<Full | APIResponse> {
+    public async get(uid: string, language: Language, cookie: string): Promise<GenshinUserData> {
         const instance = new request({
             withDS: true,
         });
@@ -28,8 +31,11 @@ export class GenshinUser {
             },
         );
 
-        if (res.retcode === 0) return res.data;
-
+        if (res.retcode === 0) {
+            const { data } = res;
+            this.cache.set(uid, data);
+            return data
+        }
         throw new APIError(res.message, res.retcode);
 
     }
