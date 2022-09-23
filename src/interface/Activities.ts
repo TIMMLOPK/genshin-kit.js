@@ -1,4 +1,4 @@
-export interface Activities {
+export interface ActivitiesData {
     sumo: SumoRecords[],
     rogue: RogueRecords[],
     channeller_slab_copy: ChannellerSlabCopy,
