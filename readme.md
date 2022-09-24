@@ -2,8 +2,6 @@
 
 Genshin-kit.js is a Node.js module that allows you to easily interact with the Genshin Impact API.
 
-Nilou ❣️
-
 ---
 
 Documentation: Coming soon.
@@ -20,37 +18,24 @@ npm install genshin-kit.js
 Simple example:
 
 ```javascript
-const { Client, ClientCookieManager, Language, CookieFormatter }= require('genshin-kit.js');
+const { Client, Language, SpiralAbyss } = require('genshin-kit.js');
 
 (async () => {
-    const manager = new ClientCookieManager();
-    manager.set('', '');
-    // As HoYolab api have limit each cookie, you can set multiple cookies.
-    // we will return random cookie if you set multiple cookies.
-    const cookieForRequest = manager.get();
-    const ltoken = cookieForRequest.ltoken;
-    const ltuid = cookieForRequest.ltuid;
+    const client = new Client({
+        language: Language.EnglishUS,
+    });
 
-    // you also can delete cookie manually.
-    manager.delete();
-    console.log(manager.getAll()); // it will return empty array because we only have one cookie.
-
-    const client = new Client(
-        manager,
-        {
-            language: Language.ChineseTW,
-        }
-    );
+    client.login({ ltoken: 'YOUR_LTOKEN', ltuid: 'YOUR_LTUID' });
 
     // request by client
-    const abyss = await client.getAbyssBattle("uid")
+    const abyss = await client.getAbyssBattle("UID");
     console.log(abyss)
 
     // request by endpoint
     const abyssEndpoint = new SpiralAbyss();
-    const abyssEndpointResult = await abyssEndpoint.get(Language.ChineseTW, CookieFormatter(ltoken, ltuid), "uid")
-    // if you use endpoint, it allows you to visit last request result
-    const cache = abyssEndpoint.cache.get("uid")
+    const abyssEndpointResult = await abyssEndpoint.get("UID", Language.ChineseTW, `ltoken=YOUR_LTOKEN;ltuid=YOUR_LTUID`);
+    // if you use endpoint, you can use cache
+    const cache = abyssEndpoint.cache.get("UID-SpiralAbyss");
     console.log(cache)
     console.log(abyssEndpointResult)
 }
