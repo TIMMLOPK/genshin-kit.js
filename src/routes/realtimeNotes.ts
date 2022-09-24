@@ -7,7 +7,11 @@ import { ClientCache } from "../client/clientCache";
 
 export class RealTimeNotes {
 
-    readonly cache: ClientCache = new ClientCache();
+    readonly cache: ClientCache;
+
+    constructor() {
+        this.cache = new ClientCache();
+    }
     /**
        * @param {string} uid The uid to set
        * @param {Language} language The language to set
@@ -33,7 +37,7 @@ export class RealTimeNotes {
 
         if (res.retcode === 0) {
             const { data } = res;
-            this.cache.set(uid, data);
+            this.cache.set(`${uid}-realtimeNotes`, data);
             return data
         }
 

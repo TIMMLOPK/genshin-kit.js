@@ -7,7 +7,11 @@ import type { Language } from "../constants/lang";
 
 export class SpiralAbyss {
 
-    readonly cache: ClientCache = new ClientCache();
+    readonly cache: ClientCache;
+
+    constructor() {
+        this.cache = new ClientCache();
+    }
 
     /**
        * @param {string} uid Genshin Impact game uid
@@ -37,7 +41,7 @@ export class SpiralAbyss {
 
         if (res.retcode === 0) {
             const { data } = res;
-            this.cache.set(uid, data);
+            this.cache.set(`${uid}-spiralAbyss`, data);
             return data;
         }
 

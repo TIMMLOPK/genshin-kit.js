@@ -1,14 +1,12 @@
-import { Genshin_Battle_API_URL, Genshin_Hoyolab_API_URL, Genshin_Hoyolab_REWARD_URL, UA } from "../constants/constants";
+import { Genshin_Battle_API_URL, Genshin_Hoyolab_API_URL, Genshin_Hoyolab_DIARY_URL, Genshin_Hoyolab_REWARD_URL, UA } from "../constants/constants";
 import { request } from "undici";
 import generate_dynamic_secret from "./generate_ds";
 
 
-/**
- * @description Creates a new instance with the base url set to the api url
- */
 export enum urlOption {
     hoyolab = "hoyolab",
     dailyrewards = "dailyrewards",
+    diary = "diary",
 }
 
 type option = {
@@ -17,11 +15,16 @@ type option = {
     withDS?: boolean,
 }
 
+/**
+ * @description Creates a new instance for the request
+ */
 class HTTPRequest {
+
     private baseURL: string;
     private withUA: boolean;
     private withDS: boolean;
     private language: string;
+
     constructor(option?: option) {
         this.baseURL = Genshin_Battle_API_URL;
         if (option?.type === urlOption.hoyolab) {
@@ -30,13 +33,17 @@ class HTTPRequest {
         if (option?.type === urlOption.dailyrewards) {
             this.baseURL = Genshin_Hoyolab_REWARD_URL;
         }
+        if (option?.type === urlOption.diary) {
+            this.baseURL = Genshin_Hoyolab_DIARY_URL;
+        }
         this.withUA = option?.withUA || false;
         this.withDS = option?.withDS || false;
         this.language = "en-us";
     }
 
     public async get(url: string, headers?: any, params?: any): Promise<any> {
-        const { body: res } = await request(`${this.baseURL}${url}`, {
+        
+        const { body: res, statusCode } = await request(`${this.baseURL}${url}`, {
             method: "GET",
             headers: {
                 "User-Agent": this.withUA ? UA : undefined,
@@ -47,6 +54,9 @@ class HTTPRequest {
             query: params,
         });
 
+        if (statusCode !== 200) {
+            throw new Error(`Request failed with status code ${statusCode}`);
+        }
 
         const resData = await res.json();
 
@@ -64,7 +74,6 @@ class HTTPRequest {
             }
         }
 
-
         if (resData.retcode === 10101) {
             return {
                 message: "Cannot get data for more than 30 accounts per cookie per day",
@@ -72,12 +81,11 @@ class HTTPRequest {
             }
         }
 
-
         return resData;
     }
 
     public async post(url: string, headers?: any, data?: any, params?: any): Promise<any> {
-        const { body: res } = await request(`${this.baseURL}${url}`, {
+        const { body: res, statusCode } = await request(`${this.baseURL}${url}`, {
             method: "POST",
             headers: {
                 "User-Agent": this.withUA ? UA : undefined,
@@ -88,7 +96,13 @@ class HTTPRequest {
             body: JSON.stringify(data),
             query: params,
         });
+
+        if (statusCode !== 200) {
+            throw new Error(`Request failed with status code ${statusCode}`);
+        }
+
         const resData = await res.json();
+
         return resData;
     }
 

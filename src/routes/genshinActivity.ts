@@ -7,7 +7,11 @@ import type { Language } from "../constants/lang";
 
 export class Activities {
 
-    readonly cache: ClientCache = new ClientCache();
+    readonly cache: ClientCache;
+
+    constructor() {
+        this.cache = new ClientCache();
+    }
     /**
        * @param {string} uid The uid to set
        * @param {Language} language The language to set
@@ -46,7 +50,7 @@ export class Activities {
                 spray: data.activities[8].spray,
             };
 
-            this.cache.set(uid, returnData);
+            this.cache.set(`${uid}-activities`, returnData);
 
             return returnData;
         }

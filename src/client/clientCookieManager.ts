@@ -1,4 +1,5 @@
 export class ClientCookieManager {
+
     private cookie = {
         ltoken: [] as string[],
         ltuid: [] as string[],
@@ -24,18 +25,20 @@ export class ClientCookieManager {
      * @description Get the ltoken and ltuid for request.
      * @returns {Object} - The ltoken and ltuid.
      */
-    public get(): { ltoken: string, ltuid: string, key: number } {
+    public get(): { ltoken: string, ltuid: string, key: number, cookie: string } {
         if (this.amount() === 1) {
             return {
                 ltoken: this.cookie.ltoken[0] as string,
                 ltuid: this.cookie.ltuid[0] as string,
                 key: 0,
+                cookie: `ltoken=${this.cookie.ltoken[0]};ltuid=${this.cookie.ltuid[0]};`,
             };
         }
         const randomIndex = Math.floor(Math.random() * this.amount());
         return {
             ltoken: this.cookie.ltoken[randomIndex] as string,
             ltuid: this.cookie.ltuid[randomIndex] as string,
+            cookie: `ltoken=${this.cookie.ltoken[randomIndex]}; ltuid=${this.cookie.ltuid[randomIndex]}`,
             key: randomIndex,
         }
     }

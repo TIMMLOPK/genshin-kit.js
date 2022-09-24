@@ -1,8 +1,7 @@
-import { GameRecordCard, SpiralAbyss, GenshinUser, RealTimeNotes, Charcters } from "../index";
-import { CookieFormatter } from "../utils/cookieFormatter";
+import { GameRecordCard, SpiralAbyss, GenshinUser, RealTimeNotes, Charcters, TravelerDiary } from "../index";
 import { ClientCookieManager } from "./clientCookieManager";
 import type { Language } from "../constants/lang";
-import type { RecordCard, AbyssBattle, GenshinUserData, RealTimeNote, CharacterData } from "../interface";
+import type { RecordCard, AbyssBattle, GenshinUserData, RealTimeNote, CharacterData, Diary } from "../interface";
 
 
 export class Client {
@@ -42,12 +41,9 @@ export class Client {
 
     public async getAbyssBattle(uid: string, previous?: boolean): Promise<AbyssBattle> {
         if (!this.cookieManager.get().ltoken) throw new Error("You need to login first.");
-        const cookie = this.cookieManager.get();
-        const ltoken = cookie.ltoken;
-        const ltuid = cookie.ltuid;
+        const cookie = this.cookieManager.get().cookie;
         const { language } = this.options;
-        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
-        const res = new SpiralAbyss().get(uid, language, cookieString, previous);
+        const res = new SpiralAbyss().get(uid, language, cookie, previous);
         return res;
     }
 
@@ -57,12 +53,9 @@ export class Client {
 
     public async getGameRecordCard(uid: string): Promise<RecordCard> {
         if (!this.cookieManager.get().ltoken) throw new Error("You need to login first.");
-        const cookie = this.cookieManager.get();
-        const ltoken = cookie.ltoken;
-        const ltuid = cookie.ltuid;
+        const cookie = this.cookieManager.get().cookie;
         const { language } = this.options;
-        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
-        const res = new GameRecordCard().get(uid, language, cookieString);
+        const res = new GameRecordCard().get(uid, language, cookie);
         return res;
     }
 
@@ -71,12 +64,9 @@ export class Client {
      */
     public async getGenshinUser(uid: string): Promise<GenshinUserData> {
         if (!this.cookieManager.get().ltoken) throw new Error("You need to login first.");
-        const cookie = this.cookieManager.get();
-        const ltoken = cookie.ltoken;
-        const ltuid = cookie.ltuid;
+        const cookie = this.cookieManager.get().cookie;
         const { language } = this.options;
-        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
-        const res = new GenshinUser().get(uid, language, cookieString);
+        const res = new GenshinUser().get(uid, language, cookie);
         return res;
     }
 
@@ -85,23 +75,25 @@ export class Client {
      */
     public async getRealTimeNotes(uid: string): Promise<RealTimeNote> {
         if (!this.cookieManager.get().ltoken) throw new Error("You need to login first.");
-        const cookie = this.cookieManager.get();
-        const ltoken = cookie.ltoken;
-        const ltuid = cookie.ltuid;
+        const cookie = this.cookieManager.get().cookie;
         const { language } = this.options;
-        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
-        const res = new RealTimeNotes().get(uid, language, cookieString);
+        const res = new RealTimeNotes().get(uid, language, cookie);
         return res;
     }
 
     public async getCharacter(uid: string): Promise<CharacterData> {
         if (!this.cookieManager.get().ltoken) throw new Error("You need to login first.");
-        const cookie = this.cookieManager.get();
-        const ltoken = cookie.ltoken;
-        const ltuid = cookie.ltuid;
+        const cookie = this.cookieManager.get().cookie;
         const { language } = this.options;
-        const { cookie: cookieString } = CookieFormatter(ltoken, ltuid);
-        const res = new Charcters().get(uid, language, cookieString);
+        const res = new Charcters().get(uid, language, cookie);
+        return res;
+    }
+
+    public async getTravelDiary(uid: string): Promise<Diary> {
+        if (!this.cookieManager.get().ltoken) throw new Error("You need to login first.");
+        const cookie = this.cookieManager.get().cookie;
+        const { language } = this.options;
+        const res = new TravelerDiary().get(uid, language, cookie);
         return res;
     }
 }

@@ -6,7 +6,12 @@ import type { Language } from "../constants/lang";
 import { ClientCache } from "../client/clientCache";
 
 export class Charcters {
-    readonly cache: ClientCache = new ClientCache();
+    
+    readonly cache: ClientCache;
+
+    constructor() {
+        this.cache = new ClientCache();
+    }
     /**
        * @param {string} uid The uid to set       
        * @param {Language} language The language to set
@@ -32,7 +37,7 @@ export class Charcters {
 
         if (res.retcode === 0) {
             const { data } = res;
-            this.cache.set(uid, data);
+            this.cache.set(`${uid}-genshinCharacters`, data);
             return data.avatars
         }
 
