@@ -12,7 +12,6 @@ export * from "./routes/travelerDiary";
 export * from "./client/clientCookieManager";
 export * from "./client/client";
 
-
 // export CONSTANTS
 export * from "./constants/lang";
 

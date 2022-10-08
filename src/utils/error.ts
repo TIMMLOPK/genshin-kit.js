@@ -1,10 +1,10 @@
 export class APIError extends Error {
-    public readonly retcode: number;
-    public readonly description: string | undefined;
+  public readonly retcode: number;
+  public readonly description: string | undefined;
 
-    constructor(message: string, retcode: number , description?: string) {
-        super(message);
-        this.retcode = retcode;
-        this.description = description;
-    }
+  constructor(message: string, retcode: number, description?: string) {
+    super(message);
+    this.retcode = retcode;
+    this.description = description;
+  }
 }
