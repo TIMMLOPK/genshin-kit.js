@@ -25,16 +25,17 @@ const { Client, Language, SpiralAbyss } = require('genshin-kit.js');
         language: Language.EnglishUS,
     });
 
-    client.login({ ltoken: 'YOUR_LTOKEN', ltuid: 'YOUR_LTUID' });
+    client.setltoken('LTOKEN');
+    client.setltuid('LTUID');
 
     // request by client
     const abyss = await client.getAbyssBattle("UID");
     console.log(abyss)
 
-    // request by endpoint
+    // Or request by endpoint
     const abyssEndpoint = new SpiralAbyss();
-    const abyssEndpointResult = await abyssEndpoint.get("UID", Language.ChineseTW, `ltoken=YOUR_LTOKEN;ltuid=YOUR_LTUID`);
-    // if you use endpoint, you can use cache
+    const abyssEndpointResult = await abyssEndpoint.fetch("UID", Language.ChineseTW, `ltoken=YOUR_LTOKEN;ltuid=YOUR_LTUID`);
+    // and it is cached
     const cache = abyssEndpoint.cache.get("UID-SpiralAbyss");
     console.log(cache)
     console.log(abyssEndpointResult)
