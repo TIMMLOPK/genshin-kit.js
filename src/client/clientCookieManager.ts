@@ -1,13 +1,26 @@
+import { CookieFormatter } from "../utils/cookieFormatter";
+
 export class ClientCookieManager {
-  private cookie = {
-    ltoken: [] as string[],
-    ltuid: [] as string[],
+  private cookie: {
+    ltoken: string[];
+    ltuid: string[];
   };
+
+  constructor() {
+    this.cookie = {
+      ltoken: [],
+      ltuid: [],
+    };
+  }
 
   /**
    * @returns {number} - The amount of cookies.
    */
   amount(): number {
+    if (this.cookie.ltoken.length !== this.cookie.ltuid.length) {
+      throw new Error("Invalid cookie");
+    }
+
     return this.cookie.ltoken.length;
   }
 
@@ -24,20 +37,40 @@ export class ClientCookieManager {
    * @returns {Object} - The ltoken and ltuid.
    */
   public get(): { ltoken: string; ltuid: string; key: number; cookie: string } {
+    if (this.amount() === 0) {
+      throw new Error("Please login first.");
+    }
+
     if (this.amount() === 1) {
+      if (!this.cookie.ltoken[0] || !this.cookie.ltuid[0]) {
+        throw new Error("Invalid cookie");
+      }
       return {
-        ltoken: this.cookie.ltoken[0] as string,
-        ltuid: this.cookie.ltuid[0] as string,
+        ltoken: this.cookie.ltoken[0],
+        ltuid: this.cookie.ltuid[0],
         key: 0,
-        cookie: `ltoken=${this.cookie.ltoken[0]};ltuid=${this.cookie.ltuid[0]};`,
+        cookie: CookieFormatter(this.cookie.ltoken[0], this.cookie.ltuid[0]),
       };
     }
-    const randomIndex = Math.floor(Math.random() * this.amount());
+
+    const ltoken = this.cookie.ltoken[0];
+    const ltuid = this.cookie.ltuid[0];
+
+    if (!ltoken || !ltuid) {
+      throw new Error("Invalid cookie");
+    }
+
+    this.cookie.ltoken.splice(0, 1);
+    this.cookie.ltuid.splice(0, 1);
+
+    this.cookie.ltoken.push(ltoken);
+    this.cookie.ltuid.push(ltuid);
+
     return {
-      ltoken: this.cookie.ltoken[randomIndex] as string,
-      ltuid: this.cookie.ltuid[randomIndex] as string,
-      cookie: `ltoken=${this.cookie.ltoken[randomIndex]}; ltuid=${this.cookie.ltuid[randomIndex]}`,
-      key: randomIndex,
+      ltoken: ltoken,
+      ltuid: ltuid,
+      key: this.amount() - 1,
+      cookie: CookieFormatter(ltoken, ltuid),
     };
   }
 
