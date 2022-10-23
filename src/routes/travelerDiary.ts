@@ -1,9 +1,9 @@
-import { request, urlOption } from "../utils/request";
+import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { Diary } from "../interface";
-import { APIError } from "../utils/error";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
+import { Genshin_Hoyolab_DIARY_URL } from "../constants/constants";
 
 export class TravelerDiary extends BaseRoute {
   constructor(clientCache?: any) {
@@ -21,8 +21,7 @@ export class TravelerDiary extends BaseRoute {
     cookie: string
   ): Promise<Diary> {
     const instance = new request({
-      withDS: true,
-      type: urlOption.diary,
+      route: Genshin_Hoyolab_DIARY_URL,
     });
     const res = await instance.get(
       "month_info",
@@ -30,21 +29,17 @@ export class TravelerDiary extends BaseRoute {
         Cookie: cookie,
       },
       {
-        server: checkServerRegion(uid),
+        region: checkServerRegion(uid),
         uid: uid,
         lang: language,
       }
     );
 
-    if (res.retcode === 0) {
-      const { data } = res;
-      if (this.clientCache) {
-        this.clientCache.set(`${uid}-diary`, data);
-      }
-      return data;
+    const { data } = res;
+    if (this.cache) {
+      this.cache.set(uid, data);
     }
-
-    throw new APIError(res.message, res.retcode);
+    return data;
   }
 
   public async getMonth(
@@ -54,8 +49,7 @@ export class TravelerDiary extends BaseRoute {
     cookie: string
   ): Promise<Diary> {
     const instance = new request({
-      withDS: true,
-      type: urlOption.diary,
+      route: Genshin_Hoyolab_DIARY_URL,
     });
     const res = await instance.get(
       "month_info",
@@ -63,21 +57,17 @@ export class TravelerDiary extends BaseRoute {
         Cookie: cookie,
       },
       {
-        server: checkServerRegion(uid),
+        region: checkServerRegion(uid),
         uid: uid,
         lang: language,
         month: month,
       }
     );
 
-    if (res.retcode === 0) {
-      const { data } = res;
-      if (this.clientCache) {
-        this.clientCache.set(`${uid}-${month}-diary`, data);
-      }
-      return data;
+    const { data } = res;
+    if (this.cache) {
+      this.cache.set(`${uid}-${month}`, data);
     }
-
-    throw new APIError(res.message, res.retcode);
+    return data;
   }
 }

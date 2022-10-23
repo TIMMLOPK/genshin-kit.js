@@ -1,8 +1,8 @@
-import { urlOption, request } from "../utils/request";
+import { request } from "../utils/request";
 import type { RecordCard } from "../interface";
-import { APIError } from "../utils/error";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
+import { Genshin_Hoyolab_API_URL } from "../constants/constants";
 
 export class GameRecordCard extends BaseRoute {
   constructor(clientCache?: any) {
@@ -20,7 +20,7 @@ export class GameRecordCard extends BaseRoute {
     cookie: string
   ): Promise<RecordCard> {
     const instance = new request({
-      type: urlOption.hoyolab,
+      route: Genshin_Hoyolab_API_URL,
     });
 
     instance.setLanguage(language);
@@ -35,17 +35,13 @@ export class GameRecordCard extends BaseRoute {
       }
     );
 
-    if (res.retcode === 0) {
-      const { data } = res;
-      if (this.clientCache) {
-        this.clientCache.set(`${uid}-recordCard`, data);
-      }
-      return {
-        list: data,
-        currecnt: data.list[0],
-      };
+    const { data } = res;
+    if (this.cache) {
+      this.cache.set(uid, data);
     }
-
-    throw new APIError(res.message, res.retcode);
+    return {
+      list: data,
+      currecnt: data.list[0],
+    };
   }
 }

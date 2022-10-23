@@ -1,7 +1,6 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { CharacterData, CharacterInfo } from "../interface";
-import { APIError } from "../utils/error";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 
@@ -20,7 +19,7 @@ export class Charcters extends BaseRoute {
     uid: string,
     language: Language,
     cookie: string
-  ): Promise<CharacterData> {
+  ): Promise<CharacterData[]> {
     const instance = new request({
       withDS: true,
     });
@@ -38,15 +37,12 @@ export class Charcters extends BaseRoute {
       }
     );
 
-    if (res.retcode === 0) {
-      const { data } = res;
-      if (this.clientCache) {
-        this.clientCache.set(`${uid}-genshinCharacters`, data);
-      }
-      return data.avatars;
+    const { data } = res;
+    if (this.cache) {
+      this.cache.set(uid, data.avatars);
     }
 
-    throw new APIError(res.message, res.retcode);
+    return data.avatars;
   }
 
   /**
@@ -76,11 +72,7 @@ export class Charcters extends BaseRoute {
       }
     );
 
-    if (res.retcode === 0) {
-      const { data } = res;
-      return data.avatars[0];
-    }
-
-    throw new APIError(res.message, res.retcode);
+    const { data } = res;
+    return data.avatars[0];
   }
 }

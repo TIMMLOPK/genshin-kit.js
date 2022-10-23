@@ -1,7 +1,6 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { AbyssBattle } from "../interface";
-import { APIError } from "../utils/error";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 
@@ -42,14 +41,10 @@ export class SpiralAbyss extends BaseRoute {
       }
     );
 
-    if (res.retcode === 0) {
-      const { data } = res;
-      if (this.clientCache) {
-        this.clientCache.set(`${uid}-spiralAbyss`, data);
-      }
-      return data;
+    const { data } = res;
+    if (this.cache) {
+      this.cache.set(uid, data);
     }
-
-    throw new APIError(res.message, res.retcode);
+    return data;
   }
 }

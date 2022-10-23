@@ -1,7 +1,7 @@
-import { urlOption, request } from "../utils/request";
+import { request } from "../utils/request";
 import type { APIResponse, DayReward } from "../interface";
-import { APIError } from "../utils/error";
 import type { Language } from "../constants/lang";
+import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
 
 export class DailyRewards {
   /**
@@ -17,7 +17,7 @@ export class DailyRewards {
     cookie: string
   ): Promise<DayReward> {
     const instance = new request({
-      type: urlOption.dailyrewards,
+      route: Genshin_Hoyolab_REWARD_URL,
     });
 
     instance.setLanguage(language);
@@ -32,12 +32,8 @@ export class DailyRewards {
       }
     );
 
-    if (res.retcode === 0) {
-      const { data } = res;
-      return data.awards[day - 1];
-    }
-
-    throw new APIError(res.message, res.retcode);
+    const { data } = res;
+    return data.awards[day - 1];
   }
 
   /**
@@ -49,7 +45,7 @@ export class DailyRewards {
 
   public async claim(language: Language, cookie: string): Promise<APIResponse> {
     const instance = new request({
-      type: urlOption.dailyrewards,
+      route: Genshin_Hoyolab_REWARD_URL,
       withUA: true,
     });
     const res = await instance.post(
@@ -80,6 +76,9 @@ export class DailyRewards {
       };
     }
 
-    throw new APIError(res.message, res.retcode);
+    return {
+      status: "error",
+      code: res.retcode,
+    };
   }
 }

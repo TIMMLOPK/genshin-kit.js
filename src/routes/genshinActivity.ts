@@ -1,6 +1,5 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
-import { APIError } from "../utils/error";
 import type { ActivitiesData } from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
@@ -38,28 +37,24 @@ export class Activities extends BaseRoute {
       }
     );
 
-    if (res.retcode === 0) {
-      const { data } = res;
+    const { data } = res;
 
-      const returnData = {
-        sumo: data.activities[0].sumo.records,
-        rogue: data.activities[1].rogue.records,
-        channeller_slab_copy: data.activities[2].channeller_slab_copy,
-        potion: data.activities[3].potion.records,
-        sumo_second: data.activities[4].sumo_second.records,
-        crystal: data.activities[5].crystal.records,
-        perilous: data.activities[6].perilous.records,
-        summer_v2: data.activities[7].summer_v2,
-        spray: data.activities[8].spray,
-      };
+    const returnData = {
+      sumo: data.activities[0].sumo.records,
+      rogue: data.activities[1].rogue.records,
+      channeller_slab_copy: data.activities[2].channeller_slab_copy,
+      potion: data.activities[3].potion.records,
+      sumo_second: data.activities[4].sumo_second.records,
+      crystal: data.activities[5].crystal.records,
+      perilous: data.activities[6].perilous.records,
+      summer_v2: data.activities[7].summer_v2,
+      spray: data.activities[8].spray,
+    };
 
-      if (this.clientCache) {
-        this.clientCache.set(`${uid}-activities`, returnData);
-      }
-
-      return returnData;
+    if (this.cache) {
+      this.cache.set(uid, returnData);
     }
 
-    throw new APIError(res.message, res.retcode);
+    return returnData;
   }
 }
