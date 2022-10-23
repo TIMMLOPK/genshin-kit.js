@@ -7,18 +7,24 @@ import {
 } from "../constants/constants";
 import { request } from "undici";
 import generate_dynamic_secret from "./generate_ds";
-
-export enum urlOption {
-  hoyolab = "hoyolab",
-  dailyrewards = "dailyrewards",
-  diary = "diary",
-}
+import ERROR from "../constants/error";
+import { APIERROR } from "./error";
 
 type option = {
-  type?: urlOption;
+  route?:
+    | typeof Genshin_Hoyolab_API_URL
+    | typeof Genshin_Hoyolab_DIARY_URL
+    | typeof Genshin_Hoyolab_REWARD_URL
+    | typeof Genshin_Battle_API_URL;
   withUA?: boolean;
   withDS?: boolean;
 };
+
+interface Response {
+  retcode: number;
+  message: string;
+  data: any;
+}
 
 /**
  * @description Creates a new instance for the request
@@ -31,27 +37,25 @@ class HTTPRequest {
 
   constructor(option?: option) {
     this.baseURL = Genshin_Battle_API_URL;
-    if (option?.type === urlOption.hoyolab) {
-      this.baseURL = Genshin_Hoyolab_API_URL;
-    }
-    if (option?.type === urlOption.dailyrewards) {
-      this.baseURL = Genshin_Hoyolab_REWARD_URL;
-    }
-    if (option?.type === urlOption.diary) {
-      this.baseURL = Genshin_Hoyolab_DIARY_URL;
+    if (option?.route) {
+      this.baseURL = option.route;
     }
     this.withUA = option?.withUA || false;
     this.withDS = option?.withDS || false;
     this.language = "en-us";
   }
 
-  public async get(url: string, headers?: any, params?: any): Promise<any> {
+  public async get(
+    url: string,
+    headers?: any,
+    params?: any
+  ): Promise<Response> {
     const { body: res, statusCode } = await request(`${this.baseURL}${url}`, {
       method: "GET",
       headers: {
         "User-Agent": this.withUA ? UA : undefined,
-        DS: this.withDS ? generate_dynamic_secret() : undefined,
         "x-rpc-language": this.language,
+        DS: this.withDS ? generate_dynamic_secret() : undefined,
         ...headers,
       },
       query: params,
@@ -63,25 +67,11 @@ class HTTPRequest {
 
     const resData = await res.json();
 
-    if (resData.retcode === -100) {
-      return {
-        message: "Invalid cookie",
-        retcode: -100,
-      };
-    }
-
-    if (resData.retcode === 10001) {
-      return {
-        message: "Invalid cookie",
-        retcode: 10001,
-      };
-    }
-
-    if (resData.retcode === 10101) {
-      return {
-        message: "Cannot get data for more than 30 accounts per cookie per day",
-        retcode: 10101,
-      };
+    if (resData.retcode !== 0) {
+      const description = ERROR.find(
+        (error) => error.retcode === resData.retcode
+      )?.message;
+      throw new APIERROR(`${resData.message}`, resData.retcode, description);
     }
 
     return resData;
@@ -92,13 +82,13 @@ class HTTPRequest {
     headers?: any,
     data?: any,
     params?: any
-  ): Promise<any> {
+  ): Promise<Response> {
     const { body: res, statusCode } = await request(`${this.baseURL}${url}`, {
       method: "POST",
       headers: {
         "User-Agent": this.withUA ? UA : undefined,
-        DS: this.withDS ? generate_dynamic_secret() : undefined,
         "x-rpc-language": this.language,
+        DS: this.withDS ? generate_dynamic_secret() : undefined,
         ...headers,
       },
       body: JSON.stringify(data),
@@ -110,6 +100,13 @@ class HTTPRequest {
     }
 
     const resData = await res.json();
+
+    if (resData.retcode !== 0) {
+      const description = ERROR.find(
+        (error) => error.retcode === resData.retcode
+      )?.message;
+      throw new APIERROR(`${resData.message}`, resData.retcode, description);
+    }
 
     return resData;
   }

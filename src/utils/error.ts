@@ -1,4 +1,4 @@
-export class APIError extends Error {
+export class APIERROR extends Error {
   public readonly retcode: number;
   public readonly description: string | undefined;
 
