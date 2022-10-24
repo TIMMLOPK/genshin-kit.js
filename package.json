@@ -1,12 +1,12 @@
 {
   "name": "genshin-kit.js",
-  "version": "1.6.0",
+  "version": "1.7.4",
   "description": "Hoyolab API unofficial library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "publish": "npm publish",
+    "publish": "npm publish --access public",
     "lint": "eslint src --ext .ts",
     "test": "jest",
     "format": "prettier --write src/**/*.ts"
