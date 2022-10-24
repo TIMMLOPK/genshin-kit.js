@@ -1,4 +1,4 @@
-export interface Diary {
+export interface DiaryData {
   uid: number;
   region: string;
   nickname: string;

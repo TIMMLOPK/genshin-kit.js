@@ -21,7 +21,7 @@ interface AbyssFloor {
   levels: AbyssLevel[];
 }
 
-export interface AbyssBattle {
+export interface AbyssBattleData {
   damge_rank: AbyssRank[];
   defeat_rank: AbyssRank[];
   endTime: string;

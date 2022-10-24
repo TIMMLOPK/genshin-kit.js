@@ -1,4 +1,4 @@
-export interface Home {
+export interface TeapotData {
   level: number;
   visit_num: number;
   comfort_num: number;

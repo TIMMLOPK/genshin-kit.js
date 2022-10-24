@@ -18,7 +18,7 @@ export interface ListItem {
   url: string;
 }
 
-export interface RecordCard {
+export interface RecordCardData {
   list: ListItem[];
   currecnt: ListItem;
 }

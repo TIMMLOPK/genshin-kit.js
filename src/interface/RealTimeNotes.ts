@@ -1,4 +1,4 @@
-export interface RealTimeNote {
+export interface RealTimeNoteData {
   current_resin: number;
   max_resin: number;
   resin_recovery_time: string;

@@ -1,6 +1,6 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
-import type { RealTimeNote } from "../interface";
+import type { RealTimeNoteData } from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 
@@ -18,7 +18,7 @@ export class RealTimeNotes extends BaseRoute {
     uid: string,
     language: Language,
     cookie: string
-  ): Promise<RealTimeNote> {
+  ): Promise<RealTimeNoteData> {
     const instance = new request({
       withDS: true,
     });

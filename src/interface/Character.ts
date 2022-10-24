@@ -1,4 +1,4 @@
-export interface CharacterInfo {
+export interface CharacterInfoData {
   id: number;
   image: string;
   icon?: string;
@@ -9,7 +9,7 @@ export interface CharacterInfo {
   weapon_type_name?: string;
 }
 
-export interface Character extends CharacterInfo {
+export interface Character extends CharacterInfoData {
   fetter: number;
   level: number;
   actived_constellation_num: number;

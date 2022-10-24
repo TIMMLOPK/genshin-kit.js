@@ -1,6 +1,6 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
-import type { Diary } from "../interface";
+import type { DiaryData } from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 import { Genshin_Hoyolab_DIARY_URL } from "../constants/constants";
@@ -19,7 +19,7 @@ export class TravelerDiary extends BaseRoute {
     uid: string,
     language: Language,
     cookie: string
-  ): Promise<Diary> {
+  ): Promise<DiaryData> {
     const instance = new request({
       route: Genshin_Hoyolab_DIARY_URL,
     });
@@ -47,7 +47,7 @@ export class TravelerDiary extends BaseRoute {
     month: number,
     language: Language,
     cookie: string
-  ): Promise<Diary> {
+  ): Promise<DiaryData> {
     const instance = new request({
       route: Genshin_Hoyolab_DIARY_URL,
     });

@@ -11,13 +11,19 @@ import {
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
 import type {
-  RecordCard,
-  AbyssBattle,
+  RecordCardData,
+  AbyssBattleData,
   GenshinUserData,
-  RealTimeNote,
-  Diary,
+  RealTimeNoteData,
+  DiaryData,
   CharacterData,
 } from "../interface";
+
+interface ClientOptions {
+  language?: Language;
+  cookieManager?: ClientCookieManager;
+  cache?: boolean;
+}
 
 export class Client {
   private options: {
@@ -47,11 +53,7 @@ export class Client {
   /**
    * @param {Object} options - The options to use.
    */
-  constructor(options?: {
-    language: Language | Language.EnglishUS;
-    cookieManager?: ClientCookieManager;
-    cache?: boolean;
-  }) {
+  constructor(options?: ClientOptions) {
     this.options = {
       language: options?.language || Language.EnglishUS,
       cookieManager: options?.cookieManager || new ClientCookieManager(),
@@ -59,25 +61,6 @@ export class Client {
     };
 
     this.cookieManager = this.options.cookieManager;
-    if (!options) {
-      options = {
-        language: Language.EnglishUS,
-        cookieManager: new ClientCookieManager(),
-        cache: false,
-      };
-    }
-
-    if (!options.language) {
-      options.language = Language.EnglishUS;
-    }
-
-    if (!options.cookieManager) {
-      options.cookieManager = new ClientCookieManager();
-    }
-
-    if (!options.cache) {
-      options.cache = false;
-    }
 
     this.DailyReward = new DailyRewards();
     this.GenshinActivity = new Activities({ cache: this.options.cache });
@@ -103,7 +86,7 @@ export class Client {
   public async getAbyssBattle(
     uid: string,
     previous?: boolean
-  ): Promise<AbyssBattle> {
+  ): Promise<AbyssBattleData> {
     if (!this.cookieManager.get().ltoken)
       throw new Error("You need to login first.");
     const cookie = this.cookieManager.get().cookie;
@@ -115,7 +98,7 @@ export class Client {
   /**
    * @param {string} uid - HoYolab uid.
    */
-  public async getGameRecordCard(uid: string): Promise<RecordCard> {
+  public async getGameRecordCard(uid: string): Promise<RecordCardData> {
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
     const res = this.GameRecordCard.fetch(uid, language, cookie);
@@ -135,7 +118,7 @@ export class Client {
   /**
    * @param {string} uid - Genshin Impact game uid.
    */
-  public async getRealTimeNotes(uid: string): Promise<RealTimeNote> {
+  public async getRealTimeNotes(uid: string): Promise<RealTimeNoteData> {
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
     const res = this.RealTimeNotes.fetch(uid, language, cookie);
@@ -155,7 +138,7 @@ export class Client {
   /**
    *  @param {string} uid - Genshin Impact game uid.
    */
-  public async getTravelDiary(uid: string): Promise<Diary> {
+  public async getTravelDiary(uid: string): Promise<DiaryData> {
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
     const res = this.TravelDiary.fetch(uid, language, cookie);

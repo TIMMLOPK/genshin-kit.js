@@ -1,7 +1,8 @@
 import { request } from "../utils/request";
-import type { APIResponse, DayReward } from "../interface";
+import type { DailyRewardsData, DayRewardData } from "../interface";
 import type { Language } from "../constants/lang";
 import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
+import { alias } from "../utils/alias";
 
 export class DailyRewards {
   /**
@@ -15,7 +16,7 @@ export class DailyRewards {
     day: number,
     language: Language,
     cookie: string
-  ): Promise<DayReward> {
+  ): Promise<DayRewardData> {
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
@@ -33,7 +34,8 @@ export class DailyRewards {
     );
 
     const { data } = res;
-    return data.awards[day - 1];
+
+    return alias(data.awards[day - 1], { cnt: "count" });
   }
 
   /**
@@ -43,7 +45,10 @@ export class DailyRewards {
    * @param {string} cookie The cookie to set
    */
 
-  public async claim(language: Language, cookie: string): Promise<APIResponse> {
+  public async claim(
+    language: Language,
+    cookie: string
+  ): Promise<DailyRewardsData> {
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
       withUA: true,

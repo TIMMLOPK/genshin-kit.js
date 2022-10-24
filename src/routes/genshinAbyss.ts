@@ -1,6 +1,6 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
-import type { AbyssBattle } from "../interface";
+import type { AbyssBattleData} from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 
@@ -20,7 +20,7 @@ export class SpiralAbyss extends BaseRoute {
     language: Language,
     cookie: string,
     previous?: boolean
-  ): Promise<AbyssBattle> {
+  ): Promise<AbyssBattleData> {
     const instance = new request({
       withDS: true,
     });
