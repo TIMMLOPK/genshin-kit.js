@@ -5,9 +5,6 @@ import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 
 export class Activities extends BaseRoute {
-  constructor(clientCache?: any) {
-    super(clientCache);
-  }
 
   /**
    * @param {string} uid The uid to set

@@ -6,10 +6,6 @@ import { Genshin_Hoyolab_API_URL } from "../constants/constants";
 import { removeFromArrayObject } from "../utils/alias";
 
 export class GameRecordCard extends BaseRoute {
-  constructor(clientCache?: any) {
-    super(clientCache);
-  }
-
   /**
    * @param {string} uid Hoyolab uid
    * @param {Language} language The language to set

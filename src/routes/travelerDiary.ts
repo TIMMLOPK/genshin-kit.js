@@ -6,9 +6,6 @@ import { BaseRoute } from "./base";
 import { Genshin_Hoyolab_DIARY_URL } from "../constants/constants";
 
 export class TravelerDiary extends BaseRoute {
-  constructor(clientCache?: any) {
-    super(clientCache);
-  }
   /**
    * @param {string} uid The uid to set
    * @param {Language} language The language to set

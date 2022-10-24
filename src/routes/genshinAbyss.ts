@@ -5,10 +5,6 @@ import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 
 export class SpiralAbyss extends BaseRoute {
-  constructor(clientCache?: any) {
-    super(clientCache);
-  }
-
   /**
    * @param {string} uid Genshin Impact game uid
    * @param {Language} language The response language
