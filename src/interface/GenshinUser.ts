@@ -1,5 +1,5 @@
 import type { Character } from "./Character";
-import type { Home } from "./Teapot";
+import type { TeapotData } from "./Teapot";
 
 interface Info {
   AvatarUrl: string;
@@ -48,7 +48,7 @@ interface World_explorations {
 
 export interface GenshinUserData {
   avatars: Character[];
-  homes: Home[];
+  homes: TeapotData[];
   role: Info;
   stats: Stats;
   world_explorations: World_explorations[];
