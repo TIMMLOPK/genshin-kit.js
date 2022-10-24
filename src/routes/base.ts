@@ -8,10 +8,6 @@ export class BaseRoute {
   public readonly cache: ClientCache | null;
 
   constructor(options: Options) {
-    if (options.cache) {
-      this.cache = new ClientCache();
-    } else {
-      this.cache = null;
-    }
+    this.cache = options.cache ? new ClientCache() : null;
   }
 }

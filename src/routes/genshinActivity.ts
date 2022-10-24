@@ -5,7 +5,6 @@ import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 
 export class Activities extends BaseRoute {
-
   /**
    * @param {string} uid The uid to set
    * @param {Language} language The language to set

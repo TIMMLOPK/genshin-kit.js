@@ -1,5 +1,12 @@
 import { request } from "../utils/request";
-import type { ClaimHistoryData, DailyRewardsData, DayRewardData, ExtraRewardData, ResignData, RewardInfoData } from "../interface";
+import type {
+  ClaimHistoryData,
+  DailyRewardsData,
+  DayRewardData,
+  ExtraRewardData,
+  ResignData,
+  RewardInfoData,
+} from "../interface";
 import type { Language } from "../constants/lang";
 import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
 import { alias } from "../utils/alias";
@@ -78,7 +85,11 @@ export class DailyRewards {
     if (res.data.code === "ok" && res.retcode === 0) {
       const info = await this.fetchRewardInfo(language, cookie);
       const today = info.today.split("-")[2];
-      const reward = await this.getDayReward(parseInt(today!), language, cookie);
+      const reward = await this.getDayReward(
+        parseInt(today!),
+        language,
+        cookie
+      );
       return {
         status: "success",
         code: 0,
@@ -128,9 +139,7 @@ export class DailyRewards {
    * @param {string} cookie The cookie to set
    * @param {Language} language The language to set
    */
-  async fetchExtraRewardInfo(
-    cookie: string
-  ): Promise<ExtraRewardData> {
+  async fetchExtraRewardInfo(cookie: string): Promise<ExtraRewardData> {
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
@@ -185,13 +194,13 @@ export class DailyRewards {
 
     const { data } = res;
 
-    alias(data, { 
+    alias(data, {
       resign_cnt_daily: "resign_count_daily",
       resign_cnt_monthly: "resign_count_monthly",
       sign_cnt_missed: "sign_count_missed",
       quality_cnt: "quality_count",
       sign_cnt: "sign_count",
-      month_quality_cnt: "month_quality_count"
+      month_quality_cnt: "month_quality_count",
     });
 
     return data;
