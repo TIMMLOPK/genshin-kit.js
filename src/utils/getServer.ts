@@ -6,7 +6,6 @@
  * 7: os_euro
  * 6: os_usa
  */
-
 export function checkServerRegion(uid: string | number): string {
   const server_region = Number(uid.toString().slice(0, 1));
   switch (server_region) {

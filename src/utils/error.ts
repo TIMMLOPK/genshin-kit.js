@@ -7,4 +7,8 @@ export class APIERROR extends Error {
     this.retcode = retcode;
     this.description = description;
   }
+
+  public override get name(): string {
+    return `APIERROR[${this.retcode}]`;
+  }
 }

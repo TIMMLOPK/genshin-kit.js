@@ -16,3 +16,19 @@ export const removeUndefined = (obj: any) => {
   });
   return obj;
 };
+
+export const removeFromObject = (obj: any, keys: string[]) => {
+  keys.forEach((key) => {
+    delete obj[key];
+  });
+  return obj;
+};
+
+export const removeFromArrayObject = (arr: any[], keys: string[]) => {
+  arr.forEach((obj) => {
+    keys.forEach((key) => {
+      delete obj[key];
+    });
+  });
+  return arr;
+};

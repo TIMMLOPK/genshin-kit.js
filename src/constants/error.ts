@@ -7,4 +7,8 @@ const ERROR = [
   },
 ];
 
-export default ERROR;
+function getErrorByRetcode(retcode: number): string | undefined {
+  return ERROR.find((error) => error.retcode === retcode)?.message;
+}
+
+export default getErrorByRetcode;

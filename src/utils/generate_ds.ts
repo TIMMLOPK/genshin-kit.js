@@ -7,7 +7,6 @@ import { SALT } from "../constants/constants";
  * @returns {string}
  *
  */
-
 const generate_dynamic_secret = (): string => {
   const date = new Date();
   const t = Math.floor(date.getTime() / 1000);

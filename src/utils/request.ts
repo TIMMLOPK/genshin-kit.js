@@ -7,8 +7,8 @@ import {
 } from "../constants/constants";
 import { request } from "undici";
 import generate_dynamic_secret from "./generate_ds";
-import ERROR from "../constants/error";
 import { APIERROR } from "./error";
+import getErrorByRetcode from "../constants/error";
 
 type option = {
   route?:
@@ -68,9 +68,7 @@ class HTTPRequest {
     const resData = await res.json();
 
     if (resData.retcode !== 0) {
-      const description = ERROR.find(
-        (error) => error.retcode === resData.retcode
-      )?.message;
+      const description = getErrorByRetcode(resData.retcode);
       throw new APIERROR(`${resData.message}`, resData.retcode, description);
     }
 
@@ -101,10 +99,8 @@ class HTTPRequest {
 
     const resData = await res.json();
 
-    if (resData.retcode !== 0) {
-      const description = ERROR.find(
-        (error) => error.retcode === resData.retcode
-      )?.message;
+    if (resData.retcode !== 0 && resData.retcode !== -5003) {
+      const description = getErrorByRetcode(resData.retcode);
       throw new APIERROR(`${resData.message}`, resData.retcode, description);
     }
 

@@ -11,6 +11,9 @@ export class ClientCache {
   }
 
   public set(key: string, value: any): void {
+    if (this.has(key)) {
+      this.delete(key);
+    }
     this.cache[key] = value;
   }
 
