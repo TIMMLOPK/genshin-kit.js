@@ -86,7 +86,7 @@ export class DailyRewards {
       const info = await this.fetchRewardInfo(language, cookie);
       const today = info.today.split("-")[2];
       const reward = await this.getDayReward(
-        parseInt(today!),
+        parseInt(today || "1"),
         language,
         cookie
       );
