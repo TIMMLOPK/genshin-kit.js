@@ -7,7 +7,7 @@ interface Options {
 export class BaseRoute {
   public readonly cache: ClientCache | null;
 
-  constructor(options: Options) {
-    this.cache = options.cache ? new ClientCache() : null;
+  constructor(options?: Options) {
+    this.cache = options?.cache ? new ClientCache() : null;
   }
 }
