@@ -39,7 +39,6 @@ export class Activities extends BaseRoute {
     );
 
     const { data } = res;
-    this.rawData = data;
 
     const returnData = {
       sumo: data.activities[0].sumo.records,
