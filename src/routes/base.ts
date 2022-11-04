@@ -10,7 +10,7 @@ interface Options {
 
 export class BaseRoute {
   public readonly cache: ClientCache<unknown> | null;
-  
+
   public debug: boolean;
 
   constructor(options?: Options) {

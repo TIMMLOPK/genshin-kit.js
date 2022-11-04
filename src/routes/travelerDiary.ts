@@ -38,7 +38,7 @@ export class TravelerDiary extends BaseRoute {
     );
 
     const { data } = res;
-    
+
     if (this.cache) {
       this.cache.set(uid, data);
     }
