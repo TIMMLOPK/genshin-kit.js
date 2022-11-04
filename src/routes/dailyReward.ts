@@ -137,7 +137,6 @@ export class DailyRewards {
   /**
    * @description Get the extra rewards info
    * @param {string} cookie The cookie to set
-   * @param {Language} language The language to set
    */
   async fetchExtraRewardInfo(cookie: string): Promise<ExtraRewardData> {
     const instance = new request({

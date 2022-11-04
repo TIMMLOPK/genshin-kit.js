@@ -3,8 +3,10 @@ import { checkServerRegion } from "../utils/getServer";
 import type { AbyssBattleData } from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
+import type { ClientCache } from "../client/clientCache";
 
 export class SpiralAbyss extends BaseRoute {
+  public declare cache: ClientCache<AbyssBattleData> | null;
   /**
    * @param {string} uid Genshin Impact game uid
    * @param {Language} language The response language
@@ -17,8 +19,10 @@ export class SpiralAbyss extends BaseRoute {
     cookie: string,
     previous?: boolean
   ): Promise<AbyssBattleData> {
+    if (this.cache?.has(uid)) return this.cache.get(uid) as AbyssBattleData;
     const instance = new request({
       withDS: true,
+      debug: this.debug,
     });
 
     instance.setLanguage(language);
@@ -38,9 +42,11 @@ export class SpiralAbyss extends BaseRoute {
     );
 
     const { data } = res;
+
     if (this.cache) {
       this.cache.set(uid, data);
     }
+
     return data;
   }
 }

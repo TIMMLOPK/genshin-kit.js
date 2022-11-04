@@ -9,6 +9,6 @@ export class APIERROR extends Error {
   }
 
   public override get name(): string {
-    return `APIERROR[${this.retcode}]`;
+    return `APIError[${this.retcode}]`;
   }
 }

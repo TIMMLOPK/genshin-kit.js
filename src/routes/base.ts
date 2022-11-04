@@ -2,12 +2,21 @@ import { ClientCache } from "../client/clientCache";
 
 interface Options {
   cache?: boolean;
+  debug?: boolean;
+  cacheOptions?: {
+    maxAge?: number;
+  };
 }
 
 export class BaseRoute {
-  public readonly cache: ClientCache | null;
+  public readonly cache: ClientCache<unknown> | null;
+  
+  public debug: boolean;
 
   constructor(options?: Options) {
-    this.cache = options?.cache ? new ClientCache() : null;
+    this.debug = options?.debug || false;
+    this.cache = options?.cache
+      ? new ClientCache({ maxAge: options.cacheOptions?.maxAge })
+      : null;
   }
 }

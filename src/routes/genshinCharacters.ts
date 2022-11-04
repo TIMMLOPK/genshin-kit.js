@@ -3,8 +3,11 @@ import { checkServerRegion } from "../utils/getServer";
 import type { CharacterData, CharacterInfoData } from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
+import type { ClientCache } from "../client/clientCache";
 
 export class Charcters extends BaseRoute {
+  public declare cache: ClientCache<CharacterData[]> | null;
+
   /**
    * @param {string} uid The uid to set
    * @param {Language} language The language to set
@@ -16,8 +19,10 @@ export class Charcters extends BaseRoute {
     language: Language,
     cookie: string
   ): Promise<CharacterData[]> {
+    if (this.cache?.has(uid)) return this.cache.get(uid) as CharacterData[];
     const instance = new request({
       withDS: true,
+      debug: this.debug,
     });
     instance.setLanguage(language);
     const res = await instance.post(
@@ -54,6 +59,7 @@ export class Charcters extends BaseRoute {
   ): Promise<CharacterInfoData> {
     const instance = new request({
       withDS: true,
+      debug: this.debug,
     });
     instance.setLanguage(language);
     const res = await instance.post(
@@ -69,6 +75,7 @@ export class Charcters extends BaseRoute {
     );
 
     const { data } = res;
+
     return data.avatars[0];
   }
 }

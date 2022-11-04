@@ -3,8 +3,11 @@ import { checkServerRegion } from "../utils/getServer";
 import type { GenshinUserData } from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
+import type { ClientCache } from "../client/clientCache";
 
 export class GenshinUser extends BaseRoute {
+  public declare cache: ClientCache<GenshinUserData> | null;
+
   /**
    * @param {string} uid The uid to set
    * @param {Language} language The language to set
@@ -16,8 +19,10 @@ export class GenshinUser extends BaseRoute {
     language: Language,
     cookie: string
   ): Promise<GenshinUserData> {
+    if (this.cache?.has(uid)) return this.cache.get(uid) as GenshinUserData;
     const instance = new request({
       withDS: true,
+      debug: this.debug,
     });
     instance.setLanguage(language);
     const res = await instance.get(
@@ -34,6 +39,7 @@ export class GenshinUser extends BaseRoute {
     );
 
     const { data } = res;
+    
     if (this.cache) {
       this.cache.set(uid, data);
     }

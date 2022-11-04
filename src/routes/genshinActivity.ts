@@ -3,8 +3,11 @@ import { checkServerRegion } from "../utils/getServer";
 import type { ActivitiesData } from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
+import type { ClientCache } from "../client/clientCache";
 
 export class Activities extends BaseRoute {
+  public declare cache: ClientCache<ActivitiesData> | null;
+
   /**
    * @param {string} uid The uid to set
    * @param {Language} language The language to set
@@ -16,8 +19,10 @@ export class Activities extends BaseRoute {
     language: Language,
     cookie: string
   ): Promise<ActivitiesData> {
+    if (this.cache?.has(uid)) return this.cache.get(uid) as ActivitiesData;
     const instance = new request({
       withDS: true,
+      debug: this.debug,
     });
     instance.setLanguage(language);
     const res = await instance.get(
@@ -34,6 +39,7 @@ export class Activities extends BaseRoute {
     );
 
     const { data } = res;
+    this.rawData = data;
 
     const returnData = {
       sumo: data.activities[0].sumo.records,

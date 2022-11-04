@@ -9,6 +9,7 @@ import { request } from "undici";
 import generate_dynamic_secret from "./generate_ds";
 import { APIERROR } from "./error";
 import getErrorByRetcode from "../constants/error";
+import { Language } from "../constants/lang";
 
 type option = {
   route?:
@@ -18,6 +19,7 @@ type option = {
     | typeof Genshin_Battle_API_URL;
   withUA?: boolean;
   withDS?: boolean;
+  debug?: boolean;
 };
 
 interface Response {
@@ -33,7 +35,8 @@ class HTTPRequest {
   private baseURL: string;
   private withUA: boolean;
   private withDS: boolean;
-  private language: string;
+  private language: Language;
+  private debug: boolean;
 
   constructor(option?: option) {
     this.baseURL = Genshin_Battle_API_URL;
@@ -42,7 +45,14 @@ class HTTPRequest {
     }
     this.withUA = option?.withUA || false;
     this.withDS = option?.withDS || false;
-    this.language = "en-us";
+    this.language = Language.EnglishUS;
+    this.debug = option?.debug || false;
+  }
+
+  public _debug(message: string): void {
+    if (this.debug) {
+      console.log(message);
+    }
   }
 
   public async get(
@@ -50,25 +60,38 @@ class HTTPRequest {
     headers?: any,
     params?: any
   ): Promise<Response> {
-    const { body: res, statusCode } = await request(`${this.baseURL}${url}`, {
+    const URL = `${this.baseURL}${url}`;
+    const requestHeaders = {
+      "User-Agent": this.withUA ? UA : undefined,
+      "x-rpc-language": this.language,
+      DS: this.withDS ? generate_dynamic_secret() : undefined,
+      ...headers,
+    };
+
+    this._debug(`GET ${URL}`);
+    this._debug(`Headers: ${JSON.stringify(requestHeaders)}`);
+    this._debug(`Params: ${JSON.stringify(params)}`);
+
+    const { body: res, statusCode } = await request(URL, {
       method: "GET",
-      headers: {
-        "User-Agent": this.withUA ? UA : undefined,
-        "x-rpc-language": this.language,
-        DS: this.withDS ? generate_dynamic_secret() : undefined,
-        ...headers,
-      },
+      headers: requestHeaders,
       query: params,
     });
 
     if (statusCode !== 200) {
+      this._debug(`Request failed with status code ${statusCode}`);
       throw new Error(`Request failed with status code ${statusCode}`);
     }
 
     const resData = await res.json();
 
+    this._debug(`Retcode: ${resData.retcode}`);
+    this._debug(`Message: ${resData.message}`);
+    this._debug(`Data: ${JSON.stringify(resData.data)}`);
+
     if (resData.retcode !== 0) {
       const description = getErrorByRetcode(resData.retcode);
+      this._debug(`Error: ${description}`);
       throw new APIERROR(`${resData.message}`, resData.retcode, description);
     }
 
@@ -81,33 +104,48 @@ class HTTPRequest {
     data?: any,
     params?: any
   ): Promise<Response> {
-    const { body: res, statusCode } = await request(`${this.baseURL}${url}`, {
+    const URL = `${this.baseURL}${url}`;
+    const requestHeaders = {
+      "User-Agent": this.withUA ? UA : undefined,
+      "x-rpc-language": this.language,
+      DS: this.withDS ? generate_dynamic_secret() : undefined,
+      ...headers,
+    };
+    const body = JSON.stringify(data);
+
+    this._debug(`POST ${URL}`);
+    this._debug(`Headers: ${JSON.stringify(requestHeaders)}`);
+    this._debug(`Params: ${JSON.stringify(params)}`);
+    this._debug(`Body: ${body}`);
+
+    const { body: res, statusCode } = await request(URL, {
       method: "POST",
-      headers: {
-        "User-Agent": this.withUA ? UA : undefined,
-        "x-rpc-language": this.language,
-        DS: this.withDS ? generate_dynamic_secret() : undefined,
-        ...headers,
-      },
-      body: JSON.stringify(data),
+      headers: requestHeaders,
+      body: body,
       query: params,
     });
 
     if (statusCode !== 200) {
+      this._debug(`Request failed with status code ${statusCode}`);
       throw new Error(`Request failed with status code ${statusCode}`);
     }
 
     const resData = await res.json();
 
-    if (resData.retcode !== 0 && resData.retcode !== -5003) {
+    this._debug(`Retcode: ${resData.retcode}`);
+    this._debug(`Message: ${resData.message}`);
+    this._debug(`Data: ${JSON.stringify(resData.data)}`);
+
+    if (resData.retcode !== 0) {
       const description = getErrorByRetcode(resData.retcode);
+      this._debug(`Error: ${description}`);
       throw new APIERROR(`${resData.message}`, resData.retcode, description);
     }
 
     return resData;
   }
 
-  public setLanguage(language: string): void {
+  public setLanguage(language: Language): void {
     this.language = language;
   }
 }

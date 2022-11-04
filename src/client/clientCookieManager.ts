@@ -16,11 +16,10 @@ export class ClientCookieManager {
   /**
    * @returns {number} - The amount of cookies.
    */
-  amount(): number {
+  public get size(): number {
     if (this.cookie.ltoken.length !== this.cookie.ltuid.length) {
       throw new Error("Invalid cookie");
     }
-
     return this.cookie.ltoken.length;
   }
 
@@ -37,20 +36,8 @@ export class ClientCookieManager {
    * @returns {Object} - The ltoken and ltuid.
    */
   public get(): { ltoken: string; ltuid: string; key: number; cookie: string } {
-    if (this.amount() === 0) {
+    if (this.size === 0) {
       throw new Error("Please login first.");
-    }
-
-    if (this.amount() === 1) {
-      if (!this.cookie.ltoken[0] || !this.cookie.ltuid[0]) {
-        throw new Error("Invalid cookie");
-      }
-      return {
-        ltoken: this.cookie.ltoken[0],
-        ltuid: this.cookie.ltuid[0],
-        key: 0,
-        cookie: CookieFormatter(this.cookie.ltoken[0], this.cookie.ltuid[0]),
-      };
     }
 
     const ltoken = this.cookie.ltoken[0];
@@ -69,7 +56,7 @@ export class ClientCookieManager {
     return {
       ltoken: ltoken,
       ltuid: ltuid,
-      key: this.amount() - 1,
+      key: this.size - 1,
       cookie: CookieFormatter(ltoken, ltuid),
     };
   }
@@ -88,11 +75,12 @@ export class ClientCookieManager {
   }
 
   public getAll(): { [key: string]: { ltoken: string; ltuid: string } } {
-    const cookie = {} as { [key: string]: { ltoken: string; ltuid: string } };
-    for (let i = 0; i < this.amount(); i++) {
-      cookie[i] = {
-        ltoken: this.cookie.ltoken[i] as string,
-        ltuid: this.cookie.ltuid[i] as string,
+    const cookie: { [key: string]: { ltoken: string; ltuid: string } } = {};
+    for (const key in this.cookie) {
+      const K = parseInt(key);
+      cookie[key] = {
+        ltoken: this.cookie.ltoken[K] || "",
+        ltuid: this.cookie.ltuid[K] || "",
       };
     }
     return cookie;

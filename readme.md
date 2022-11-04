@@ -42,3 +42,30 @@ const { Client, Language, SpiralAbyss } = require('genshin-kit.js');
 }
 )();
 ```
+---
+## Advanced Usage
+
+#### Cache: genshin-kit.js has cached all endpoint except daily signIn.(The cache default is false)
+
+```javascript
+// enable caching for endpoint
+const abyss = new SpiralAbyss({ cache: true }) 
+// enable caching for client
+const client = new Client({ cache: true })
+```
+
+### Multiple cookies
+Sometime you may want to use different cookie to avoid hit single cookie limit.
+If you provide more than one cookie, it will use the first one first, then the second one, etc.
+
+```javascript
+const client = new Client()
+client.setltoken('token1');
+client.setltuid('ltuid1');
+
+client.setltoken("token2");
+client.setltuid("uid2");
+```
+
+## Help
+💡 If you need help, you can find me at Discord [Timmy#2600]

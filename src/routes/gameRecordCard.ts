@@ -4,8 +4,11 @@ import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 import { Genshin_Hoyolab_API_URL } from "../constants/constants";
 import { removeFromArrayObject } from "../utils/alias";
+import type { ClientCache } from "../client/clientCache";
 
 export class GameRecordCard extends BaseRoute {
+  public declare cache: ClientCache<RecordCardData> | null;
+
   /**
    * @param {string} uid Hoyolab uid
    * @param {Language} language The language to set
@@ -16,8 +19,10 @@ export class GameRecordCard extends BaseRoute {
     language: Language,
     cookie: string
   ): Promise<RecordCardData> {
+    if (this.cache?.has(uid)) return this.cache.get(uid) as RecordCardData;
     const instance = new request({
       route: Genshin_Hoyolab_API_URL,
+      debug: this.debug,
     });
 
     instance.setLanguage(language);
@@ -33,6 +38,7 @@ export class GameRecordCard extends BaseRoute {
     );
 
     const { data } = res;
+
     if (this.cache) {
       this.cache.set(uid, data);
     }

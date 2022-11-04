@@ -1,24 +1,68 @@
-export class ClientCache {
-  /**
-   * @description Cache the API response
-   */
-  private cache: { [key: string]: any } = {};
+interface Cache<V> {
+  get(key: string): V | undefined;
+  set(key: string, value: V): void;
+  has(key: string): boolean;
+  delete(key: string): void;
+}
 
-  public get(key: string): any {
-    const C = this.cache[key];
-    this.delete(key);
-    return C;
+interface CacheOptions {
+  maxAge?: number;
+}
+
+/**
+ * @description Cache the API response
+ */
+export class ClientCache<V> implements Cache<V> {
+  private cache: { [key: string]: { value: V; timestamp: number } } = {};
+
+  private sweepInterval: NodeJS.Timeout | null = null;
+
+  private maxAge: number;
+
+  constructor(options?: CacheOptions) {
+    this.maxAge = options?.maxAge || 60;
+
+    this.sweepInterval = setInterval(() => {
+      this.sweep();
+    }, 1000 * this.maxAge).unref();
   }
 
-  public set(key: string, value: any): void {
-    if (this.has(key)) {
-      this.delete(key);
+  public get size(): number {
+    return Object.keys(this.cache).length;
+  }
+
+  private sweep() {
+    if (this.size === 0 && this.sweepInterval) {
+      clearInterval(this.sweepInterval);
+      this.sweepInterval = null;
     }
-    this.cache[key] = value;
+
+    for (const key in this.cache) {
+      const cache = this.cache[key];
+      if (cache && Date.now() - cache.timestamp > this.maxAge * 1000) {
+        delete this.cache[key];
+      }
+    }
   }
 
-  public has(key: string): boolean {
-    return this.cache[key] !== undefined;
+  public get(key: string): V | undefined {
+    this.sweep();
+    const C = this.cache[key];
+    return C?.value;
+  }
+
+  public set(key: string, value: V): void {
+    this.cache[key] = {
+      value,
+      timestamp: Date.now(),
+    };
+    this.sweep();
+  }
+
+  public has(key: string | number): key is keyof typeof this.cache {
+    this.sweep();
+    if (typeof this.cache[key] === "undefined") return false;
+    return true;
   }
 
   public delete(key: string): void {

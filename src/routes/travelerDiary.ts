@@ -4,8 +4,11 @@ import type { DiaryData } from "../interface";
 import type { Language } from "../constants/lang";
 import { BaseRoute } from "./base";
 import { Genshin_Hoyolab_DIARY_URL } from "../constants/constants";
+import type { ClientCache } from "../client/clientCache";
 
 export class TravelerDiary extends BaseRoute {
+  public declare cache: ClientCache<DiaryData> | null;
+
   /**
    * @param {string} uid The uid to set
    * @param {Language} language The language to set
@@ -17,8 +20,10 @@ export class TravelerDiary extends BaseRoute {
     language: Language,
     cookie: string
   ): Promise<DiaryData> {
+    if (this.cache?.has(uid)) return this.cache.get(uid) as DiaryData;
     const instance = new request({
       route: Genshin_Hoyolab_DIARY_URL,
+      debug: this.debug,
     });
     const res = await instance.get(
       "month_info",
@@ -33,6 +38,7 @@ export class TravelerDiary extends BaseRoute {
     );
 
     const { data } = res;
+    
     if (this.cache) {
       this.cache.set(uid, data);
     }
