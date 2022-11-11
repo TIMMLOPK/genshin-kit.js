@@ -1,9 +1,10 @@
 import { Genshin_Battle_API_URL, UA } from "../constants/constants";
-import { request } from "undici";
+import { request  } from "undici";
 import generate_dynamic_secret from "./generate_ds";
 import { APIERROR } from "./error";
 import getErrorByRetcode from "../constants/error";
 import { Language } from "../constants/lang";
+import type { IncomingHttpHeaders } from "http2";
 
 type option = {
   route?: string;
@@ -47,7 +48,7 @@ class HTTPRequest {
 
   public async get(
     url: string,
-    headers?: any,
+    headers?: IncomingHttpHeaders,
     params?: any
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
@@ -90,7 +91,7 @@ class HTTPRequest {
 
   public async post(
     url: string,
-    headers?: any,
+    headers?: IncomingHttpHeaders,
     data?: any,
     params?: any
   ): Promise<Response> {
