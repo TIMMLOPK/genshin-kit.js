@@ -4,6 +4,7 @@ import { BaseRoute, fetchOptions } from "./base";
 import { Genshin_Hoyolab_API_URL } from "../constants/constants";
 import { removeFromArrayObject } from "../utils/alias";
 import type { ClientCache } from "../client/clientCache";
+import { validate } from "../utils/validate";
 
 export class GameRecordCard extends BaseRoute {
   public declare cache: ClientCache<RecordCardData> | null;
@@ -17,10 +18,9 @@ export class GameRecordCard extends BaseRoute {
   ): Promise<RecordCardData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as RecordCardData;
 
-    if (!options || !this.defaultOptions)
-      throw new Error("No options provided");
+    validate<string, fetchOptions>(uid, options || this.defaultOptions);
 
-    const { language, cookie } = options;
+    const { language, cookie } = options || this.defaultOptions;
 
     const instance = new request({
       route: Genshin_Hoyolab_API_URL,

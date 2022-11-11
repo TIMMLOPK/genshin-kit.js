@@ -3,6 +3,7 @@ import { checkServerRegion } from "../utils/getServer";
 import type { CharacterData, CharacterInfoData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
+import { validate } from "../utils/validate";
 
 export class Charcters extends BaseRoute {
   public declare cache: ClientCache<CharacterData[]> | null;
@@ -10,17 +11,15 @@ export class Charcters extends BaseRoute {
   /**
    * @param {string} uid The uid to set
    */
-
   public async fetch(
     uid: string,
     options?: fetchOptions
   ): Promise<CharacterData[]> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as CharacterData[];
 
-    if (!options || !this.defaultOptions)
-      throw new Error("No options provided");
+    validate<string, fetchOptions>(uid, options || this.defaultOptions);
 
-    const { language, cookie } = options;
+    const { language, cookie } = options || this.defaultOptions;
 
     const instance = new request({
       withDS: true,
@@ -57,10 +56,12 @@ export class Charcters extends BaseRoute {
     characterId: number,
     options?: fetchOptions
   ): Promise<CharacterInfoData> {
-    if (!options || !this.defaultOptions)
+    if (!options && !this.defaultOptions)
       throw new Error("No options provided");
 
-    const { language, cookie } = options;
+    validate<number, fetchOptions>(characterId, options || this.defaultOptions);
+
+    const { language, cookie } = options || this.defaultOptions;
 
     const instance = new request({
       withDS: true,

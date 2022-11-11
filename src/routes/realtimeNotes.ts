@@ -3,13 +3,12 @@ import { checkServerRegion } from "../utils/getServer";
 import type { RealTimeNoteData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
+import { validate } from "../utils/validate";
 
 export class RealTimeNotes extends BaseRoute {
   public declare cache: ClientCache<RealTimeNoteData> | null;
   /**
    * @param {string} uid The uid to set
-   * @param {Language} language The language to set
-   * @param {string} cookie The cookie to set
    */
 
   public async fetch(
@@ -18,10 +17,9 @@ export class RealTimeNotes extends BaseRoute {
   ): Promise<RealTimeNoteData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as RealTimeNoteData;
 
-    if (!options || !this.defaultOptions)
-      throw new Error("No options provided");
+    validate<string, fetchOptions>(uid, options || this.defaultOptions);
 
-    const { language, cookie } = options;
+    const { language, cookie } = options || this.defaultOptions;
 
     const instance = new request({
       withDS: true,

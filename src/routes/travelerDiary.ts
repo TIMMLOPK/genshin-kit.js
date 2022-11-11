@@ -4,6 +4,7 @@ import type { DiaryData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import { Genshin_Hoyolab_DIARY_URL } from "../constants/constants";
 import type { ClientCache } from "../client/clientCache";
+import { validate } from "../utils/validate";
 
 type getMonthDiaryOptions = fetchOptions & {
   month: number;
@@ -14,14 +15,12 @@ export class TravelerDiary extends BaseRoute {
   /**
    * @param {string} uid The uid to set
    */
-
   public async fetch(uid: string, options: fetchOptions): Promise<DiaryData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as DiaryData;
 
-    if (!options || !this.defaultOptions)
-      throw new Error("No options provided");
+    validate<string, fetchOptions>(uid, options || this.defaultOptions);
 
-    const { language, cookie } = options;
+    const { language, cookie } = options || this.defaultOptions;
 
     const instance = new request({
       route: Genshin_Hoyolab_DIARY_URL,
@@ -51,8 +50,8 @@ export class TravelerDiary extends BaseRoute {
     uid: string,
     options: getMonthDiaryOptions
   ): Promise<DiaryData> {
-    if (!options || !this.defaultOptions)
-      throw new Error("No options provided");
+    if (!options) throw new Error("No options provided");
+    validate<string, getMonthDiaryOptions>(uid, options);
 
     const { language, cookie, month } = options;
 

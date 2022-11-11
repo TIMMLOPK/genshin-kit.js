@@ -3,6 +3,7 @@ import { checkServerRegion } from "../utils/getServer";
 import type { AbyssBattleData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
+import { validate } from "../utils/validate";
 
 type SpiralAbyssFetchOptions = fetchOptions & {
   previous?: boolean;
@@ -11,7 +12,7 @@ type SpiralAbyssFetchOptions = fetchOptions & {
 export class SpiralAbyss extends BaseRoute {
   public declare cache: ClientCache<AbyssBattleData> | null;
 
-  public declare defaultOptions?: SpiralAbyssFetchOptions;
+  public declare defaultOptions: SpiralAbyssFetchOptions;
 
   /**
    * @param {string} uid Genshin Impact game uid
@@ -22,9 +23,12 @@ export class SpiralAbyss extends BaseRoute {
   ): Promise<AbyssBattleData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as AbyssBattleData;
 
-    if (!options) options = this.defaultOptions as SpiralAbyssFetchOptions;
+    validate<string, SpiralAbyssFetchOptions>(
+      uid,
+      options || this.defaultOptions
+    );
 
-    const { language, cookie, previous } = options;
+    const { language, cookie, previous } = options || this.defaultOptions;
 
     const instance = new request({
       withDS: true,

@@ -7,10 +7,10 @@ import type {
   ResignData,
   RewardInfoData,
 } from "../interface";
-import type { Language } from "../constants/lang";
 import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
 import { alias } from "../utils/alias";
 import type { fetchOptions } from "./base";
+import { validate } from "../utils/validate";
 
 export class DailyRewards {
   /**
@@ -22,10 +22,12 @@ export class DailyRewards {
     options: fetchOptions
   ): Promise<DayRewardData> {
     if (!options) throw new Error("No options provided");
+
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
+    validate<number, fetchOptions>(day, options);
     const { cookie, language } = options;
 
     instance.setLanguage(language);
@@ -46,16 +48,17 @@ export class DailyRewards {
   }
 
   /**
-   *
    * @description Claim the daily rewards
    */
   public async claim(options: fetchOptions): Promise<DailyRewardsData> {
     if (!options) throw new Error("No options provided");
+
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
       withUA: true,
     });
 
+    validate<string, fetchOptions>("", options);
     const { cookie, language } = options;
 
     const res = await instance.post(
@@ -81,7 +84,7 @@ export class DailyRewards {
     }
 
     if (res.data.code === "ok" && res.retcode === 0) {
-      const info = await this.fetchRewardInfo(language, cookie);
+      const info = await this.fetchRewardInfo(options);
       const today = info.today.split("-")[2];
       const reward = await this.getDayReward(parseInt(today || "1"), {
         cookie,
@@ -103,17 +106,16 @@ export class DailyRewards {
 
   /**
    * @description Get the daily rewards info
-   * @param {string} cookie The cookie to set
-   * @param {Language} language The language to set
    */
-  async fetchRewardInfo(
-    language: Language,
-    cookie: string
-  ): Promise<RewardInfoData> {
+  async fetchRewardInfo(options: fetchOptions): Promise<RewardInfoData> {
+    if (!options) throw new Error("No options provided");
+
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
+    validate<string, fetchOptions>("", options);
+    const { cookie, language } = options;
     instance.setLanguage(language);
     const res = await instance.get(
       "info",
@@ -133,13 +135,15 @@ export class DailyRewards {
 
   /**
    * @description Get the extra rewards info
-   * @param {string} cookie The cookie to set
    */
-  async fetchExtraRewardInfo(cookie: string): Promise<ExtraRewardData> {
+  async fetchExtraRewardInfo(options: fetchOptions): Promise<ExtraRewardData> {
+    if (!options) throw new Error("No options provided");
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
+    validate<string, fetchOptions>("", options);
+    const { cookie } = options;
     const res = await instance.get(
       "extra_award",
       {
@@ -165,17 +169,15 @@ export class DailyRewards {
 
   /**
    * @description get resign info
-   * @param {string} cookie The cookie to set
-   * @param {Language} language The language to set
    */
-  async fetchResignInfo(
-    language: Language,
-    cookie: string
-  ): Promise<ResignData> {
+  async fetchResignInfo(options: fetchOptions): Promise<ResignData> {
+    if (!options) throw new Error("No options provided");
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
+    validate<string, fetchOptions>("", options);
+    const { cookie, language } = options;
     instance.setLanguage(language);
     const res = await instance.get(
       "resign_info",
@@ -204,19 +206,18 @@ export class DailyRewards {
 
   /**
    * @description get claim history
-   * @param {string} cookie The cookie to set
-   * @param {Language} language The language to set
-   * @param {number | undefined} page The page to set
    */
   async fetchClaimHistory(
-    language: Language,
-    cookie: string,
-    page?: number
+    options: fetchOptions & { page?: number }
   ): Promise<ClaimHistoryData> {
+    if (!options) throw new Error("No options provided");
+
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
+    validate<string, fetchOptions>("", options);
+    const { cookie, language, page } = options;
     instance.setLanguage(language);
     const res = await instance.get(
       "award",

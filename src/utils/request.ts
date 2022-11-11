@@ -1,5 +1,5 @@
 import { Genshin_Battle_API_URL, UA } from "../constants/constants";
-import { request  } from "undici";
+import { request } from "undici";
 import generate_dynamic_secret from "./generate_ds";
 import { APIERROR } from "./error";
 import getErrorByRetcode from "../constants/error";

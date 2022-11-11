@@ -3,6 +3,7 @@ import { checkServerRegion } from "../utils/getServer";
 import type { GenshinUserData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
+import { validate } from "../utils/validate";
 
 export class GenshinUser extends BaseRoute {
   public declare cache: ClientCache<GenshinUserData> | null;
@@ -16,10 +17,9 @@ export class GenshinUser extends BaseRoute {
   ): Promise<GenshinUserData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as GenshinUserData;
 
-    if (!options || !this.defaultOptions)
-      throw new Error("No options provided");
+    validate<string, fetchOptions>(uid, options || this.defaultOptions);
 
-    const { language, cookie } = options;
+    const { language, cookie } = options || this.defaultOptions;
 
     const instance = new request({
       withDS: true,

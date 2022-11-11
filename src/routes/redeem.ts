@@ -3,6 +3,7 @@ import type { RedeemData } from "../interface/RedeemCode";
 import { Genshin_Redeem_Code_URL } from "../constants/constants";
 import type { Language } from "../constants/lang";
 import { checkServerRegion } from "../utils/getServer";
+import { validate } from "../utils/validate";
 
 type RedeemOptions = {
   language: Language;
@@ -20,7 +21,12 @@ export class RedeemCode {
     code: string,
     options: RedeemOptions
   ): Promise<RedeemData> {
+    if (!options) throw new Error("No options provided");
+
+    validate<string, RedeemOptions>(code, options);
+
     const { language, cookie, uid, cookie_token } = options;
+
     const instance = new request({
       route: Genshin_Redeem_Code_URL,
     });
