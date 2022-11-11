@@ -1,26 +1,28 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { DiaryData } from "../interface";
-import type { Language } from "../constants/lang";
-import { BaseRoute } from "./base";
+import { BaseRoute, fetchOptions } from "./base";
 import { Genshin_Hoyolab_DIARY_URL } from "../constants/constants";
 import type { ClientCache } from "../client/clientCache";
 
+type getMonthDiaryOptions = fetchOptions & {
+  month: number;
+};
 export class TravelerDiary extends BaseRoute {
   public declare cache: ClientCache<DiaryData> | null;
 
   /**
    * @param {string} uid The uid to set
-   * @param {Language} language The language to set
-   * @param {string} cookie The cookie to set
    */
 
-  public async fetch(
-    uid: string,
-    language: Language,
-    cookie: string
-  ): Promise<DiaryData> {
+  public async fetch(uid: string, options: fetchOptions): Promise<DiaryData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as DiaryData;
+
+    if (!options || !this.defaultOptions)
+      throw new Error("No options provided");
+
+    const { language, cookie } = options;
+
     const instance = new request({
       route: Genshin_Hoyolab_DIARY_URL,
       debug: this.debug,
@@ -47,10 +49,13 @@ export class TravelerDiary extends BaseRoute {
 
   public async getMonth(
     uid: string,
-    month: number,
-    language: Language,
-    cookie: string
+    options: getMonthDiaryOptions
   ): Promise<DiaryData> {
+    if (!options || !this.defaultOptions)
+      throw new Error("No options provided");
+
+    const { language, cookie, month } = options;
+
     const instance = new request({
       route: Genshin_Hoyolab_DIARY_URL,
     });

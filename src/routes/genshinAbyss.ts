@@ -1,25 +1,31 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { AbyssBattleData } from "../interface";
-import type { Language } from "../constants/lang";
-import { BaseRoute } from "./base";
+import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
+
+type SpiralAbyssFetchOptions = fetchOptions & {
+  previous?: boolean;
+};
 
 export class SpiralAbyss extends BaseRoute {
   public declare cache: ClientCache<AbyssBattleData> | null;
+
+  public declare defaultOptions?: SpiralAbyssFetchOptions;
+
   /**
    * @param {string} uid Genshin Impact game uid
-   * @param {Language} language The response language
-   * @param {string} cookie The cookie to use for the request
    */
-
   public async fetch(
     uid: string,
-    language: Language,
-    cookie: string,
-    previous?: boolean
+    options?: SpiralAbyssFetchOptions
   ): Promise<AbyssBattleData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as AbyssBattleData;
+
+    if (!options) options = this.defaultOptions as SpiralAbyssFetchOptions;
+
+    const { language, cookie, previous } = options;
+
     const instance = new request({
       withDS: true,
       debug: this.debug,

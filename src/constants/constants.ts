@@ -6,6 +6,11 @@ export const Genshin_Hoyolab_REWARD_URL =
   "https://sg-hk4e-api.hoyolab.com/event/sol/";
 export const Genshin_Hoyolab_DIARY_URL =
   "https://hk4e-api-os.hoyoverse.com/event/ysledgeros/";
+export const Genshin_Redeem_Code_URL =
+  "https://sg-hk4e-api.hoyoverse.com/common/apicdkey/api/webExchangeCdkey";
+export const Genshin_Hoyolab_cookie_URL =
+  "https://webapi-os.account.hoyoverse.com/Api/fetch_cookie_accountinfo";
+
 export const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36";
 

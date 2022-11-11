@@ -1,8 +1,7 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { GenshinUserData } from "../interface";
-import type { Language } from "../constants/lang";
-import { BaseRoute } from "./base";
+import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
 
 export class GenshinUser extends BaseRoute {
@@ -10,21 +9,25 @@ export class GenshinUser extends BaseRoute {
 
   /**
    * @param {string} uid The uid to set
-   * @param {Language} language The language to set
-   * @param {string} cookie The cookie to set
    */
-
   public async fetch(
     uid: string,
-    language: Language,
-    cookie: string
+    options?: fetchOptions
   ): Promise<GenshinUserData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as GenshinUserData;
+
+    if (!options || !this.defaultOptions)
+      throw new Error("No options provided");
+
+    const { language, cookie } = options;
+
     const instance = new request({
       withDS: true,
       debug: this.debug,
     });
+
     instance.setLanguage(language);
+
     const res = await instance.get(
       "index",
       {

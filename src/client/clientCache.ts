@@ -45,10 +45,12 @@ export class ClientCache<V> implements Cache<V> {
     }
   }
 
-  public get(key: string): V | undefined {
-    this.sweep();
-    const C = this.cache[key];
-    return C?.value;
+  public get(key: string): V {
+    if (this.has(key)) {
+      const C = this.cache[key];
+      return C?.value as V;
+    }
+    return {} as V;
   }
 
   public set(key: string, value: V): void {
@@ -56,11 +58,9 @@ export class ClientCache<V> implements Cache<V> {
       value,
       timestamp: Date.now(),
     };
-    this.sweep();
   }
 
-  public has(key: string | number): key is keyof typeof this.cache {
-    this.sweep();
+  public has(key: string): boolean {
     if (typeof this.cache[key] === "undefined") return false;
     return true;
   }

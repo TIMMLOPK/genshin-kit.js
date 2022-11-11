@@ -1,11 +1,18 @@
 import { ClientCache } from "../client/clientCache";
+import type { Language } from "../constants/lang";
 
-interface Options {
+export interface Options {
   cache?: boolean;
   debug?: boolean;
   cacheOptions?: {
     maxAge?: number;
   };
+  defaultOptions?: fetchOptions;
+}
+
+export interface fetchOptions {
+  cookie: string;
+  language: Language;
 }
 
 export class BaseRoute {
@@ -13,10 +20,13 @@ export class BaseRoute {
 
   public debug: boolean;
 
+  public defaultOptions?: fetchOptions;
+
   constructor(options?: Options) {
     this.debug = options?.debug || false;
     this.cache = options?.cache
       ? new ClientCache({ maxAge: options.cacheOptions?.maxAge })
       : null;
+    this.defaultOptions = options?.defaultOptions;
   }
 }

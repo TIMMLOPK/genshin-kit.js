@@ -1,5 +1,12 @@
 import { CookieFormatter } from "../utils/cookieFormatter";
 
+interface getCookie {
+  ltuid: string;
+  ltoken: string;
+  key: number;
+  cookie: string;
+}
+
 export class ClientCookieManager {
   private cookie: {
     ltoken: string[];
@@ -33,9 +40,9 @@ export class ClientCookieManager {
 
   /**
    * @description Get the ltoken and ltuid for request.
-   * @returns {Object} - The ltoken and ltuid.
+   * @returns {getCookie} - The ltoken and ltuid.
    */
-  public get(): { ltoken: string; ltuid: string; key: number; cookie: string } {
+  public get(): getCookie {
     if (this.size === 0) {
       throw new Error("Please login first.");
     }
@@ -74,15 +81,21 @@ export class ClientCookieManager {
     this.cookie.ltuid = [];
   }
 
-  public getAll(): { [key: string]: { ltoken: string; ltuid: string } } {
-    const cookie: { [key: string]: { ltoken: string; ltuid: string } } = {};
-    for (const key in this.cookie) {
-      const K = parseInt(key);
-      cookie[key] = {
-        ltoken: this.cookie.ltoken[K] || "",
-        ltuid: this.cookie.ltuid[K] || "",
+  public getAll(): getCookie[] {
+    const cookie = [];
+
+    for (let i = 0; i < this.size; i++) {
+      cookie[i] = {
+        ltoken: this.cookie.ltoken[i] || "",
+        ltuid: this.cookie.ltuid[i] || "",
+        key: i,
+        cookie: CookieFormatter(
+          this.cookie.ltoken[i] || "",
+          this.cookie.ltuid[i] || ""
+        ),
       };
     }
+
     return cookie;
   }
 }

@@ -7,6 +7,7 @@ export * from "./routes/realtimeNotes";
 export * from "./routes/genshinCharacters";
 export * from "./routes/genshinActivity";
 export * from "./routes/travelerDiary";
+export * from "./routes/redeem";
 
 // export CLIENT
 export * from "./client/clientCookieManager";

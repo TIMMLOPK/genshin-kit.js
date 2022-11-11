@@ -1,10 +1,4 @@
-import {
-  Genshin_Battle_API_URL,
-  Genshin_Hoyolab_API_URL,
-  Genshin_Hoyolab_DIARY_URL,
-  Genshin_Hoyolab_REWARD_URL,
-  UA,
-} from "../constants/constants";
+import { Genshin_Battle_API_URL, UA } from "../constants/constants";
 import { request } from "undici";
 import generate_dynamic_secret from "./generate_ds";
 import { APIERROR } from "./error";
@@ -12,11 +6,7 @@ import getErrorByRetcode from "../constants/error";
 import { Language } from "../constants/lang";
 
 type option = {
-  route?:
-    | typeof Genshin_Hoyolab_API_URL
-    | typeof Genshin_Hoyolab_DIARY_URL
-    | typeof Genshin_Hoyolab_REWARD_URL
-    | typeof Genshin_Battle_API_URL;
+  route?: string;
   withUA?: boolean;
   withDS?: boolean;
   debug?: boolean;
@@ -136,7 +126,7 @@ class HTTPRequest {
     this._debug(`Message: ${resData.message}`);
     this._debug(`Data: ${JSON.stringify(resData.data)}`);
 
-    if (resData.retcode !== 0) {
+    if (resData.retcode !== 0 && resData.retcode !== -5003) {
       const description = getErrorByRetcode(resData.retcode);
       this._debug(`Error: ${description}`);
       throw new APIERROR(`${resData.message}`, resData.retcode, description);

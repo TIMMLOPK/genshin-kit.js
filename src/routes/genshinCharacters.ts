@@ -1,8 +1,7 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { CharacterData, CharacterInfoData } from "../interface";
-import type { Language } from "../constants/lang";
-import { BaseRoute } from "./base";
+import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
 
 export class Charcters extends BaseRoute {
@@ -10,21 +9,26 @@ export class Charcters extends BaseRoute {
 
   /**
    * @param {string} uid The uid to set
-   * @param {Language} language The language to set
-   * @param {string} cookie The cookie to set
    */
 
   public async fetch(
     uid: string,
-    language: Language,
-    cookie: string
+    options?: fetchOptions
   ): Promise<CharacterData[]> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as CharacterData[];
+
+    if (!options || !this.defaultOptions)
+      throw new Error("No options provided");
+
+    const { language, cookie } = options;
+
     const instance = new request({
       withDS: true,
       debug: this.debug,
     });
+
     instance.setLanguage(language);
+
     const res = await instance.post(
       "character",
       {
@@ -48,20 +52,23 @@ export class Charcters extends BaseRoute {
 
   /**
    * @param {number} characterId The avatar's id
-   * @param {Language} language The language to set
-   * @param {string} cookie The cookie to set
    */
-
   public async getAvatarInfo(
     characterId: number,
-    language: Language,
-    cookie: string
+    options?: fetchOptions
   ): Promise<CharacterInfoData> {
+    if (!options || !this.defaultOptions)
+      throw new Error("No options provided");
+
+    const { language, cookie } = options;
+
     const instance = new request({
       withDS: true,
       debug: this.debug,
     });
+
     instance.setLanguage(language);
+
     const res = await instance.post(
       "avatarBasicInfo",
       {

@@ -10,23 +10,23 @@ import type {
 import type { Language } from "../constants/lang";
 import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
 import { alias } from "../utils/alias";
+import type { fetchOptions } from "./base";
 
 export class DailyRewards {
   /**
    * @description Get the daily rewards details
-   * @param {string} cookie The cookie to set
-   * @param {Language} language The language to set
-   * @param {number} day get the day's rewards
+   * @param {number} day The day to set
    */
-
   public async getDayReward(
     day: number,
-    language: Language,
-    cookie: string
+    options: fetchOptions
   ): Promise<DayRewardData> {
+    if (!options) throw new Error("No options provided");
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
+
+    const { cookie, language } = options;
 
     instance.setLanguage(language);
     const res = await instance.get(
@@ -48,18 +48,16 @@ export class DailyRewards {
   /**
    *
    * @description Claim the daily rewards
-   * @param {Language} language The language to set
-   * @param {string} cookie The cookie to set
    */
-
-  public async claim(
-    language: Language,
-    cookie: string
-  ): Promise<DailyRewardsData> {
+  public async claim(options: fetchOptions): Promise<DailyRewardsData> {
+    if (!options) throw new Error("No options provided");
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
       withUA: true,
     });
+
+    const { cookie, language } = options;
+
     const res = await instance.post(
       "sign",
       {
@@ -85,11 +83,10 @@ export class DailyRewards {
     if (res.data.code === "ok" && res.retcode === 0) {
       const info = await this.fetchRewardInfo(language, cookie);
       const today = info.today.split("-")[2];
-      const reward = await this.getDayReward(
-        parseInt(today || "1"),
+      const reward = await this.getDayReward(parseInt(today || "1"), {
+        cookie,
         language,
-        cookie
-      );
+      });
       return {
         status: "success",
         code: 0,

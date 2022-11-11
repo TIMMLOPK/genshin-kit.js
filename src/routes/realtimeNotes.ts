@@ -1,8 +1,7 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { RealTimeNoteData } from "../interface";
-import type { Language } from "../constants/lang";
-import { BaseRoute } from "./base";
+import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
 
 export class RealTimeNotes extends BaseRoute {
@@ -15,15 +14,22 @@ export class RealTimeNotes extends BaseRoute {
 
   public async fetch(
     uid: string,
-    language: Language,
-    cookie: string
+    options: fetchOptions
   ): Promise<RealTimeNoteData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as RealTimeNoteData;
+
+    if (!options || !this.defaultOptions)
+      throw new Error("No options provided");
+
+    const { language, cookie } = options;
+
     const instance = new request({
       withDS: true,
       debug: this.debug,
     });
+
     instance.setLanguage(language);
+
     const res = await instance.get(
       "dailyNote",
       {

@@ -7,6 +7,7 @@ import {
   TravelerDiary,
   DailyRewards,
   Activities,
+  RedeemCode,
 } from "../index";
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
@@ -32,21 +33,23 @@ interface ClientOptions {
 export class Client {
   private cookieManager: ClientCookieManager;
 
-  public dailyReward: DailyRewards;
+  public dailyReward?: DailyRewards;
 
-  public gameRecordCard: GameRecordCard;
+  public gameRecordCard?: GameRecordCard;
 
-  public sprialAbyss: SpiralAbyss;
+  public sprialAbyss?: SpiralAbyss;
 
-  public genshinActivity: Activities;
+  public genshinActivity?: Activities;
 
-  public characters: Charcters;
+  public characters?: Charcters;
 
-  public genshinUser: GenshinUser;
+  public genshinUser?: GenshinUser;
 
-  public realTimeNotes: RealTimeNotes;
+  public realTimeNotes?: RealTimeNotes;
 
-  public travelDiary: TravelerDiary;
+  public travelDiary?: TravelerDiary;
+
+  public redeemCode?: RedeemCode;
 
   private options: {
     language: Language | Language.EnglishUS;
@@ -59,7 +62,7 @@ export class Client {
   };
 
   /**
-   * @param {Object} options - The options to use.
+   * @param {ClientOptions} options - The options to use.
    */
   constructor(options?: ClientOptions) {
     this.options = {
@@ -72,12 +75,21 @@ export class Client {
       },
     };
 
-    this.cookieManager = this.options.cookieManager as ClientCookieManager;
+    this.cookieManager = this.options.cookieManager;
+  }
+
+  public login(ltuid: string, ltoken: string) {
+    this.cookieManager.setltuid(ltuid);
+    this.cookieManager.setltoken(ltoken);
 
     const option = {
       cache: this.options.cache,
-      cacheOptions: options?.cacheOptions,
+      cacheOptions: this.options.cacheOptions,
       debug: this.options.debug,
+      defaultOptions: {
+        language: this.options.language,
+        cookie: this.cookieManager.get().cookie,
+      },
     };
 
     this.dailyReward = new DailyRewards();
@@ -88,12 +100,19 @@ export class Client {
     this.realTimeNotes = new RealTimeNotes(option);
     this.characters = new Charcters(option);
     this.travelDiary = new TravelerDiary(option);
+    this.redeemCode = new RedeemCode();
   }
 
+  /**
+   * @deprecated Use `login` instead.
+   */
   public setltoken(ltoken: string) {
     this.cookieManager.setltoken(ltoken);
   }
 
+  /**
+   * @deprecated Use `login` instead.
+   */
   public setltuid(ltuid: string) {
     this.cookieManager.setltuid(ltuid);
   }
@@ -105,11 +124,10 @@ export class Client {
     uid: string,
     previous?: boolean
   ): Promise<AbyssBattleData> {
-    if (!this.cookieManager.get().ltoken)
-      throw new Error("You need to login first.");
+    if (!this.sprialAbyss) throw new Error("Login to init sprialAbyss");
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
-    const res = this.sprialAbyss.fetch(uid, language, cookie, previous);
+    const res = this.sprialAbyss.fetch(uid, { language, cookie, previous });
     return res;
   }
 
@@ -117,9 +135,10 @@ export class Client {
    * @param {string} uid - HoYolab uid.
    */
   public async getGameRecordCard(uid: string): Promise<RecordCardData> {
+    if (!this.gameRecordCard) throw new Error("Login to init gameRecordCard");
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
-    const res = this.gameRecordCard.fetch(uid, language, cookie);
+    const res = this.gameRecordCard.fetch(uid, { language, cookie });
     return res;
   }
 
@@ -127,9 +146,10 @@ export class Client {
    * @param {string} uid - Genshin Impact game uid.
    */
   public async getGenshinUser(uid: string): Promise<GenshinUserData> {
+    if (!this.genshinUser) throw new Error("Login to init genshinUser");
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
-    const res = this.genshinUser.fetch(uid, language, cookie);
+    const res = this.genshinUser.fetch(uid, { language, cookie });
     return res;
   }
 
@@ -137,9 +157,10 @@ export class Client {
    * @param {string} uid - Genshin Impact game uid.
    */
   public async getRealTimeNotes(uid: string): Promise<RealTimeNoteData> {
+    if (!this.realTimeNotes) throw new Error("Login to init realTimeNotes");
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
-    const res = this.realTimeNotes.fetch(uid, language, cookie);
+    const res = this.realTimeNotes.fetch(uid, { language, cookie });
     return res;
   }
 
@@ -147,9 +168,10 @@ export class Client {
    * @param {string} uid - Genshin Impact game uid.
    */
   public async getCharacter(uid: string): Promise<CharacterData[]> {
+    if (!this.characters) throw new Error("Login to init characters");
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
-    const res = this.characters.fetch(uid, language, cookie);
+    const res = this.characters.fetch(uid, { language, cookie });
     return res;
   }
 
@@ -157,9 +179,10 @@ export class Client {
    *  @param {string} uid - Genshin Impact game uid.
    */
   public async getTravelDiary(uid: string): Promise<DiaryData> {
+    if (!this.travelDiary) throw new Error("Login to init travelDiary");
     const cookie = this.cookieManager.get().cookie;
     const { language } = this.options;
-    const res = this.travelDiary.fetch(uid, language, cookie);
+    const res = this.travelDiary.fetch(uid, { language, cookie });
     return res;
   }
 }

@@ -1,7 +1,6 @@
 import { request } from "../utils/request";
 import type { RecordCardData } from "../interface";
-import type { Language } from "../constants/lang";
-import { BaseRoute } from "./base";
+import { BaseRoute, fetchOptions } from "./base";
 import { Genshin_Hoyolab_API_URL } from "../constants/constants";
 import { removeFromArrayObject } from "../utils/alias";
 import type { ClientCache } from "../client/clientCache";
@@ -10,16 +9,19 @@ export class GameRecordCard extends BaseRoute {
   public declare cache: ClientCache<RecordCardData> | null;
 
   /**
-   * @param {string} uid Hoyolab uid
-   * @param {Language} language The language to set
-   * @param {string} cookie The cookie to set
+   * @param {string} uid Hoyolab UID
    */
   public async fetch(
     uid: string,
-    language: Language,
-    cookie: string
+    options?: fetchOptions
   ): Promise<RecordCardData> {
     if (this.cache?.has(uid)) return this.cache.get(uid) as RecordCardData;
+
+    if (!options || !this.defaultOptions)
+      throw new Error("No options provided");
+
+    const { language, cookie } = options;
+
     const instance = new request({
       route: Genshin_Hoyolab_API_URL,
       debug: this.debug,
