@@ -3,9 +3,9 @@ import { checkServerRegion } from "../utils/getServer";
 import type { AbyssBattleData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
-import { validate } from "../utils/validate";
+import { spiralAbyssValidator } from "../utils/validate";
 
-type SpiralAbyssFetchOptions = fetchOptions & {
+export type SpiralAbyssFetchOptions = fetchOptions & {
   previous?: boolean;
 };
 
@@ -21,14 +21,15 @@ export class SpiralAbyss extends BaseRoute {
     uid: string,
     options?: SpiralAbyssFetchOptions
   ): Promise<AbyssBattleData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid) as AbyssBattleData;
+    if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    validate<string, SpiralAbyssFetchOptions>(
-      uid,
-      options || this.defaultOptions
-    );
+    const optionsToUse = options || this.defaultOptions;
 
-    const { language, cookie, previous } = options || this.defaultOptions;
+    if (!spiralAbyssValidator(uid, optionsToUse)) {
+      throw new Error("No UID or Cookie provided");
+    }
+
+    const { language, cookie, previous } = optionsToUse;
 
     const instance = new request({
       withDS: true,

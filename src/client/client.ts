@@ -11,14 +11,6 @@ import {
 } from "../index";
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
-import type {
-  RecordCardData,
-  AbyssBattleData,
-  GenshinUserData,
-  RealTimeNoteData,
-  DiaryData,
-  CharacterData,
-} from "../interface";
 
 interface ClientOptions {
   language?: Language | Language.EnglishUS;
@@ -79,8 +71,7 @@ export class Client {
   }
 
   public login(ltuid: string, ltoken: string) {
-    this.cookieManager.setltuid(ltuid);
-    this.cookieManager.setltoken(ltoken);
+    this.cookieManager.setCookie(ltuid, ltoken);
 
     const option = {
       cache: this.options.cache,
@@ -90,6 +81,7 @@ export class Client {
         language: this.options.language,
         cookie: this.cookieManager.get().cookie,
       },
+      cookieManager: this.cookieManager,
     };
 
     this.dailyReward = new DailyRewards();
@@ -101,88 +93,5 @@ export class Client {
     this.characters = new Charcters(option);
     this.travelDiary = new TravelerDiary(option);
     this.redeemCode = new RedeemCode();
-  }
-
-  /**
-   * @deprecated Use `login` instead.
-   */
-  public setltoken(ltoken: string) {
-    this.cookieManager.setltoken(ltoken);
-  }
-
-  /**
-   * @deprecated Use `login` instead.
-   */
-  public setltuid(ltuid: string) {
-    this.cookieManager.setltuid(ltuid);
-  }
-
-  /**
-   * @param {string} uid - Genshin Impact game uid.
-   */
-  public async getAbyssBattle(
-    uid: string,
-    previous?: boolean
-  ): Promise<AbyssBattleData> {
-    if (!this.sprialAbyss) throw new Error("Login to init sprialAbyss");
-    const cookie = this.cookieManager.get().cookie;
-    const { language } = this.options;
-    const res = this.sprialAbyss.fetch(uid, { language, cookie, previous });
-    return res;
-  }
-
-  /**
-   * @param {string} uid - HoYolab uid.
-   */
-  public async getGameRecordCard(uid: string): Promise<RecordCardData> {
-    if (!this.gameRecordCard) throw new Error("Login to init gameRecordCard");
-    const cookie = this.cookieManager.get().cookie;
-    const { language } = this.options;
-    const res = this.gameRecordCard.fetch(uid, { language, cookie });
-    return res;
-  }
-
-  /**
-   * @param {string} uid - Genshin Impact game uid.
-   */
-  public async getGenshinUser(uid: string): Promise<GenshinUserData> {
-    if (!this.genshinUser) throw new Error("Login to init genshinUser");
-    const cookie = this.cookieManager.get().cookie;
-    const { language } = this.options;
-    const res = this.genshinUser.fetch(uid, { language, cookie });
-    return res;
-  }
-
-  /**
-   * @param {string} uid - Genshin Impact game uid.
-   */
-  public async getRealTimeNotes(uid: string): Promise<RealTimeNoteData> {
-    if (!this.realTimeNotes) throw new Error("Login to init realTimeNotes");
-    const cookie = this.cookieManager.get().cookie;
-    const { language } = this.options;
-    const res = this.realTimeNotes.fetch(uid, { language, cookie });
-    return res;
-  }
-
-  /**
-   * @param {string} uid - Genshin Impact game uid.
-   */
-  public async getCharacter(uid: string): Promise<CharacterData[]> {
-    if (!this.characters) throw new Error("Login to init characters");
-    const cookie = this.cookieManager.get().cookie;
-    const { language } = this.options;
-    const res = this.characters.fetch(uid, { language, cookie });
-    return res;
-  }
-
-  /**
-   *  @param {string} uid - Genshin Impact game uid.
-   */
-  public async getTravelDiary(uid: string): Promise<DiaryData> {
-    if (!this.travelDiary) throw new Error("Login to init travelDiary");
-    const cookie = this.cookieManager.get().cookie;
-    const { language } = this.options;
-    const res = this.travelDiary.fetch(uid, { language, cookie });
-    return res;
   }
 }

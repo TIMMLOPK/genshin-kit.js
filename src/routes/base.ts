@@ -1,5 +1,6 @@
 import { ClientCache } from "../client/clientCache";
-import { Language } from "../constants/lang";
+import type { ClientCookieManager } from "../client/clientCookieManager";
+import type { Language } from "../constants/lang";
 
 export interface Options {
   cache?: boolean;
@@ -8,6 +9,7 @@ export interface Options {
     maxAge?: number;
   };
   defaultOptions?: fetchOptions;
+  cookieManager?: ClientCookieManager;
 }
 
 export interface fetchOptions {
@@ -20,16 +22,27 @@ export class BaseRoute {
 
   public debug: boolean;
 
-  public defaultOptions: fetchOptions;
+  public defaultOptions?: fetchOptions;
+
+  public cookieManager?: ClientCookieManager;
 
   constructor(options?: Options) {
     this.debug = options?.debug || false;
     this.cache = options?.cache
       ? new ClientCache({ maxAge: options.cacheOptions?.maxAge })
       : null;
-    this.defaultOptions = options?.defaultOptions || {
-      cookie: "",
-      language: Language.EnglishUS,
-    };
+    this.defaultOptions = options?.defaultOptions;
+  }
+
+  public getCookie(): string | undefined {
+    if (!this.defaultOptions?.cookie && !this.cookieManager) {
+      throw new Error("Please login first.");
+    }
+
+    if (this.cookieManager) {
+      return this.cookieManager.get().cookie;
+    }
+
+    return this.defaultOptions?.cookie;
   }
 }

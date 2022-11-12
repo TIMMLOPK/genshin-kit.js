@@ -3,23 +3,27 @@ import { checkServerRegion } from "../utils/getServer";
 import type { CharacterData, CharacterInfoData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
-import { validate } from "../utils/validate";
+import { getAvatarValidator, validate } from "../utils/validate";
 
 export class Charcters extends BaseRoute {
   public declare cache: ClientCache<CharacterData[]> | null;
 
   /**
-   * @param {string} uid The uid to set
+   * @param {string} uid Genshin Impact game uid.
    */
   public async fetch(
     uid: string,
     options?: fetchOptions
   ): Promise<CharacterData[]> {
-    if (this.cache?.has(uid)) return this.cache.get(uid) as CharacterData[];
+    if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    validate<string, fetchOptions>(uid, options || this.defaultOptions);
+    const optionsToUse = options || this.defaultOptions;
 
-    const { language, cookie } = options || this.defaultOptions;
+    if (!validate(uid, optionsToUse)) {
+      throw new Error("No UID or Cookie provided");
+    }
+
+    const { language, cookie } = optionsToUse;
 
     const instance = new request({
       withDS: true,
@@ -56,12 +60,13 @@ export class Charcters extends BaseRoute {
     characterId: number,
     options?: fetchOptions
   ): Promise<CharacterInfoData> {
-    if (!options && !this.defaultOptions)
-      throw new Error("No options provided");
+    const optionsToUse = options || this.defaultOptions;
 
-    validate<number, fetchOptions>(characterId, options || this.defaultOptions);
+    if (!getAvatarValidator<fetchOptions>(characterId, optionsToUse)) {
+      throw new Error("No UID or Cookie provided");
+    }
 
-    const { language, cookie } = options || this.defaultOptions;
+    const { language, cookie } = optionsToUse;
 
     const instance = new request({
       withDS: true,

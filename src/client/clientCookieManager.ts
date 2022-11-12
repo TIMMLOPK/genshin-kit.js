@@ -7,35 +7,28 @@ interface getCookie {
   cookie: string;
 }
 
+interface cookieStore {
+  ltuid: string;
+  ltoken: string;
+  cookie_token?: string;
+}
+
 export class ClientCookieManager {
-  private cookie: {
-    ltoken: string[];
-    ltuid: string[];
-  };
+  private cookie: cookieStore[];
 
   constructor() {
-    this.cookie = {
-      ltoken: [],
-      ltuid: [],
-    };
+    this.cookie = [];
   }
 
   /**
    * @returns {number} - The amount of cookies.
    */
   public get size(): number {
-    if (this.cookie.ltoken.length !== this.cookie.ltuid.length) {
-      throw new Error("Invalid cookie");
-    }
-    return this.cookie.ltoken.length;
+    return this.cookie.length;
   }
 
-  public setltoken(ltoken: string): void {
-    this.cookie.ltoken.push(ltoken);
-  }
-
-  public setltuid(ltuid: string): void {
-    this.cookie.ltuid.push(ltuid);
+  public setCookie(ltuid: string, ltoken: string): void {
+    this.cookie.push({ ltoken: ltoken, ltuid: ltuid });
   }
 
   /**
@@ -47,18 +40,15 @@ export class ClientCookieManager {
       throw new Error("Please login first.");
     }
 
-    const ltoken = this.cookie.ltoken[0];
-    const ltuid = this.cookie.ltuid[0];
+    const ltoken = this.cookie[0]?.ltoken
+    const ltuid = this.cookie[0]?.ltuid
 
     if (!ltoken || !ltuid) {
       throw new Error("Invalid cookie");
     }
 
-    this.cookie.ltoken.splice(0, 1);
-    this.cookie.ltuid.splice(0, 1);
-
-    this.cookie.ltoken.push(ltoken);
-    this.cookie.ltuid.push(ltuid);
+    this.cookie.splice(0, 1);
+    this.cookie.push({ ltoken: ltoken, ltuid: ltuid });
 
     return {
       ltoken: ltoken,
@@ -72,13 +62,11 @@ export class ClientCookieManager {
    * @param key - The key to remove.
    */
   public delete(key: number): void {
-    this.cookie.ltoken.splice(key, 1);
-    this.cookie.ltuid.splice(key, 1);
+    this.cookie.splice(key, 1);
   }
 
   public clear(): void {
-    this.cookie.ltoken = [];
-    this.cookie.ltuid = [];
+    this.cookie = [];
   }
 
   public getAll(): getCookie[] {
@@ -86,12 +74,12 @@ export class ClientCookieManager {
 
     for (let i = 0; i < this.size; i++) {
       cookie[i] = {
-        ltoken: this.cookie.ltoken[i] || "",
-        ltuid: this.cookie.ltuid[i] || "",
+        ltoken: this.cookie[i]?.ltoken || "",
+        ltuid: this.cookie[i]?.ltuid || "",
         key: i,
         cookie: CookieFormatter(
-          this.cookie.ltoken[i] || "",
-          this.cookie.ltuid[i] || ""
+          this.cookie[i]?.ltoken || "",
+          this.cookie[i]?.ltuid || ""
         ),
       };
     }

@@ -4,23 +4,27 @@ import type { DiaryData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import { Genshin_Hoyolab_DIARY_URL } from "../constants/constants";
 import type { ClientCache } from "../client/clientCache";
-import { validate } from "../utils/validate";
+import { getMonthValidator, validate } from "../utils/validate";
 
-type getMonthDiaryOptions = fetchOptions & {
+export type getMonthDiaryOptions = fetchOptions & {
   month: number;
 };
 export class TravelerDiary extends BaseRoute {
   public declare cache: ClientCache<DiaryData> | null;
 
   /**
-   * @param {string} uid The uid to set
+   * @param {string} uid Genshin Impact game uid.
    */
   public async fetch(uid: string, options: fetchOptions): Promise<DiaryData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid) as DiaryData;
+    if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    validate<string, fetchOptions>(uid, options || this.defaultOptions);
+    const optionsToUse = options || this.defaultOptions;
 
-    const { language, cookie } = options || this.defaultOptions;
+    if (!validate(uid, optionsToUse)) {
+      throw new Error("No UID or Cookie provided");
+    }
+
+    const { language, cookie } = optionsToUse;
 
     const instance = new request({
       route: Genshin_Hoyolab_DIARY_URL,
@@ -50,8 +54,9 @@ export class TravelerDiary extends BaseRoute {
     uid: string,
     options: getMonthDiaryOptions
   ): Promise<DiaryData> {
-    if (!options) throw new Error("No options provided");
-    validate<string, getMonthDiaryOptions>(uid, options);
+    if (!getMonthValidator(uid, options)) {
+      throw new Error("No UID or Cookie provided");
+    }
 
     const { language, cookie, month } = options;
 

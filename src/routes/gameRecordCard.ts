@@ -10,17 +10,21 @@ export class GameRecordCard extends BaseRoute {
   public declare cache: ClientCache<RecordCardData> | null;
 
   /**
-   * @param {string} uid Hoyolab UID
+   * @param {string} uid HoYoLab Account ID
    */
   public async fetch(
     uid: string,
     options?: fetchOptions
   ): Promise<RecordCardData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid) as RecordCardData;
+    if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    validate<string, fetchOptions>(uid, options || this.defaultOptions);
+    const optionsToUse = options || this.defaultOptions;
 
-    const { language, cookie } = options || this.defaultOptions;
+    if (!validate(uid, optionsToUse)) {
+      throw new Error("No UID or Cookie provided");
+    }
+
+    const { language, cookie } = optionsToUse;
 
     const instance = new request({
       route: Genshin_Hoyolab_API_URL,

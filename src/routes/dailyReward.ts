@@ -10,7 +10,13 @@ import type {
 import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
 import { alias } from "../utils/alias";
 import type { fetchOptions } from "./base";
-import { validate } from "../utils/validate";
+import {
+  claimHistoryValidator,
+  getDayRewardValidator,
+  validate,
+} from "../utils/validate";
+
+export type fetchClaimHistoryOption = fetchOptions & { page?: number };
 
 export class DailyRewards {
   /**
@@ -21,13 +27,14 @@ export class DailyRewards {
     day: number,
     options: fetchOptions
   ): Promise<DayRewardData> {
-    if (!options) throw new Error("No options provided");
+    if (!getDayRewardValidator<fetchOptions>(day, options)) {
+      throw new Error("No UID or Cookie provided");
+    }
 
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    validate<number, fetchOptions>(day, options);
     const { cookie, language } = options;
 
     instance.setLanguage(language);
@@ -51,14 +58,15 @@ export class DailyRewards {
    * @description Claim the daily rewards
    */
   public async claim(options: fetchOptions): Promise<DailyRewardsData> {
-    if (!options) throw new Error("No options provided");
+    if (!validate("", options)) {
+      throw new Error("No UID or Cookie provided");
+    }
 
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
       withUA: true,
     });
 
-    validate<string, fetchOptions>("", options);
     const { cookie, language } = options;
 
     const res = await instance.post(
@@ -108,13 +116,14 @@ export class DailyRewards {
    * @description Get the daily rewards info
    */
   async fetchRewardInfo(options: fetchOptions): Promise<RewardInfoData> {
-    if (!options) throw new Error("No options provided");
+    if (!validate("", options)) {
+      throw new Error("No UID or Cookie provided");
+    }
 
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    validate<string, fetchOptions>("", options);
     const { cookie, language } = options;
     instance.setLanguage(language);
     const res = await instance.get(
@@ -137,12 +146,13 @@ export class DailyRewards {
    * @description Get the extra rewards info
    */
   async fetchExtraRewardInfo(options: fetchOptions): Promise<ExtraRewardData> {
-    if (!options) throw new Error("No options provided");
+    if (!validate("", options)) {
+      throw new Error("No UID or Cookie provided");
+    }
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    validate<string, fetchOptions>("", options);
     const { cookie } = options;
     const res = await instance.get(
       "extra_award",
@@ -171,12 +181,13 @@ export class DailyRewards {
    * @description get resign info
    */
   async fetchResignInfo(options: fetchOptions): Promise<ResignData> {
-    if (!options) throw new Error("No options provided");
+    if (!validate("", options)) {
+      throw new Error("No UID or Cookie provided");
+    }
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    validate<string, fetchOptions>("", options);
     const { cookie, language } = options;
     instance.setLanguage(language);
     const res = await instance.get(
@@ -208,15 +219,16 @@ export class DailyRewards {
    * @description get claim history
    */
   async fetchClaimHistory(
-    options: fetchOptions & { page?: number }
+    options: fetchClaimHistoryOption
   ): Promise<ClaimHistoryData> {
-    if (!options) throw new Error("No options provided");
+    if (!claimHistoryValidator(options)) {
+      throw new Error("No UID or Cookie provided");
+    }
 
     const instance = new request({
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    validate<string, fetchOptions>("", options);
     const { cookie, language, page } = options;
     instance.setLanguage(language);
     const res = await instance.get(

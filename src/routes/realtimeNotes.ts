@@ -7,19 +7,23 @@ import { validate } from "../utils/validate";
 
 export class RealTimeNotes extends BaseRoute {
   public declare cache: ClientCache<RealTimeNoteData> | null;
-  /**
-   * @param {string} uid The uid to set
-   */
 
+  /**
+   * @param {string} uid Genshin Impact game uid.
+   */
   public async fetch(
     uid: string,
     options: fetchOptions
   ): Promise<RealTimeNoteData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid) as RealTimeNoteData;
+    if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    validate<string, fetchOptions>(uid, options || this.defaultOptions);
+    const optionsToUse = options || this.defaultOptions;
 
-    const { language, cookie } = options || this.defaultOptions;
+    if (!validate(uid, optionsToUse)) {
+      throw new Error("No UID or Cookie provided");
+    }
+
+    const { language, cookie } = optionsToUse;
 
     const instance = new request({
       withDS: true,
