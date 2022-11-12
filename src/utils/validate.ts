@@ -7,7 +7,7 @@ import type { getMonthDiaryOptions } from "../routes/travelerDiary";
 
 export const validate = (
   key: string,
-  options?: fetchOptions
+  options?: any
 ): options is fetchOptions => {
   const schema = z.object({
     key: z.string(),
@@ -22,10 +22,10 @@ export const validate = (
   return true;
 };
 
-export const getDayRewardValidator = <T>(
+export const getDayRewardValidator = (
   day: number,
-  options?: T
-): options is T => {
+  options?: any
+): options is fetchOptions => {
   const schema = z.object({
     day: z.number(),
     options: z.object({
@@ -48,7 +48,7 @@ export const spiralAbyssValidator = (
     options: z.object({
       language: z.string(),
       cookie: z.string().min(1),
-      pervious: z.boolean().optional(),
+      previous: z.boolean().optional(),
     }),
   });
 

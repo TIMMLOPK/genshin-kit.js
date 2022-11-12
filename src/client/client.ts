@@ -11,6 +11,7 @@ import {
 } from "../index";
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
+import { setDebug } from "../utils/debug";
 
 interface ClientOptions {
   language?: Language | Language.EnglishUS;
@@ -47,11 +48,12 @@ export class Client {
     language: Language | Language.EnglishUS;
     cookieManager: ClientCookieManager;
     cache: boolean;
-    debug: boolean;
     cacheOptions: {
       maxAge: number;
     };
   };
+
+  private logined: boolean;
 
   /**
    * @param {ClientOptions} options - The options to use.
@@ -61,22 +63,23 @@ export class Client {
       language: options?.language || Language.EnglishUS,
       cookieManager: options?.cookieManager || new ClientCookieManager(),
       cache: options?.cache || false,
-      debug: options?.debug || false,
       cacheOptions: {
         maxAge: options?.cacheOptions?.maxAge || 0,
       },
     };
 
     this.cookieManager = this.options.cookieManager;
+    this.logined = false;
+    setDebug(options?.debug || false);
   }
 
   public login(ltuid: string, ltoken: string) {
+    if (this.logined) return;
     this.cookieManager.setCookie(ltuid, ltoken);
 
     const option = {
       cache: this.options.cache,
       cacheOptions: this.options.cacheOptions,
-      debug: this.options.debug,
       defaultOptions: {
         language: this.options.language,
         cookie: this.cookieManager.get().cookie,
@@ -84,7 +87,9 @@ export class Client {
       cookieManager: this.cookieManager,
     };
 
-    this.dailyReward = new DailyRewards();
+    this.dailyReward = new DailyRewards({
+      defaultOptions: option.defaultOptions,
+    });
     this.genshinActivity = new Activities(option);
     this.gameRecordCard = new GameRecordCard(option);
     this.sprialAbyss = new SpiralAbyss(option);
@@ -93,5 +98,11 @@ export class Client {
     this.characters = new Charcters(option);
     this.travelDiary = new TravelerDiary(option);
     this.redeemCode = new RedeemCode();
+  }
+
+  public addCookies(cookies: { ltuid: string; ltoken: string }[]) {
+    cookies.forEach((cookie) => {
+      this.cookieManager.setCookie(cookie.ltuid, cookie.ltoken);
+    });
   }
 }

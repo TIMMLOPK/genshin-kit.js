@@ -40,8 +40,8 @@ export class ClientCookieManager {
       throw new Error("Please login first.");
     }
 
-    const ltoken = this.cookie[0]?.ltoken
-    const ltuid = this.cookie[0]?.ltuid
+    const ltoken = this.cookie[0]?.ltoken;
+    const ltuid = this.cookie[0]?.ltuid;
 
     if (!ltoken || !ltuid) {
       throw new Error("Invalid cookie");

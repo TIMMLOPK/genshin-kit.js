@@ -1,7 +1,7 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { AbyssBattleData } from "../interface";
-import { BaseRoute, fetchOptions } from "./base";
+import { BaseRoute, fetchOptions, Options } from "./base";
 import type { ClientCache } from "../client/clientCache";
 import { spiralAbyssValidator } from "../utils/validate";
 
@@ -14,6 +14,10 @@ export class SpiralAbyss extends BaseRoute {
 
   public declare defaultOptions: SpiralAbyssFetchOptions;
 
+  constructor(options: Options<SpiralAbyssFetchOptions>) {
+    super(options);
+  }
+
   /**
    * @param {string} uid Genshin Impact game uid
    */
@@ -23,7 +27,9 @@ export class SpiralAbyss extends BaseRoute {
   ): Promise<AbyssBattleData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = options || this.defaultOptions;
+    const optionsToUse = this.getFetchOptions(
+      options
+    ) as SpiralAbyssFetchOptions;
 
     if (!spiralAbyssValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -33,7 +39,6 @@ export class SpiralAbyss extends BaseRoute {
 
     const instance = new request({
       withDS: true,
-      debug: this.debug,
     });
 
     instance.setLanguage(language);

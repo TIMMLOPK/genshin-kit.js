@@ -1,14 +1,14 @@
 import { ClientCache } from "../client/clientCache";
 import type { ClientCookieManager } from "../client/clientCookieManager";
-import type { Language } from "../constants/lang";
+import { Language } from "../constants/lang";
+import type { SpiralAbyssFetchOptions } from "./genshinAbyss";
 
-export interface Options {
+export interface Options<T> {
   cache?: boolean;
-  debug?: boolean;
   cacheOptions?: {
     maxAge?: number;
   };
-  defaultOptions?: fetchOptions;
+  defaultOptions?: fetchOptions & T;
   cookieManager?: ClientCookieManager;
 }
 
@@ -20,29 +20,38 @@ export interface fetchOptions {
 export class BaseRoute {
   public readonly cache: ClientCache<unknown> | null;
 
-  public debug: boolean;
+  public readonly defaultOptions?: fetchOptions;
 
-  public defaultOptions?: fetchOptions;
+  private cookieManager?: ClientCookieManager;
 
-  public cookieManager?: ClientCookieManager;
-
-  constructor(options?: Options) {
-    this.debug = options?.debug || false;
+  constructor(options?: Options<fetchOptions>) {
     this.cache = options?.cache
       ? new ClientCache({ maxAge: options.cacheOptions?.maxAge })
       : null;
     this.defaultOptions = options?.defaultOptions;
+    this.cookieManager = options?.cookieManager;
   }
 
-  public getCookie(): string | undefined {
-    if (!this.defaultOptions?.cookie && !this.cookieManager) {
-      throw new Error("Please login first.");
+  public getFetchOptions(options?: fetchOptions | SpiralAbyssFetchOptions) {
+    const cookie =
+      options?.cookie ||
+      this.cookieManager?.get().cookie ||
+      this.defaultOptions?.cookie;
+
+    const language =
+      options?.language || this.defaultOptions?.language || Language.EnglishUS;
+
+    if (options && "previous" in options) {
+      return {
+        cookie,
+        language,
+        previous: options.previous,
+      };
     }
 
-    if (this.cookieManager) {
-      return this.cookieManager.get().cookie;
-    }
-
-    return this.defaultOptions?.cookie;
+    return {
+      cookie,
+      language,
+    };
   }
 }

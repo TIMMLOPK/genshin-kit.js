@@ -18,7 +18,7 @@ export class GameRecordCard extends BaseRoute {
   ): Promise<RecordCardData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = options || this.defaultOptions;
+    const optionsToUse = this.getFetchOptions(options);
 
     if (!validate(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -28,7 +28,6 @@ export class GameRecordCard extends BaseRoute {
 
     const instance = new request({
       route: Genshin_Hoyolab_API_URL,
-      debug: this.debug,
     });
 
     instance.setLanguage(language);

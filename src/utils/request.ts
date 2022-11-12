@@ -5,12 +5,12 @@ import { APIERROR } from "./error";
 import getErrorByRetcode from "../constants/error";
 import { Language } from "../constants/lang";
 import type { IncomingHttpHeaders } from "http2";
+import { isDebug } from "./debug";
 
 type option = {
   route?: string;
   withUA?: boolean;
   withDS?: boolean;
-  debug?: boolean;
 };
 
 interface Response {
@@ -27,7 +27,6 @@ class HTTPRequest {
   private withUA: boolean;
   private withDS: boolean;
   private language: Language;
-  private debug: boolean;
 
   constructor(option?: option) {
     this.baseURL = Genshin_Battle_API_URL;
@@ -37,11 +36,10 @@ class HTTPRequest {
     this.withUA = option?.withUA || false;
     this.withDS = option?.withDS || false;
     this.language = Language.EnglishUS;
-    this.debug = option?.debug || false;
   }
 
   public _debug(message: string): void {
-    if (this.debug) {
+    if (isDebug()) {
       console.log(message);
     }
   }

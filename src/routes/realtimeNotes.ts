@@ -17,7 +17,7 @@ export class RealTimeNotes extends BaseRoute {
   ): Promise<RealTimeNoteData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = options || this.defaultOptions;
+    const optionsToUse = this.getFetchOptions(options);
 
     if (!validate(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -27,7 +27,6 @@ export class RealTimeNotes extends BaseRoute {
 
     const instance = new request({
       withDS: true,
-      debug: this.debug,
     });
 
     instance.setLanguage(language);
