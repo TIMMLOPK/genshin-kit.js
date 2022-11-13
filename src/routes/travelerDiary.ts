@@ -49,7 +49,7 @@ export class TravelerDiary extends BaseRoute {
     return data;
   }
 
-  public async getMonth(
+  public async fetchMonth(
     uid: string,
     options: getMonthDiaryOptions
   ): Promise<DiaryData> {

@@ -16,6 +16,7 @@
   "author": "TIMMLOPK",
   "license": "MIT",
   "dependencies": {
+    "chrome-cookies-secure": "^2.0.0",
     "md5": "^2.3.0",
     "tslib": "^2.4.1",
     "undici": "^5.12.0",

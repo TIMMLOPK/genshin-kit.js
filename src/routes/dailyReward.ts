@@ -48,9 +48,9 @@ export class DailyRewards {
 
   /**
    * @description Get the daily rewards details
-   * @param {number} day The day to set
+   * @param {number} day The day to get
    */
-  public async getDayReward(
+  public async fetchDayReward(
     day: number,
     options?: fetchOptions
   ): Promise<DayRewardData> {
@@ -83,9 +83,9 @@ export class DailyRewards {
   }
 
   /**
-   * @description Claim the daily rewards
+   * @description CheckIn to claim Daily Rewards
    */
-  public async claim(options?: fetchOptions): Promise<DailyRewardsData> {
+  public async checkIn(options?: fetchOptions): Promise<DailyRewardsData> {
     const optionTouse = this.getFetchOptions(options);
 
     if (!validate("", optionTouse)) {
@@ -124,7 +124,7 @@ export class DailyRewards {
     if (res.data.code === "ok" && res.retcode === 0) {
       const info = await this.fetchRewardInfo(options);
       const today = info.today.split("-")[2];
-      const reward = await this.getDayReward(parseInt(today || "1"), {
+      const reward = await this.fetchDayReward(parseInt(today || "1"), {
         cookie,
         language,
       });

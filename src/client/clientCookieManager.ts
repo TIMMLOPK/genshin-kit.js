@@ -1,4 +1,5 @@
 import { CookieFormatter } from "../utils/cookieFormatter";
+import { importModule } from "../utils/import";
 
 interface getCookie {
   ltuid: string;
@@ -85,5 +86,44 @@ export class ClientCookieManager {
     }
 
     return cookie;
+  }
+
+  public async get_Cookie_from_browser(customProfile: string): Promise<any> {
+    try {
+      await importModule("chrome-cookies-secure");
+    } catch (e) {
+      throw new Error("Please install chrome-cookies-secure");
+    }
+    const chrome = await importModule("chrome-cookies-secure");
+    const cookie = await chrome.getCookiesPromised(
+      "https://www.hoyolab.com/",
+      "chrome",
+      `${customProfile}`
+    );
+
+    let ltoken, ltuid, cookie_token;
+    for (const key in cookie) {
+      if (key === "ltoken") {
+        ltoken = cookie[key];
+      }
+      if (key === "ltuid") {
+        ltuid = cookie[key];
+      }
+      if (key === "cookie_token") {
+        cookie_token = cookie[key];
+      }
+    }
+
+    if (!ltoken || !ltuid || !cookie_token) {
+      throw new Error("Invalid cookie");
+    }
+
+    this.setCookie(ltuid, ltoken);
+
+    return {
+      ltoken,
+      ltuid,
+      cookie_token,
+    };
   }
 }

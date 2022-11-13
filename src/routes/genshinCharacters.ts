@@ -55,7 +55,7 @@ export class Charcters extends BaseRoute {
   /**
    * @param {number} characterId The avatar's id
    */
-  public async getAvatarInfo(
+  public async fetchAvatarInfo(
     characterId: number,
     options?: fetchOptions
   ): Promise<CharacterInfoData> {
