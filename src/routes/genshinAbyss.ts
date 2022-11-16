@@ -3,7 +3,7 @@ import { checkServerRegion } from "../utils/getServer";
 import type { AbyssBattleData } from "../interface";
 import { BaseRoute, fetchOptions, Options } from "./base";
 import type { ClientCache } from "../client/clientCache";
-import { spiralAbyssValidator } from "../utils/validate";
+import { spiralAbyssValidator } from "../utils/validator";
 
 export type SpiralAbyssFetchOptions = fetchOptions & {
   previous?: boolean;
@@ -19,7 +19,7 @@ export class SpiralAbyss extends BaseRoute {
   }
 
   /**
-   * @param {string} uid Genshin Impact game uid
+   * @param {string} uid Genshin Impact UID
    */
   public async fetch(
     uid: string,
@@ -39,6 +39,7 @@ export class SpiralAbyss extends BaseRoute {
 
     const instance = new request({
       withDS: true,
+      withExtraHeaders: true,
     });
 
     instance.setLanguage(language);
@@ -46,8 +47,6 @@ export class SpiralAbyss extends BaseRoute {
     const res = await instance.get(
       "spiralAbyss",
       {
-        "x-rpc-client_type": "4",
-        "x-rpc-app_version": "1.5.0",
         Cookie: cookie,
       },
       {

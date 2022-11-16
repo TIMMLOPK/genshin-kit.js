@@ -1,5 +1,5 @@
 import { CookieFormatter } from "../utils/cookieFormatter";
-import { importModule } from "../utils/import";
+import { dynamic } from "../utils/import";
 
 interface getCookie {
   ltuid: string;
@@ -88,13 +88,13 @@ export class ClientCookieManager {
     return cookie;
   }
 
-  public async get_Cookie_from_browser(customProfile: string): Promise<any> {
+  public async getBrowserCookie(customProfile: string): Promise<any> {
     try {
-      await importModule("chrome-cookies-secure");
+      await dynamic("chrome-cookies-secure");
     } catch (e) {
       throw new Error("Please install chrome-cookies-secure");
     }
-    const chrome = await importModule("chrome-cookies-secure");
+    const chrome = await dynamic("chrome-cookies-secure");
     const cookie = await chrome.getCookiesPromised(
       "https://www.hoyolab.com/",
       "chrome",

@@ -5,7 +5,7 @@ import type { SpiralAbyssFetchOptions } from "../routes/genshinAbyss";
 import type { RedeemOptions } from "../routes/redeem";
 import type { getMonthDiaryOptions } from "../routes/travelerDiary";
 
-export const validate = (
+export const basicValidator = (
   key: string,
   options?: any
 ): options is fetchOptions => {

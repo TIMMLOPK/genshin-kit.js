@@ -1,4 +1,5 @@
-export async function importModule(path: string) {
+
+export async function dynamic(path: string) {
   const module = await import(path);
   return module;
 }

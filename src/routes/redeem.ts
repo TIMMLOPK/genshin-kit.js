@@ -3,7 +3,7 @@ import type { RedeemData } from "../interface/RedeemCode";
 import { Genshin_Redeem_Code_URL } from "../constants/constants";
 import type { Language } from "../constants/lang";
 import { checkServerRegion } from "../utils/getServer";
-import { redeemValidator } from "../utils/validate";
+import { redeemValidator } from "../utils/validator";
 
 export type RedeemOptions = {
   language: Language;

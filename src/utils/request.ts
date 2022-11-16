@@ -11,6 +11,7 @@ type option = {
   route?: string;
   withUA?: boolean;
   withDS?: boolean;
+  withExtraHeaders?: boolean;
 };
 
 interface Response {
@@ -25,6 +26,7 @@ interface Response {
 class HTTPRequest {
   private baseURL: string;
   private withUA: boolean;
+  private withExtraHeaders: boolean;
   private withDS: boolean;
   private language: Language;
 
@@ -35,6 +37,7 @@ class HTTPRequest {
     }
     this.withUA = option?.withUA || false;
     this.withDS = option?.withDS || false;
+    this.withExtraHeaders = option?.withExtraHeaders || false;
     this.language = Language.EnglishUS;
   }
 
@@ -53,6 +56,8 @@ class HTTPRequest {
     const requestHeaders = {
       "User-Agent": this.withUA ? UA : undefined,
       "x-rpc-language": this.language,
+      "x-rpc-app_version": this.withExtraHeaders ? "1.5.0" : undefined,
+      "x-rpc-client_type": this.withExtraHeaders ? "4" : undefined,
       DS: this.withDS ? generate_dynamic_secret() : undefined,
       ...headers,
     };

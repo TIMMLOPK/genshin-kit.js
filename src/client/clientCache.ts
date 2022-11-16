@@ -15,7 +15,7 @@ interface CacheOptions {
 export class ClientCache<V> implements Cache<V> {
   private cache: { [key: string]: { value: V; timestamp: number } } = {};
 
-  private sweepInterval: NodeJS.Timeout | null = null;
+  private sweepInterval?: NodeJS.Timeout;
 
   private maxAge: number;
 
@@ -34,7 +34,7 @@ export class ClientCache<V> implements Cache<V> {
   private sweep() {
     if (this.size === 0 && this.sweepInterval) {
       clearInterval(this.sweepInterval);
-      this.sweepInterval = null;
+      this.sweepInterval = undefined;
     }
 
     for (const key in this.cache) {

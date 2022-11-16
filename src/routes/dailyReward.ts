@@ -13,8 +13,8 @@ import type { fetchOptions, Options } from "./base";
 import {
   claimHistoryValidator,
   getDayRewardValidator,
-  validate,
-} from "../utils/validate";
+  basicValidator,
+} from "../utils/validator";
 import { Language } from "../constants/lang";
 
 export type fetchClaimHistoryOption = fetchOptions & { page?: number };
@@ -88,7 +88,7 @@ export class DailyRewards {
   public async checkIn(options?: fetchOptions): Promise<DailyRewardsData> {
     const optionTouse = this.getFetchOptions(options);
 
-    if (!validate("", optionTouse)) {
+    if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
     }
 
@@ -147,7 +147,7 @@ export class DailyRewards {
    */
   async fetchRewardInfo(options?: fetchOptions): Promise<RewardInfoData> {
     const optionTouse = this.getFetchOptions(options);
-    if (!validate("", optionTouse)) {
+    if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
     }
 
@@ -157,7 +157,6 @@ export class DailyRewards {
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    instance.setLanguage(language);
     const res = await instance.get(
       "info",
       {
@@ -179,7 +178,7 @@ export class DailyRewards {
    */
   async fetchExtraRewardInfo(options?: fetchOptions): Promise<ExtraRewardData> {
     const optionTouse = this.getFetchOptions(options);
-    if (!validate("", optionTouse)) {
+    if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
     }
 
@@ -218,7 +217,7 @@ export class DailyRewards {
   async fetchResignInfo(options?: fetchOptions): Promise<ResignData> {
     const optionTouse = this.getFetchOptions(options);
 
-    if (!validate("", optionTouse)) {
+    if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
     }
 
@@ -227,7 +226,6 @@ export class DailyRewards {
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    instance.setLanguage(language);
     const res = await instance.get(
       "resign_info",
       {
@@ -254,9 +252,9 @@ export class DailyRewards {
   }
 
   /**
-   * @description get claim history
+   * @description get check in history
    */
-  async fetchClaimHistory(
+  async fetchCheckInHistory(
     options?: fetchClaimHistoryOption
   ): Promise<ClaimHistoryData> {
     const optionTouse = this.getFetchOptions(
@@ -273,7 +271,6 @@ export class DailyRewards {
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    instance.setLanguage(language);
     const res = await instance.get(
       "award",
       {

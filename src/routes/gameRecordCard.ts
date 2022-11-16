@@ -4,7 +4,7 @@ import { BaseRoute, fetchOptions } from "./base";
 import { Genshin_Hoyolab_API_URL } from "../constants/constants";
 import { removeFromArrayObject } from "../utils/alias";
 import type { ClientCache } from "../client/clientCache";
-import { validate } from "../utils/validate";
+import { basicValidator } from "../utils/validator";
 
 export class GameRecordCard extends BaseRoute {
   public declare cache: ClientCache<RecordCardData> | null;
@@ -20,7 +20,7 @@ export class GameRecordCard extends BaseRoute {
 
     const optionsToUse = this.getFetchOptions(options);
 
-    if (!validate(uid, optionsToUse)) {
+    if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 

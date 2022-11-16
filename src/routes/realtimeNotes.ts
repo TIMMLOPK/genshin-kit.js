@@ -3,13 +3,13 @@ import { checkServerRegion } from "../utils/getServer";
 import type { RealTimeNoteData } from "../interface";
 import { BaseRoute, fetchOptions } from "./base";
 import type { ClientCache } from "../client/clientCache";
-import { validate } from "../utils/validate";
+import { basicValidator } from "../utils/validator";
 
 export class RealTimeNotes extends BaseRoute {
   public declare cache: ClientCache<RealTimeNoteData> | null;
 
   /**
-   * @param {string} uid Genshin Impact game uid.
+   * @param {string} uid Genshin Impact UID
    */
   public async fetch(
     uid: string,
@@ -19,7 +19,7 @@ export class RealTimeNotes extends BaseRoute {
 
     const optionsToUse = this.getFetchOptions(options);
 
-    if (!validate(uid, optionsToUse)) {
+    if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
@@ -27,6 +27,7 @@ export class RealTimeNotes extends BaseRoute {
 
     const instance = new request({
       withDS: true,
+      withExtraHeaders: true,
     });
 
     instance.setLanguage(language);
@@ -34,8 +35,6 @@ export class RealTimeNotes extends BaseRoute {
     const res = await instance.get(
       "dailyNote",
       {
-        "x-rpc-client_type": "4",
-        "x-rpc-app_version": "1.5.0",
         Cookie: cookie,
       },
       {
