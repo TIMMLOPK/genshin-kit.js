@@ -1,6 +1,6 @@
 {
   "name": "genshin-kit.js",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0",
   "description": "Hoyolab API unofficial library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,6 +16,7 @@
   "author": "TIMMLOPK",
   "license": "MIT",
   "dependencies": {
+    "chrome-cookies-secure": "^2.0.0",
     "md5": "^2.3.0",
     "tslib": "^2.4.1",
     "undici": "^5.12.0",

@@ -2,9 +2,6 @@
 
 Genshin-kit.js is a Node.js module that allows you to easily interact with the Genshin Impact API.
 
-> **Warning**
-> The project is still under development and its API may change
-
 ---
 
 Documentation: Coming soon.
@@ -21,26 +18,22 @@ npm install genshin-kit.js
 Simple example:
 
 ```javascript
-const { Client, Language, SpiralAbyss } = require('genshin-kit.js');
+const { Client, Language, SpiralAbyss, CookieFormatter } = require('genshin-kit.js');
 
 (async () => {
     const client = new Client({
         language: Language.EnglishUS,
     });
 
-    client.setltoken('LTOKEN');
-    client.setltuid('LTUID');
+    client.login("LTUID", "LTOKEN")
 
     // request by client
-    const abyss = await client.getAbyssBattle("UID");
+    const abyss = await client.sprialAbyss.fetch("UID")
     console.log(abyss)
 
     // Or request by endpoint
     const abyssEndpoint = new SpiralAbyss();
-    const abyssEndpointResult = await abyssEndpoint.fetch("UID", Language.ChineseTW, `ltoken=YOUR_LTOKEN;ltuid=YOUR_LTUID`);
-    // and it is cached
-    const cache = abyssEndpoint.cache.get("UID");
-    console.log(cache)
+    const abyssEndpointResult = await abyssEndpoint.fetch("UID", { language: Language.EnglishUS, cookie: CookieFormatter("LTOKEN", "LTUID") })
     console.log(abyssEndpointResult)
 }
 )();
@@ -63,11 +56,7 @@ If you provide more than one cookie, it will use the first one first, then the s
 
 ```javascript
 const client = new Client()
-client.setltoken('token1');
-client.setltuid('ltuid1');
-
-client.setltoken("token2");
-client.setltuid("uid2");
+client.addCookies([{ ltoken: "LTOKEN", ltuid: "LTUID" }, {}, {}, {}])
 ```
 
 ## Help
