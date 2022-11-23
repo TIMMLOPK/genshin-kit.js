@@ -44,15 +44,17 @@ export class GameRecordCard extends BaseRoute {
 
     const { data } = res;
 
-    if (this.cache) {
-      this.cache.set(uid, data);
-    }
-
     removeFromArrayObject(data.list, ["h5_data_switches", "data_switches"]);
 
-    return {
+    const returnData = {
       list: data.list,
       currecnt: data.list[0],
     };
+
+    if (this.cache) {
+      this.cache.set(uid, returnData);
+    }
+
+    return returnData;
   }
 }
