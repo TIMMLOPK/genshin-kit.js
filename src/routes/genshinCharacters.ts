@@ -1,12 +1,20 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { CharacterData, CharacterInfoData } from "../interface";
-import { BaseRoute, fetchOptions } from "./base";
+import { BaseRoute, fetchOptions, Options } from "./base";
 import type { ClientCache } from "../client/clientCache";
 import { getAvatarValidator, basicValidator } from "../utils/validator";
+import mergeOptions from "../utils/mergeOptions";
 
 export class Charcters extends BaseRoute {
   public declare cache: ClientCache<CharacterData[]> | null;
+
+  private readonly defaultOptions?: fetchOptions;
+
+  constructor(options?: Options<fetchOptions>) {
+    super(options);
+    this.defaultOptions = options?.defaultOptions;
+  }
 
   /**
    * @param {string} uid Genshin Impact UID
@@ -17,7 +25,11 @@ export class Charcters extends BaseRoute {
   ): Promise<CharacterData[]> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = this.getFetchOptions(options);
+    const optionsToUse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
+    );
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -58,9 +70,13 @@ export class Charcters extends BaseRoute {
     characterId: number,
     options?: fetchOptions
   ): Promise<CharacterInfoData> {
-    const optionsToUse = options || this.defaultOptions;
+    const optionsToUse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
+    );
 
-    if (!getAvatarValidator<fetchOptions>(characterId, optionsToUse)) {
+    if (!getAvatarValidator(characterId, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 

@@ -9,41 +9,22 @@ import type {
 } from "../interface";
 import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
 import { alias } from "../utils/alias";
-import type { fetchOptions, Options } from "./base";
+import { BaseRoute, fetchOptions, Options } from "./base";
 import {
   claimHistoryValidator,
   getDayRewardValidator,
   basicValidator,
 } from "../utils/validator";
-import { Language } from "../constants/lang";
+import mergeOptions from "../utils/mergeOptions";
 
 export type fetchClaimHistoryOption = fetchOptions & { page?: number };
-type DailyRewardsOptions = Pick<Options<fetchOptions>, "defaultOptions">;
 
-export class DailyRewards {
-  public readonly defaultOptions?: fetchOptions;
+export class DailyRewards extends BaseRoute {
+  private readonly defaultOptions?: fetchOptions;
 
-  constructor(options?: DailyRewardsOptions) {
+  constructor(options?: Options<fetchOptions>) {
+    super(options);
     this.defaultOptions = options?.defaultOptions;
-  }
-
-  private getFetchOptions(options?: fetchOptions | fetchClaimHistoryOption) {
-    const cookie = options?.cookie || this.defaultOptions?.cookie;
-    const language =
-      options?.language || this.defaultOptions?.language || Language.EnglishUS;
-
-    if (options && "page" in options) {
-      return {
-        cookie,
-        language,
-        page: options.page,
-      };
-    }
-
-    return {
-      cookie,
-      language,
-    };
   }
 
   /**
@@ -54,7 +35,12 @@ export class DailyRewards {
     day: number,
     options?: fetchOptions
   ): Promise<DayRewardData> {
-    const optionTouse = this.getFetchOptions(options);
+    const optionTouse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
+    );
+
     if (!getDayRewardValidator(day, optionTouse)) {
       throw new Error("No UID or Cookie provided");
     }
@@ -65,7 +51,6 @@ export class DailyRewards {
       route: Genshin_Hoyolab_REWARD_URL,
     });
 
-    instance.setLanguage(language);
     const res = await instance.get(
       "home",
       {
@@ -79,14 +64,20 @@ export class DailyRewards {
 
     const { data } = res;
 
-    return alias(data.awards[day - 1], { cnt: "count" });
+    const resData = alias(data.awards[day - 1], { cnt: "count" });
+
+    return resData;
   }
 
   /**
    * @description CheckIn to claim Daily Rewards
    */
   public async checkIn(options?: fetchOptions): Promise<DailyRewardsData> {
-    const optionTouse = this.getFetchOptions(options);
+    const optionTouse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
+    );
 
     if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
@@ -146,7 +137,12 @@ export class DailyRewards {
    * @description Get the daily rewards info
    */
   async fetchRewardInfo(options?: fetchOptions): Promise<RewardInfoData> {
-    const optionTouse = this.getFetchOptions(options);
+    const optionTouse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
+    );
+
     if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
     }
@@ -177,7 +173,12 @@ export class DailyRewards {
    * @description Get the extra rewards info
    */
   async fetchExtraRewardInfo(options?: fetchOptions): Promise<ExtraRewardData> {
-    const optionTouse = this.getFetchOptions(options);
+    const optionTouse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
+    );
+
     if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
     }
@@ -215,7 +216,11 @@ export class DailyRewards {
    * @description get resign info
    */
   async fetchResignInfo(options?: fetchOptions): Promise<ResignData> {
-    const optionTouse = this.getFetchOptions(options);
+    const optionTouse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
+    );
 
     if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
@@ -257,8 +262,10 @@ export class DailyRewards {
   async fetchCheckInHistory(
     options?: fetchClaimHistoryOption
   ): Promise<ClaimHistoryData> {
-    const optionTouse = this.getFetchOptions(
-      options
+    const optionTouse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
     ) as fetchClaimHistoryOption;
 
     if (!claimHistoryValidator(optionTouse)) {

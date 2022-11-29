@@ -4,6 +4,7 @@ import type { AbyssBattleData } from "../interface";
 import { BaseRoute, fetchOptions, Options } from "./base";
 import type { ClientCache } from "../client/clientCache";
 import { spiralAbyssValidator } from "../utils/validator";
+import mergeOptions from "../utils/mergeOptions";
 
 export type SpiralAbyssFetchOptions = fetchOptions & {
   previous?: boolean;
@@ -27,9 +28,7 @@ export class SpiralAbyss extends BaseRoute {
   ): Promise<AbyssBattleData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = this.getFetchOptions(
-      options
-    ) as SpiralAbyssFetchOptions;
+    const optionsToUse = mergeOptions(options) as SpiralAbyssFetchOptions;
 
     if (!spiralAbyssValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");

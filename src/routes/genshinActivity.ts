@@ -1,12 +1,20 @@
 import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { ActivitiesData } from "../interface";
-import { BaseRoute, fetchOptions } from "./base";
+import { BaseRoute, fetchOptions, Options } from "./base";
 import type { ClientCache } from "../client/clientCache";
 import { basicValidator } from "../utils/validator";
+import mergeOptions from "../utils/mergeOptions";
 
 export class Activities extends BaseRoute {
   public declare cache: ClientCache<ActivitiesData> | null;
+
+  private readonly defaultOptions?: fetchOptions;
+
+  constructor(options?: Options<fetchOptions>) {
+    super(options);
+    this.defaultOptions = options?.defaultOptions;
+  }
 
   /**
    * @param {string} uid Genshin Impact UID
@@ -17,7 +25,11 @@ export class Activities extends BaseRoute {
   ): Promise<ActivitiesData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = this.getFetchOptions(options);
+    const optionsToUse = mergeOptions(
+      options,
+      this.cookieManager,
+      this.defaultOptions
+    );
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
