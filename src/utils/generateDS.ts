@@ -11,11 +11,8 @@ const generate_dynamic_secret = (): string => {
   const date = new Date();
   const t = Math.floor(date.getTime() / 1000);
   let r = "";
-  const possible = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  for (let i = 0; i < 6; i++) {
-    r += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  const h = md5(`salt=${SALT}&t=${t}&r=${r}`, { encoding: "string" });
+  r = Math.random().toString(36).substring(2, 8);
+  const h = md5(`salt=${SALT}&t=${t}&r=${r}`);
   return `${t},${r},${h}`;
 };
 

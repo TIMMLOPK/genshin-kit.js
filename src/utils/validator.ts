@@ -7,7 +7,7 @@ import type { getMonthDiaryOptions } from "../routes/travelerDiary";
 
 export const basicValidator = (
   key: string,
-  options?: any
+  options?: Partial<fetchOptions>
 ): options is fetchOptions => {
   const schema = z.object({
     key: z.string(),
@@ -24,7 +24,7 @@ export const basicValidator = (
 
 export const getDayRewardValidator = (
   day: number,
-  options?: any
+  options?: Partial<fetchOptions>
 ): options is fetchOptions => {
   const schema = z.object({
     day: z.number(),
@@ -56,10 +56,10 @@ export const spiralAbyssValidator = (
   return true;
 };
 
-export const getAvatarValidator = <T>(
+export const getAvatarValidator = (
   characterId: number,
-  options?: T
-): options is T => {
+  options?: Partial<fetchOptions>
+): options is fetchOptions => {
   const schema = z.object({
     characterId: z.number(),
     options: z.object({
