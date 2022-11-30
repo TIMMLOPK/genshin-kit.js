@@ -79,7 +79,7 @@ test("Redeem Code", async () => {
     const client = new Client();
     client.login(ltuid, ltoken);
     if (client.isLogin()) {
-        const result = await client.redeemCode.redeem("GENSHINGIFT", { cookie: CookieFormatter(ltoken, ltuid), language: Language.EnglishUS, uid: GUID, cookie_token: "4E5drPTCo8PZT7cELksg4N5skgwC1VbcwtFK0rVH" });
+        const result = await client.redeemCode.redeem("GENSHINGIFT", { cookie: CookieFormatter(ltoken, ltuid), language: Language.EnglishUS, uid: GUID, cookie_token: "" });
         expect(result.msg).not.toBe(undefined);
     }
 });
