@@ -100,7 +100,7 @@ export class Client {
   }
 
   public addCookies(cookies: { ltuid: string; ltoken: string }[]) {
-    cookies.forEach((cookie) => {
+    cookies.forEach(cookie => {
       this.cookieManager.setCookie(cookie.ltuid, cookie.ltoken);
     });
   }

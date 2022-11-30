@@ -47,11 +47,7 @@ class HTTPRequest {
     }
   }
 
-  public async get(
-    url: string,
-    headers?: IncomingHttpHeaders,
-    params?: Record<string, string>
-  ): Promise<Response> {
+  public async get(url: string, headers?: IncomingHttpHeaders, params?: Record<string, string>): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {
       "User-Agent": this.withUA ? UA : undefined,
@@ -96,7 +92,7 @@ class HTTPRequest {
     url: string,
     headers?: IncomingHttpHeaders,
     data?: Record<string, string | number[]>,
-    params?: Record<string, string>
+    params?: Record<string, string>,
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {

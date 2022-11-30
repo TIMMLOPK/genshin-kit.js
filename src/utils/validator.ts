@@ -5,10 +5,7 @@ import type { SpiralAbyssFetchOptions } from "../routes/genshinAbyss";
 import type { RedeemOptions } from "../routes/redeem";
 import type { getMonthDiaryOptions } from "../routes/travelerDiary";
 
-export const basicValidator = (
-  key: string,
-  options?: Partial<fetchOptions>
-): options is fetchOptions => {
+export const basicValidator = (key: string, options?: Partial<fetchOptions>): options is fetchOptions => {
   const schema = z.object({
     key: z.string(),
     options: z.object({
@@ -22,10 +19,7 @@ export const basicValidator = (
   return true;
 };
 
-export const getDayRewardValidator = (
-  day: number,
-  options?: Partial<fetchOptions>
-): options is fetchOptions => {
+export const getDayRewardValidator = (day: number, options?: Partial<fetchOptions>): options is fetchOptions => {
   const schema = z.object({
     day: z.number(),
     options: z.object({
@@ -41,7 +35,7 @@ export const getDayRewardValidator = (
 
 export const spiralAbyssValidator = (
   uid: string,
-  options?: SpiralAbyssFetchOptions
+  options?: SpiralAbyssFetchOptions,
 ): options is SpiralAbyssFetchOptions => {
   const schema = z.object({
     uid: z.string(),
@@ -56,10 +50,7 @@ export const spiralAbyssValidator = (
   return true;
 };
 
-export const getAvatarValidator = (
-  characterId: number,
-  options?: Partial<fetchOptions>
-): options is fetchOptions => {
+export const getAvatarValidator = (characterId: number, options?: Partial<fetchOptions>): options is fetchOptions => {
   const schema = z.object({
     characterId: z.number(),
     options: z.object({
@@ -73,10 +64,7 @@ export const getAvatarValidator = (
   return true;
 };
 
-export const redeemValidator = (
-  code: string,
-  options?: RedeemOptions
-): options is RedeemOptions => {
+export const redeemValidator = (code: string, options?: RedeemOptions): options is RedeemOptions => {
   const schema = z.object({
     code: z.string(),
     options: z.object({
@@ -92,10 +80,7 @@ export const redeemValidator = (
   return true;
 };
 
-export const getMonthValidator = (
-  uid: string,
-  options?: getMonthDiaryOptions
-): options is getMonthDiaryOptions => {
+export const getMonthValidator = (uid: string, options?: getMonthDiaryOptions): options is getMonthDiaryOptions => {
   const schema = z.object({
     uid: z.string(),
     options: z.object({
@@ -110,9 +95,7 @@ export const getMonthValidator = (
   return true;
 };
 
-export const claimHistoryValidator = (
-  options?: fetchClaimHistoryOption
-): options is fetchClaimHistoryOption => {
+export const claimHistoryValidator = (options?: fetchClaimHistoryOption): options is fetchClaimHistoryOption => {
   const schema = z.object({
     options: z.object({
       language: z.string(),

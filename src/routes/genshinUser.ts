@@ -19,17 +19,10 @@ export class GenshinUser extends BaseRoute {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(
-    uid: string,
-    options?: fetchOptions
-  ): Promise<GenshinUserData> {
+  public async fetch(uid: string, options?: fetchOptions): Promise<GenshinUserData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -52,7 +45,7 @@ export class GenshinUser extends BaseRoute {
       {
         server: checkServerRegion(uid),
         role_id: uid,
-      }
+      },
     );
 
     const { data } = res;

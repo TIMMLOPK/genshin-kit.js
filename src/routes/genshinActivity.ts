@@ -19,17 +19,10 @@ export class Activities extends BaseRoute {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(
-    uid: string,
-    options?: fetchOptions
-  ): Promise<ActivitiesData> {
+  public async fetch(uid: string, options?: fetchOptions): Promise<ActivitiesData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -52,7 +45,7 @@ export class Activities extends BaseRoute {
       {
         server: checkServerRegion(uid),
         role_id: uid,
-      }
+      },
     );
 
     const { data } = res;

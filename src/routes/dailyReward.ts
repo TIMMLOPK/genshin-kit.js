@@ -10,11 +10,7 @@ import type {
 import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
 import { alias } from "../utils/alias";
 import { BaseRoute, fetchOptions, Options } from "./base";
-import {
-  claimHistoryValidator,
-  getDayRewardValidator,
-  basicValidator,
-} from "../utils/validator";
+import { claimHistoryValidator, getDayRewardValidator, basicValidator } from "../utils/validator";
 import mergeOptions from "../utils/mergeOptions";
 
 export type fetchClaimHistoryOption = fetchOptions & { page?: number };
@@ -31,15 +27,8 @@ export class DailyRewards extends BaseRoute {
    * @description Get the daily rewards details
    * @param {number} day The day to get
    */
-  public async fetchDayReward(
-    day: number,
-    options?: fetchOptions
-  ): Promise<DayRewardData> {
-    const optionTouse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+  public async fetchDayReward(day: number, options?: fetchOptions): Promise<DayRewardData> {
+    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!getDayRewardValidator(day, optionTouse)) {
       throw new Error("No UID or Cookie provided");
@@ -59,7 +48,7 @@ export class DailyRewards extends BaseRoute {
       {
         lang: language,
         act_id: "e202102251931481",
-      }
+      },
     );
 
     const { data } = res;
@@ -73,11 +62,7 @@ export class DailyRewards extends BaseRoute {
    * @description CheckIn to claim Daily Rewards
    */
   public async checkIn(options?: fetchOptions): Promise<DailyRewardsData> {
-    const optionTouse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
@@ -101,7 +86,7 @@ export class DailyRewards extends BaseRoute {
       },
       {
         lang: language,
-      }
+      },
     );
 
     if (res.retcode === -5003) {
@@ -137,11 +122,7 @@ export class DailyRewards extends BaseRoute {
    * @description Get the daily rewards info
    */
   async fetchRewardInfo(options?: fetchOptions): Promise<RewardInfoData> {
-    const optionTouse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
@@ -161,7 +142,7 @@ export class DailyRewards extends BaseRoute {
       {
         lang: language,
         act_id: "e202102251931481",
-      }
+      },
     );
 
     const { data } = res;
@@ -173,11 +154,7 @@ export class DailyRewards extends BaseRoute {
    * @description Get the extra rewards info
    */
   async fetchExtraRewardInfo(options?: fetchOptions): Promise<ExtraRewardData> {
-    const optionTouse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
@@ -198,7 +175,7 @@ export class DailyRewards extends BaseRoute {
         act_id: "e202102251931481",
         region: "",
         uid: "",
-      }
+      },
     );
 
     const { data } = res;
@@ -216,11 +193,7 @@ export class DailyRewards extends BaseRoute {
    * @description get resign info
    */
   async fetchResignInfo(options?: fetchOptions): Promise<ResignData> {
-    const optionTouse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
       throw new Error("No UID or Cookie provided");
@@ -239,7 +212,7 @@ export class DailyRewards extends BaseRoute {
       {
         lang: language,
         act_id: "e202102251931481",
-      }
+      },
     );
 
     const { data } = res;
@@ -259,14 +232,8 @@ export class DailyRewards extends BaseRoute {
   /**
    * @description get check in history
    */
-  async fetchCheckInHistory(
-    options?: fetchClaimHistoryOption
-  ): Promise<ClaimHistoryData> {
-    const optionTouse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    ) as fetchClaimHistoryOption;
+  async fetchCheckInHistory(options?: fetchClaimHistoryOption): Promise<ClaimHistoryData> {
+    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions) as fetchClaimHistoryOption;
 
     if (!claimHistoryValidator(optionTouse)) {
       throw new Error("No UID or Cookie provided");
@@ -286,9 +253,9 @@ export class DailyRewards extends BaseRoute {
       {
         lang: language,
         act_id: "e202102251931481",
-        current_page: page || 1,
-        page_size: 10,
-      }
+        current_page: page?.toString() || "1",
+        page_size: "10",
+      },
     );
 
     const { data } = res;

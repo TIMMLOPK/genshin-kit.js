@@ -20,17 +20,10 @@ export class GameRecordCard extends BaseRoute {
   /**
    * @param {string} uid HoYoLab Account ID
    */
-  public async fetch(
-    uid: string,
-    options?: fetchOptions
-  ): Promise<RecordCardData> {
+  public async fetch(uid: string, options?: fetchOptions): Promise<RecordCardData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -51,7 +44,7 @@ export class GameRecordCard extends BaseRoute {
       },
       {
         uid: uid,
-      }
+      },
     );
 
     const { data } = res;

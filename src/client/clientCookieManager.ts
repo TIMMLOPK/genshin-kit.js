@@ -78,10 +78,7 @@ export class ClientCookieManager {
         ltoken: this.cookie[i]?.ltoken || "",
         ltuid: this.cookie[i]?.ltuid || "",
         key: i,
-        cookie: CookieFormatter(
-          this.cookie[i]?.ltoken || "",
-          this.cookie[i]?.ltuid || ""
-        ),
+        cookie: CookieFormatter(this.cookie[i]?.ltoken || "", this.cookie[i]?.ltuid || ""),
       };
     }
 
@@ -95,11 +92,7 @@ export class ClientCookieManager {
       throw new Error("Please install chrome-cookies-secure");
     }
     const chrome = await dynamic("chrome-cookies-secure");
-    const cookie = await chrome.getCookiesPromised(
-      "https://www.hoyolab.com/",
-      "chrome",
-      `${customProfile}`
-    );
+    const cookie = await chrome.getCookiesPromised("https://www.hoyolab.com/", "chrome", `${customProfile}`);
 
     let ltoken, ltuid, cookie_token;
     for (const key in cookie) {

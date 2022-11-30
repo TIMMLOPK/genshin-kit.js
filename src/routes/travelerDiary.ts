@@ -26,11 +26,7 @@ export class TravelerDiary extends BaseRoute {
   public async fetch(uid: string, options: fetchOptions): Promise<DiaryData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -50,7 +46,7 @@ export class TravelerDiary extends BaseRoute {
         region: checkServerRegion(uid),
         uid: uid,
         lang: language,
-      }
+      },
     );
 
     const { data } = res;
@@ -61,10 +57,7 @@ export class TravelerDiary extends BaseRoute {
     return data;
   }
 
-  public async fetchMonth(
-    uid: string,
-    options: getMonthDiaryOptions
-  ): Promise<DiaryData> {
+  public async fetchMonth(uid: string, options: getMonthDiaryOptions): Promise<DiaryData> {
     if (!getMonthValidator(uid, options)) {
       throw new Error("No UID or Cookie provided");
     }
@@ -84,7 +77,7 @@ export class TravelerDiary extends BaseRoute {
         uid: uid,
         lang: language,
         month: `${month}`,
-      }
+      },
     );
 
     const { data } = res;

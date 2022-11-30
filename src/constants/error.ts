@@ -3,8 +3,7 @@ const ERROR = [
   { retcode: 10001, message: "The provided cookie is invalid or expired" },
   {
     retcode: 10101,
-    message:
-      "Cannot get data for more than 30 accounts per cookie per day. Please use a different cookie.",
+    message: "Cannot get data for more than 30 accounts per cookie per day. Please use a different cookie.",
   },
   {
     retcode: -1048,
@@ -17,7 +16,7 @@ const ERROR = [
 ];
 
 function getErrorByRetcode(retcode: number): string | undefined {
-  return ERROR.find((error) => error.retcode === retcode)?.message;
+  return ERROR.find(error => error.retcode === retcode)?.message;
 }
 
 export default getErrorByRetcode;

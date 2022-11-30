@@ -7,13 +7,11 @@ import type { SpiralAbyssFetchOptions } from "../routes/genshinAbyss";
 function getFetchOptions(
   options?: fetchOptions | SpiralAbyssFetchOptions | fetchClaimHistoryOption,
   cookieManager?: ClientCookieManager,
-  defaultOptions?: fetchOptions
+  defaultOptions?: fetchOptions,
 ) {
-  const cookie =
-    options?.cookie || cookieManager?.get().cookie || defaultOptions?.cookie;
+  const cookie = options?.cookie || cookieManager?.get().cookie || defaultOptions?.cookie;
 
-  const language =
-    options?.language || defaultOptions?.language || Language.EnglishUS;
+  const language = options?.language || defaultOptions?.language || Language.EnglishUS;
 
   if (options && "previous" in options) {
     return {

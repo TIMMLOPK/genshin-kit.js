@@ -87,8 +87,7 @@ interface Level {
   score: number;
 }
 
-interface CrystalRecords
-  extends Pick<Level, "difficulty" | "difficulty_id" | "factor"> {
+interface CrystalRecords extends Pick<Level, "difficulty" | "difficulty_id" | "factor"> {
   first_half: FirstHalf;
   second_half: FirstHalf;
   heraldray_icon: string;

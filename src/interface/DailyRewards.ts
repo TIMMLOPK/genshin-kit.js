@@ -20,8 +20,7 @@ export interface RewardInfoData {
 }
 
 export interface ExtraRewardData {
-  awards: DayRewardData &
-    { highlight: boolean; id: number; sign_day: number }[];
+  awards: DayRewardData & { highlight: boolean; id: number; sign_day: number }[];
   end_timestamp: string;
   has_short_act: boolean;
   login: boolean;

@@ -17,10 +17,7 @@ export class RedeemCode {
    * @description Redeem the code
    * @param {string} code The code to redeem
    */
-  public async redeem(
-    code: string,
-    options: RedeemOptions
-  ): Promise<RedeemData> {
+  public async redeem(code: string, options: RedeemOptions): Promise<RedeemData> {
     if (!redeemValidator(code, options)) {
       throw new Error("No code or Cookie provided");
     }
@@ -33,7 +30,7 @@ export class RedeemCode {
 
     const ac_id = cookie
       .split(";")
-      .find((item) => item.includes("ltuid"))
+      .find(item => item.includes("ltuid"))
       ?.split("=")[1];
 
     const res = await instance.get(
@@ -47,7 +44,7 @@ export class RedeemCode {
         lang: language,
         cdkey: code,
         game_biz: "hk4e_global",
-      }
+      },
     );
 
     const { data } = res;

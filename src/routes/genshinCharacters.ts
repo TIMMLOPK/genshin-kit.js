@@ -19,17 +19,10 @@ export class Charcters extends BaseRoute {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(
-    uid: string,
-    options?: fetchOptions
-  ): Promise<CharacterData[]> {
+  public async fetch(uid: string, options?: fetchOptions): Promise<CharacterData[]> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -52,7 +45,7 @@ export class Charcters extends BaseRoute {
       {
         role_id: uid,
         server: checkServerRegion(uid),
-      }
+      },
     );
 
     const { data } = res;
@@ -67,15 +60,8 @@ export class Charcters extends BaseRoute {
   /**
    * @param {number} characterId The avatar's id
    */
-  public async fetchAvatarInfo(
-    characterId: number,
-    options?: fetchOptions
-  ): Promise<CharacterInfoData> {
-    const optionsToUse = mergeOptions(
-      options,
-      this.cookieManager,
-      this.defaultOptions
-    );
+  public async fetchAvatarInfo(characterId: number, options?: fetchOptions): Promise<CharacterInfoData> {
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!getAvatarValidator(characterId, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -97,7 +83,7 @@ export class Charcters extends BaseRoute {
       },
       {
         character_ids: [characterId],
-      }
+      },
     );
 
     const { data } = res;
