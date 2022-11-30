@@ -2,10 +2,8 @@ import md5 from "md5";
 import { SALT } from "../constants/constants";
 
 /**
- *
  * @Description generate dynamic secret
  * @returns {string}
- *
  */
 const generate_dynamic_secret = (): string => {
   const date = new Date();

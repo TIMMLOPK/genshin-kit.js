@@ -31,7 +31,7 @@ const { Client, Language, SpiralAbyss, CookieFormatter } = require('genshin-kit.
     const abyss = await client.sprialAbyss.fetch("UID")
     console.log(abyss)
 
-    // Or request by endpoint
+    // Or request by new route
     const abyssEndpoint = new SpiralAbyss();
     const abyssEndpointResult = await abyssEndpoint.fetch("UID", { language: Language.EnglishUS, cookie: CookieFormatter("LTOKEN", "LTUID") })
     console.log(abyssEndpointResult)
@@ -41,10 +41,11 @@ const { Client, Language, SpiralAbyss, CookieFormatter } = require('genshin-kit.
 ---
 ## Advanced Usage
 
-#### Cache: genshin-kit.js has cached all endpoint except daily signIn.(The cache default is false)
+### Cache
+genshin-kit.js has cached response except daily reward.
 
 ```javascript
-// enable caching for endpoint
+// enable caching for endpoint (The cache default is false)
 const abyss = new SpiralAbyss({ cache: true }) 
 // enable caching for client
 const client = new Client({ cache: true })

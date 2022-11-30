@@ -13,7 +13,7 @@ const ERROR = [
   {
     retcode: 1009,
     message: "The account is not found",
-  }
+  },
 ];
 
 function getErrorByRetcode(retcode: number): string | undefined {
