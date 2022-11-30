@@ -83,7 +83,7 @@ export class TravelerDiary extends BaseRoute {
         region: checkServerRegion(uid),
         uid: uid,
         lang: language,
-        month: month,
+        month: `${month}`,
       }
     );
 
@@ -92,7 +92,7 @@ export class TravelerDiary extends BaseRoute {
     if (this.cache) {
       this.cache.set(`${uid}-${month}`, data);
     }
-    
+
     return data;
   }
 }

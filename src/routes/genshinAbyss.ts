@@ -15,7 +15,7 @@ export class SpiralAbyss extends BaseRoute {
 
   public declare defaultOptions: SpiralAbyssFetchOptions;
 
-  constructor(options: Options<SpiralAbyssFetchOptions>) {
+  constructor(options?: Options<SpiralAbyssFetchOptions>) {
     super(options);
   }
 

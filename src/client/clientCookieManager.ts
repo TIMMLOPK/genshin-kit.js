@@ -88,7 +88,7 @@ export class ClientCookieManager {
     return cookie;
   }
 
-  public async getBrowserCookie(customProfile: string): Promise<any> {
+  public async getBrowserCookie(customProfile: string): Promise<cookieStore> {
     try {
       await dynamic("chrome-cookies-secure");
     } catch (e) {

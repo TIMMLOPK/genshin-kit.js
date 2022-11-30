@@ -87,9 +87,7 @@ export class Client {
       cookieManager: this.cookieManager,
     };
 
-    this.dailyReward = new DailyRewards({
-      defaultOptions: option.defaultOptions,
-    });
+    this.dailyReward = new DailyRewards(option);
     this.genshinActivity = new Activities(option);
     this.gameRecordCard = new GameRecordCard(option);
     this.sprialAbyss = new SpiralAbyss(option);
@@ -98,11 +96,26 @@ export class Client {
     this.characters = new Charcters(option);
     this.travelDiary = new TravelerDiary(option);
     this.redeemCode = new RedeemCode();
+    this.logined = true;
   }
 
   public addCookies(cookies: { ltuid: string; ltoken: string }[]) {
     cookies.forEach((cookie) => {
       this.cookieManager.setCookie(cookie.ltuid, cookie.ltoken);
     });
+  }
+
+  public isLogin(): this is Client & {
+    dailyReward: DailyRewards;
+    genshinActivity: Activities;
+    gameRecordCard: GameRecordCard;
+    sprialAbyss: SpiralAbyss;
+    genshinUser: GenshinUser;
+    realTimeNotes: RealTimeNotes;
+    characters: Charcters;
+    travelDiary: TravelerDiary;
+    redeemCode: RedeemCode;
+  } {
+    return this.logined;
   }
 }

@@ -50,7 +50,7 @@ class HTTPRequest {
   public async get(
     url: string,
     headers?: IncomingHttpHeaders,
-    params?: any
+    params?: Record<string, string>
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {
@@ -95,13 +95,16 @@ class HTTPRequest {
   public async post(
     url: string,
     headers?: IncomingHttpHeaders,
-    data?: any,
-    params?: any
+    data?: Record<string, string | number[]>,
+    params?: Record<string, string>
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {
       "User-Agent": this.withUA ? UA : undefined,
       "x-rpc-language": this.language,
+      "x-rpc-app_version": this.withExtraHeaders ? "1.5.0" : undefined,
+      "x-rpc-client_type": this.withExtraHeaders ? "4" : undefined,
+      "content-type": "application/json",
       DS: this.withDS ? generate_dynamic_secret() : undefined,
       ...headers,
     };
