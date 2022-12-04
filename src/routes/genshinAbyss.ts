@@ -25,7 +25,7 @@ export class SpiralAbyss extends BaseRoute {
   public async fetch(uid: string, options?: SpiralAbyssFetchOptions): Promise<AbyssBattleData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(options) as SpiralAbyssFetchOptions;
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions) as SpiralAbyssFetchOptions;
 
     if (!spiralAbyssValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");

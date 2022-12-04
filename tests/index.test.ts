@@ -32,6 +32,15 @@ test("Client cache", async () => {
     }
 });
 
+test("Client Spiral Abyss", async () => {
+    const client = new Client();
+    client.login(ltuid, ltoken);
+    if (client.isLogin()) {
+        const abyss = await client.sprialAbyss.fetch(GUID);
+        expect(abyss.end_time).not.toBe(undefined);
+    }
+});
+
 test("Daily reward", async () => {
     const reward = new DailyRewards();
     const result = await reward.checkIn({ cookie: CookieFormatter(ltoken, ltuid), language: Language.EnglishUS });
