@@ -79,7 +79,6 @@ export class DailyRewards extends BaseRoute {
       "sign",
       {
         Cookie: cookie,
-        "Content-Type": "application/json",
       },
       {
         act_id: "e202102251931481",
@@ -253,8 +252,8 @@ export class DailyRewards extends BaseRoute {
       {
         lang: language,
         act_id: "e202102251931481",
-        current_page: page?.toString() || "1",
-        page_size: "10",
+        current_page: page || 1,
+        page_size: 10,
       },
     );
 

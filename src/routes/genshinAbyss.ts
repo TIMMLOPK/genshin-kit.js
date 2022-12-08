@@ -47,7 +47,7 @@ export class SpiralAbyss extends BaseRoute {
       {
         server: checkServerRegion(uid),
         role_id: uid,
-        schedule_type: `${previous ? "2" : "1"}`,
+        schedule_type: previous ? "2" : "1",
       },
     );
 

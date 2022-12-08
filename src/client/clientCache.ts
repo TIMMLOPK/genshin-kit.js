@@ -19,6 +19,8 @@ export class ClientCache<V> implements Cache<V> {
 
   private maxAge: number;
 
+  private Type?: string;
+
   constructor(options?: CacheOptions) {
     this.maxAge = options?.maxAge || 60;
 
@@ -29,6 +31,11 @@ export class ClientCache<V> implements Cache<V> {
 
   public get size(): number {
     return Object.keys(this.cache).length;
+  }
+
+  public setType(type: string): ClientCache<V> {
+    this.Type = type;
+    return this;
   }
 
   private sweep() {
@@ -47,25 +54,29 @@ export class ClientCache<V> implements Cache<V> {
 
   public get(key: string): V {
     if (this.has(key)) {
-      const C = this.cache[key];
+      const type = this.Type ? this.Type + "@" : "";
+      const C = this.cache[`${type}${key}`];
       return C?.value as V;
     }
     return {} as V;
   }
 
   public set(key: string, value: V): void {
-    this.cache[key] = {
+    const type = this.Type ? this.Type + "@" : "";
+    this.cache[`${type}${key}`] = {
       value,
       timestamp: Date.now(),
     };
   }
 
   public has(key: string): boolean {
-    if (typeof this.cache[key] === "undefined") return false;
-    return true;
+    const type = this.Type ? this.Type + "@" : "";
+    if (this.cache[`${type}${key}`]) return true;
+    return false;
   }
 
   public delete(key: string): void {
-    delete this.cache[key];
+    const type = this.Type ? this.Type + "@" : "";
+    delete this.cache[`${type}${key}`];
   }
 }

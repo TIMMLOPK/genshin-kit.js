@@ -8,3 +8,4 @@ export * from "./Teapot";
 export * from "./Activities";
 export * from "./Diary";
 export * from "./RedeemCode";
+export * from "./TCG";

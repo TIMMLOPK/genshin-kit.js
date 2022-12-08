@@ -51,7 +51,11 @@ class HTTPRequest {
     }
   }
 
-  public async get(url: string, headers?: IncomingHttpHeaders, params?: Record<string, string>): Promise<Response> {
+  public async get(
+    url: string,
+    headers?: IncomingHttpHeaders,
+    params?: Record<string, string | number | boolean>,
+  ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {
       ...this.headers,
@@ -91,7 +95,7 @@ class HTTPRequest {
   public async post(
     url: string,
     headers?: IncomingHttpHeaders,
-    data?: Record<string, string | number[]>,
+    data?: Record<string, string | number[] | number | boolean>,
     params?: Record<string, string>,
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;

@@ -77,7 +77,7 @@ export class TravelerDiary extends BaseRoute {
         region: checkServerRegion(uid),
         uid: uid,
         lang: language,
-        month: `${month}`,
+        month: month,
       },
     );
 

@@ -92,3 +92,12 @@ test("Redeem Code", async () => {
         expect(result.msg).not.toBe(undefined);
     }
 });
+
+test("TCG", async () => {
+    const client = new Client();
+    client.login(ltuid, ltoken);
+    if (client.isLogin()) {
+        const result = await client.tcg.fetchBasicInfo(GUID);
+        expect(result.avatar_card_num_total).toBeGreaterThan(0);
+    }
+});

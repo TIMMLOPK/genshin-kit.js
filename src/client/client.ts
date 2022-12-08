@@ -8,6 +8,7 @@ import {
   DailyRewards,
   Activities,
   RedeemCode,
+  TCG,
 } from "../index";
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
@@ -43,6 +44,8 @@ export class Client {
   public travelDiary?: TravelerDiary;
 
   public redeemCode?: RedeemCode;
+
+  public tcg?: TCG;
 
   private options: {
     language: Language | Language.EnglishUS;
@@ -95,6 +98,7 @@ export class Client {
     this.realTimeNotes = new RealTimeNotes(option);
     this.characters = new Charcters(option);
     this.travelDiary = new TravelerDiary(option);
+    this.tcg = new TCG(option);
     this.redeemCode = new RedeemCode();
     this.logined = true;
   }
@@ -114,6 +118,7 @@ export class Client {
     realTimeNotes: RealTimeNotes;
     characters: Charcters;
     travelDiary: TravelerDiary;
+    tcg: TCG;
     redeemCode: RedeemCode;
   } {
     return this.logined;
