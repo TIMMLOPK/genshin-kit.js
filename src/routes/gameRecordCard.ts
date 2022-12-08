@@ -33,9 +33,8 @@ export class GameRecordCard extends BaseRoute {
 
     const instance = new request({
       route: Genshin_Hoyolab_API_URL,
+      language,
     });
-
-    instance.setLanguage(language);
 
     const res = await instance.get(
       "getGameRecordCard",

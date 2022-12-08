@@ -7,12 +7,13 @@ import { Language } from "../constants/lang";
 import type { IncomingHttpHeaders } from "http2";
 import { isDebug } from "./debug";
 
-type option = {
+interface option {
   route?: string;
   withUA?: boolean;
   withDS?: boolean;
   withExtraHeaders?: boolean;
-};
+  language?: Language;
+}
 
 interface Response {
   retcode: number;
@@ -25,20 +26,23 @@ interface Response {
  */
 class HTTPRequest {
   private baseURL: string;
-  private withUA: boolean;
-  private withExtraHeaders: boolean;
-  private withDS: boolean;
   private language: Language;
+  private headers: IncomingHttpHeaders;
 
   constructor(option?: option) {
     this.baseURL = Genshin_Battle_API_URL;
     if (option?.route) {
       this.baseURL = option.route;
     }
-    this.withUA = option?.withUA || false;
-    this.withDS = option?.withDS || false;
-    this.withExtraHeaders = option?.withExtraHeaders || false;
-    this.language = Language.EnglishUS;
+    this.language = option?.language ? option.language : Language.EnglishUS;
+
+    this.headers = {
+      "User-Agent": option?.withUA ? UA : undefined,
+      "x-rpc-language": this.language,
+      "x-rpc-app_version": option?.withExtraHeaders ? "1.5.0" : undefined,
+      "x-rpc-client_type": option?.withExtraHeaders ? "5" : undefined,
+      DS: option?.withDS ? generate_dynamic_secret() : undefined,
+    };
   }
 
   public _debug(message: string): void {
@@ -50,11 +54,7 @@ class HTTPRequest {
   public async get(url: string, headers?: IncomingHttpHeaders, params?: Record<string, string>): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {
-      "User-Agent": this.withUA ? UA : undefined,
-      "x-rpc-language": this.language,
-      "x-rpc-app_version": this.withExtraHeaders ? "1.5.0" : undefined,
-      "x-rpc-client_type": this.withExtraHeaders ? "4" : undefined,
-      DS: this.withDS ? generate_dynamic_secret() : undefined,
+      ...this.headers,
       ...headers,
     };
 
@@ -96,12 +96,8 @@ class HTTPRequest {
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {
-      "User-Agent": this.withUA ? UA : undefined,
-      "x-rpc-language": this.language,
-      "x-rpc-app_version": this.withExtraHeaders ? "1.5.0" : undefined,
-      "x-rpc-client_type": this.withExtraHeaders ? "4" : undefined,
       "content-type": "application/json",
-      DS: this.withDS ? generate_dynamic_secret() : undefined,
+      ...this.headers,
       ...headers,
     };
     const body = JSON.stringify(data);
@@ -136,10 +132,6 @@ class HTTPRequest {
     }
 
     return resData;
-  }
-
-  public setLanguage(language: Language): void {
-    this.language = language;
   }
 }
 

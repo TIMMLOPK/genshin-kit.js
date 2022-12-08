@@ -67,6 +67,7 @@ export class TravelerDiary extends BaseRoute {
     const instance = new request({
       route: Genshin_Hoyolab_DIARY_URL,
     });
+
     const res = await instance.get(
       "month_info",
       {

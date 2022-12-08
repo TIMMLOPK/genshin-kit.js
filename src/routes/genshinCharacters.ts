@@ -33,9 +33,8 @@ export class Charcters extends BaseRoute {
     const instance = new request({
       withDS: true,
       withExtraHeaders: true,
+      language,
     });
-
-    instance.setLanguage(language);
 
     const res = await instance.post(
       "character",
@@ -72,9 +71,8 @@ export class Charcters extends BaseRoute {
     const instance = new request({
       withDS: true,
       withExtraHeaders: true,
+      language,
     });
-
-    instance.setLanguage(language);
 
     const res = await instance.post(
       "avatarBasicInfo",

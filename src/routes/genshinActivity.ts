@@ -33,9 +33,8 @@ export class Activities extends BaseRoute {
     const instance = new request({
       withDS: true,
       withExtraHeaders: true,
+      language,
     });
-
-    instance.setLanguage(language);
 
     const res = await instance.get(
       "activities",
