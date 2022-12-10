@@ -1,51 +1,8 @@
-import { Activities, Charcters, Client, CookieFormatter, DailyRewards, GenshinUser, Language, RealTimeNotes, SpiralAbyss, TravelerDiary } from '../dist/index';
-
+import { Activities, Charcters, Client, CookieFormatter, GenshinUser, Language, RealTimeNotes, SpiralAbyss, TravelerDiary } from '../dist/index';
 
 const ltuid = "";
 const ltoken = "";
 const GUID = "";
-
-test("client login", async () => {
-    const client = new Client();
-    client.login(ltuid, ltoken);
-    expect(client.isLogin()).toBe(true);
-});
-
-
-test('Test client', async () => {
-    const client = new Client();
-    client.login(ltuid, ltoken);
-    if (client.isLogin()) {
-        const user = await client.gameRecordCard.fetch(ltuid);
-        expect(user.list[0]?.game_id).toBe(2);
-    }
-});
-
-test("Client cache", async () => {
-    const client = new Client({ cache: true });
-    client.login(ltuid, ltoken);
-    if (client.isLogin()) {
-        const user = await client.gameRecordCard.fetch(ltuid);
-        expect(user.list[0]?.game_id).toBe(2);
-        expect(client.gameRecordCard.cache?.get(ltuid)).not.toBe(undefined);
-        expect(client.gameRecordCard.cache?.get(ltuid).list[0]?.game_id).toBe(2);
-    }
-});
-
-test("Client Spiral Abyss", async () => {
-    const client = new Client();
-    client.login(ltuid, ltoken);
-    if (client.isLogin()) {
-        const abyss = await client.sprialAbyss.fetch(GUID);
-        expect(abyss.end_time).not.toBe(undefined);
-    }
-});
-
-test("Daily reward", async () => {
-    const reward = new DailyRewards();
-    const result = await reward.checkIn({ cookie: CookieFormatter(ltoken, ltuid), language: Language.EnglishUS });
-    expect(result.code).not.toBe(undefined);
-});
 
 test("SpiralAbyss", async () => {
     const abyss = new SpiralAbyss();
