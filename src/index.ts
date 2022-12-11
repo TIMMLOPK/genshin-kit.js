@@ -16,6 +16,7 @@ export * from "./client/client";
 
 // export CONSTANTS
 export * from "./constants/lang";
+export * from "./constants/error";
 
 // export UTILS
 export * from "./utils/getServer";

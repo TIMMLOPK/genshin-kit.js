@@ -2,7 +2,7 @@ import { request } from "../utils/request";
 import { checkServerRegion } from "../utils/getServer";
 import type { DiaryData } from "../interface";
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { Genshin_Hoyolab_DIARY_URL } from "../constants/constants";
+import { Genshin_Hoyolab_Diary_URL } from "../constants/constants";
 import type { ClientCache } from "../client/clientCache";
 import { getMonthValidator, basicValidator } from "../utils/validator";
 import mergeOptions from "../utils/mergeOptions";
@@ -35,7 +35,7 @@ export class TravelerDiary extends BaseRoute {
     const { language, cookie } = optionsToUse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_DIARY_URL,
+      route: Genshin_Hoyolab_Diary_URL,
     });
     const res = await instance.get(
       "month_info",
@@ -65,7 +65,7 @@ export class TravelerDiary extends BaseRoute {
     const { language, cookie, month } = options;
 
     const instance = new request({
-      route: Genshin_Hoyolab_DIARY_URL,
+      route: Genshin_Hoyolab_Diary_URL,
     });
 
     const res = await instance.get(

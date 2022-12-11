@@ -7,7 +7,7 @@ import type {
   ResignData,
   RewardInfoData,
 } from "../interface";
-import { Genshin_Hoyolab_REWARD_URL } from "../constants/constants";
+import { Genshin_Hoyolab_Reward_URL } from "../constants/constants";
 import { alias } from "../utils/alias";
 import { BaseRoute, fetchOptions, Options } from "./base";
 import { claimHistoryValidator, getDayRewardValidator, basicValidator } from "../utils/validator";
@@ -37,7 +37,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie, language } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_REWARD_URL,
+      route: Genshin_Hoyolab_Reward_URL,
     });
 
     const res = await instance.get(
@@ -71,7 +71,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie, language } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_REWARD_URL,
+      route: Genshin_Hoyolab_Reward_URL,
       withUA: true,
     });
 
@@ -130,7 +130,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie, language } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_REWARD_URL,
+      route: Genshin_Hoyolab_Reward_URL,
     });
 
     const res = await instance.get(
@@ -162,7 +162,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_REWARD_URL,
+      route: Genshin_Hoyolab_Reward_URL,
     });
 
     const res = await instance.get(
@@ -200,7 +200,7 @@ export class DailyRewards extends BaseRoute {
 
     const { cookie, language } = optionTouse;
     const instance = new request({
-      route: Genshin_Hoyolab_REWARD_URL,
+      route: Genshin_Hoyolab_Reward_URL,
     });
 
     const res = await instance.get(
@@ -241,7 +241,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie, language, page } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_REWARD_URL,
+      route: Genshin_Hoyolab_Reward_URL,
     });
 
     const res = await instance.get(

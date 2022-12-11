@@ -2,7 +2,7 @@ import { Genshin_Battle_API_URL, UA } from "../constants/constants";
 import { request } from "undici";
 import generate_dynamic_secret from "./generateDS";
 import { APIERROR } from "./error";
-import getErrorByRetcode from "../constants/error";
+import { getErrorByRetcode } from "../constants/error";
 import { Language } from "../constants/lang";
 import type { IncomingHttpHeaders } from "http2";
 import { isDebug } from "./debug";

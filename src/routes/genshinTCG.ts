@@ -14,8 +14,8 @@ export type CardListOptions = fetchOptions & {
   limit: number;
 };
 
-export class TCG extends BaseRoute {
-  public declare cache: ClientCache<TCGData | CardBackListData | CardListData> | null;
+class BasicInfo extends BaseRoute {
+  public declare cache: ClientCache<TCGData> | null;
 
   private readonly defaultOptions?: fetchOptions;
 
@@ -24,23 +24,11 @@ export class TCG extends BaseRoute {
     this.defaultOptions = options?.defaultOptions;
   }
 
-  get basicInfoCache() {
-    return this.cache?.setType("basicInfo") as ClientCache<TCGData>;
-  }
-
-  get cardBackListCache() {
-    return this.cache?.setType("cardBackList") as ClientCache<CardBackListData>;
-  }
-
-  get cardListCache() {
-    return this.cache?.setType("cardList") as ClientCache<CardListData>;
-  }
-
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetchBasicInfo(uid: string, options?: fetchOptions): Promise<TCGData> {
-    if (this.basicInfoCache?.has(uid)) return this.basicInfoCache.get(uid);
+  public async fetch(uid: string, options?: fetchOptions): Promise<TCGData> {
+    if (this.cache?.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
@@ -69,18 +57,29 @@ export class TCG extends BaseRoute {
 
     const { data } = res;
 
-    if (this.basicInfoCache) {
-      this.basicInfoCache.set(uid, data);
+    if (this.cache) {
+      this.cache.set(uid, data);
     }
 
     return data;
+  }
+}
+
+class CardList extends BaseRoute {
+  public declare cache: ClientCache<CardListData> | null;
+
+  private readonly defaultOptions?: fetchOptions;
+
+  constructor(options?: Options<fetchOptions>) {
+    super(options);
+    this.defaultOptions = options?.defaultOptions;
   }
 
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetchCardList(uid: string, options?: CardListOptions): Promise<CardListData> {
-    if (this.cardListCache?.has(uid)) return this.cardListCache.get(uid);
+  public async fetch(uid: string, options?: CardListOptions): Promise<CardListData> {
+    if (this.cache?.has(uid)) return this.cache.get(uid);
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions) as CardListOptions;
 
     if (!cardListValidator(uid, optionsToUse)) {
@@ -113,18 +112,29 @@ export class TCG extends BaseRoute {
 
     const { data } = res;
 
-    if (this.cardListCache) {
-      this.cardListCache.set(uid, data);
+    if (this.cache) {
+      this.cache.set(uid, data);
     }
 
     return data;
+  }
+}
+
+class CardBackList extends BaseRoute {
+  public declare cache: ClientCache<CardBackListData> | null;
+
+  private readonly defaultOptions?: fetchOptions;
+
+  constructor(options?: Options<fetchOptions>) {
+    super(options);
+    this.defaultOptions = options?.defaultOptions;
   }
 
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetchCardBackList(uid: string, options?: fetchOptions): Promise<CardBackListData> {
-    if (this.cardBackListCache?.has(uid)) return this.cardBackListCache.get(uid);
+  public async fetch(uid: string, options?: fetchOptions): Promise<CardBackListData> {
+    if (this.cache?.has(uid)) return this.cache.get(uid);
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator(uid, optionsToUse)) {
@@ -152,10 +162,28 @@ export class TCG extends BaseRoute {
 
     const { data } = res;
 
-    if (this.cardBackListCache) {
-      this.cardBackListCache.set(uid, data);
+    if (this.cache) {
+      this.cache.set(uid, data);
     }
 
     return data;
+  }
+}
+
+
+export class TCG extends BaseRoute {
+  public declare cache: ClientCache<TCGData | CardBackListData | CardListData> | null;
+
+  public basicInfo: BasicInfo;
+
+  public cardList: CardList;
+
+  public cardBackList: CardBackList;
+
+  constructor(options?: Options<fetchOptions>) {
+    super(options);
+    this.basicInfo = new BasicInfo(options);
+    this.cardList = new CardList(options);
+    this.cardBackList = new CardBackList(options);
   }
 }
