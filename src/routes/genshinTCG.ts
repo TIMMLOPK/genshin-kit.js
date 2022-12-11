@@ -170,7 +170,6 @@ class CardBackList extends BaseRoute {
   }
 }
 
-
 export class TCG extends BaseRoute {
   public declare cache: ClientCache<TCGData | CardBackListData | CardListData> | null;
 
