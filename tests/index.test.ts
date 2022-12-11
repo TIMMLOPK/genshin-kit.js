@@ -54,7 +54,7 @@ test("TCG", async () => {
     const client = new Client();
     client.login(ltuid, ltoken);
     if (client.isLogin()) {
-        const result = await client.tcg.fetchBasicInfo(GUID);
+        const result = await client.tcg.basicInfo.fetch(GUID);
         expect(result.avatar_card_num_total).toBeGreaterThan(0);
     }
 });
