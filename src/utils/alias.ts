@@ -1,10 +1,15 @@
-export function alias(obj: any, alias: any) {
-  Object.keys(alias).forEach(key => {
-    if (obj[key]) {
-      obj[alias[key]] = obj[key];
+export function alias(obj: any, aliasMap: any) {
+  for (const key in obj) {
+    if (Array.isArray(obj[key])) {
+      obj[key].forEach((item: any) => {
+        alias(item, aliasMap);
+      });
+    }
+    if (aliasMap[key]) {
+      obj[aliasMap[key]] = obj[key];
       delete obj[key];
     }
-  });
+  }
   return obj;
 }
 

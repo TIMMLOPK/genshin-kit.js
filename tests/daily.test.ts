@@ -1,6 +1,5 @@
 import { CookieFormatter, DailyRewards, Language } from "../dist";
 
-
 const ltuid = "";
 const ltoken = "";
 

@@ -179,11 +179,7 @@ export class DailyRewards extends BaseRoute {
 
     const { data } = res;
 
-    alias(data, { total_cnt: "total_count" });
-
-    for (const award of data.awards) {
-      alias(award, { cnt: "count" });
-    }
+    alias(data, { total_cnt: "total_count", cnt: "count" });
 
     return data;
   }
@@ -259,9 +255,7 @@ export class DailyRewards extends BaseRoute {
 
     const { data } = res;
 
-    for (const award of data.list) {
-      alias(award, { cnt: "count" });
-    }
+    alias(data, { cnt: "count" });
 
     return data;
   }
