@@ -52,7 +52,7 @@ export class Client {
     cookieManager: ClientCookieManager;
     cache: boolean;
     cacheOptions: {
-      maxAge: number;
+      maxAge?: number;
     };
   };
 
@@ -67,7 +67,7 @@ export class Client {
       cookieManager: options?.cookieManager || new ClientCookieManager(),
       cache: options?.cache || false,
       cacheOptions: {
-        maxAge: options?.cacheOptions?.maxAge || 0,
+        maxAge: options?.cacheOptions?.maxAge
       },
     };
 
