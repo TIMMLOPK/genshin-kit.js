@@ -67,7 +67,7 @@ export class Client {
       cookieManager: options?.cookieManager || new ClientCookieManager(),
       cache: options?.cache || false,
       cacheOptions: {
-        maxAge: options?.cacheOptions?.maxAge
+        maxAge: options?.cacheOptions?.maxAge,
       },
     };
 
