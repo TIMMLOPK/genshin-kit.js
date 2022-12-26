@@ -24,6 +24,19 @@ interface ClientOptions {
   };
 }
 
+type LoginedClient = {
+  dailyReward: DailyRewards;
+  genshinActivity: Activities;
+  gameRecordCard: GameRecordCard;
+  sprialAbyss: SpiralAbyss;
+  genshinUser: GenshinUser;
+  realTimeNotes: RealTimeNotes;
+  characters: Charcters;
+  travelDiary: TravelerDiary;
+  tcg: TCG;
+  redeemCode: RedeemCode;
+};
+
 export class Client {
   private cookieManager: ClientCookieManager;
 
@@ -76,8 +89,9 @@ export class Client {
     setDebug(options?.debug || false);
   }
 
-  public login(ltuid: string, ltoken: string) {
-    if (this.logined) return;
+  public login(ltuid: string, ltoken: string): this & LoginedClient {
+    if (this.logined) return this as this & LoginedClient;
+
     this.cookieManager.setCookie(ltuid, ltoken);
 
     const option = {
@@ -101,6 +115,8 @@ export class Client {
     this.tcg = new TCG(option);
     this.redeemCode = new RedeemCode();
     this.logined = true;
+
+    return this as this & LoginedClient;
   }
 
   public addCookies(cookies: { ltuid: string; ltoken: string }[]) {
@@ -109,18 +125,7 @@ export class Client {
     });
   }
 
-  public isLogin(): this is Client & {
-    dailyReward: DailyRewards;
-    genshinActivity: Activities;
-    gameRecordCard: GameRecordCard;
-    sprialAbyss: SpiralAbyss;
-    genshinUser: GenshinUser;
-    realTimeNotes: RealTimeNotes;
-    characters: Charcters;
-    travelDiary: TravelerDiary;
-    tcg: TCG;
-    redeemCode: RedeemCode;
-  } {
+  public isLogin(): this is Client & LoginedClient {
     return this.logined;
   }
 }

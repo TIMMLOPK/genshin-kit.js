@@ -22,7 +22,7 @@ interface AbyssFloor {
 }
 
 export interface AbyssBattleData {
-  damge_rank: AbyssRank[];
+  damage_rank: AbyssRank[];
   defeat_rank: AbyssRank[];
   end_time: string;
   energy_skill_rank: AbyssRank[];
