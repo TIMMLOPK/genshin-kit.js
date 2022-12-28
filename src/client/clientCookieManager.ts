@@ -1,7 +1,7 @@
 import { CookieFormatter } from "../utils/cookieFormatter";
 import { dynamic } from "../utils/import";
 
-interface getCookie {
+interface cookie {
   ltuid: string;
   ltoken: string;
   key: number;
@@ -34,9 +34,9 @@ export class ClientCookieManager {
 
   /**
    * @description Get the ltoken and ltuid for request.
-   * @returns {getCookie} - The ltoken and ltuid.
+   * @returns {cookie} - The ltoken and ltuid.
    */
-  public get(): getCookie {
+  public get(): cookie {
     if (this.size === 0) {
       throw new Error("Please login first.");
     }
@@ -70,7 +70,7 @@ export class ClientCookieManager {
     this.cookie = [];
   }
 
-  public getAll(): getCookie[] {
+  public getAll(): cookie[] {
     const cookie = [];
 
     for (let i = 0; i < this.size; i++) {

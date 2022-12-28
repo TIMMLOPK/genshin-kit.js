@@ -1,10 +1,9 @@
-interface Data {
-  name: string;
-  type: number;
-  value: string;
+export interface RecordCardData {
+  list: ListItem[];
+  currecnt: ListItem;
 }
 
-export interface ListItem {
+interface ListItem {
   has_role: boolean;
   game_id: number;
   game_role_id: string;
@@ -18,7 +17,8 @@ export interface ListItem {
   url: string;
 }
 
-export interface RecordCardData {
-  list: ListItem[];
-  currecnt: ListItem;
+interface Data {
+  name: string;
+  type: number;
+  value: string;
 }

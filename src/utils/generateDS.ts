@@ -5,7 +5,7 @@ import { SALT } from "../constants/constants";
  * @Description generate dynamic secret
  * @returns {string}
  */
-const generate_dynamic_secret = (): string => {
+export const generate_dynamic_secret = (): string => {
   const date = new Date();
   const t = Math.floor(date.getTime() / 1000);
   let r = "";
@@ -13,5 +13,3 @@ const generate_dynamic_secret = (): string => {
   const h = md5(`salt=${SALT}&t=${t}&r=${r}`);
   return `${t},${r},${h}`;
 };
-
-export default generate_dynamic_secret;

@@ -1,10 +1,7 @@
-import { request } from "../utils/request";
-import { checkServerRegion } from "../utils/getServer";
-import type { CharacterData, CharacterInfoData } from "../interface";
 import { BaseRoute, fetchOptions, Options } from "./base";
+import { mergeOptions, request, basicValidator, checkServerRegion, getAvatarValidator } from "../utils";
 import type { ClientCache } from "../client/clientCache";
-import { getAvatarValidator, basicValidator } from "../utils/validator";
-import mergeOptions from "../utils/mergeOptions";
+import type { CharacterData, CharacterInfoData } from "../interface";
 
 export class Charcters extends BaseRoute {
   public declare cache: ClientCache<CharacterData[]> | null;

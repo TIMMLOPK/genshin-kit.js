@@ -1,10 +1,7 @@
-import { request } from "../utils/request";
-import { checkServerRegion } from "../utils/getServer";
-import type { RealTimeNoteData } from "../interface";
 import { BaseRoute, fetchOptions, Options } from "./base";
+import { mergeOptions, request, basicValidator, checkServerRegion } from "../utils";
 import type { ClientCache } from "../client/clientCache";
-import { basicValidator } from "../utils/validator";
-import mergeOptions from "../utils/mergeOptions";
+import type { RealTimeNoteData } from "../interface";
 
 export class RealTimeNotes extends BaseRoute {
   public declare cache: ClientCache<RealTimeNoteData> | null;

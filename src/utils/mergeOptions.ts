@@ -1,10 +1,10 @@
-import type { ClientCookieManager } from "../client/clientCookieManager";
 import { Language } from "../constants/lang";
+import type { ClientCookieManager } from "../client/clientCookieManager";
 import type { fetchOptions } from "../routes/base";
 import type { fetchClaimHistoryOption } from "../routes/dailyReward";
 import type { SpiralAbyssFetchOptions } from "../routes/genshinAbyss";
 
-function getFetchOptions(
+export function mergeOptions(
   options?: fetchOptions | SpiralAbyssFetchOptions | fetchClaimHistoryOption,
   cookieManager?: ClientCookieManager,
   defaultOptions?: fetchOptions,
@@ -34,5 +34,3 @@ function getFetchOptions(
     language,
   };
 }
-
-export default getFetchOptions;

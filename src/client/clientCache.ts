@@ -1,25 +1,33 @@
 interface Cache<V> {
   get(key: string): V | undefined;
-  set(key: string, value: V): void;
+  set(key: string, value: V): this;
   has(key: string): boolean;
-  delete(key: string): void;
+  delete(key: string): boolean;
 }
 
 interface CacheOptions {
   maxAge?: number;
 }
 
+interface cacheStore<V> {
+  [key: string]: {
+    value: V;
+    timestamp: number;
+  };
+}
+
 /**
- * @description Cache the API response
+ * @description Cache of API responses.
  */
 export class ClientCache<V> implements Cache<V> {
-  private cache: { [key: string]: { value: V; timestamp: number } } = {};
+  private cache: cacheStore<V>;
 
-  private sweepInterval?: NodeJS.Timeout;
+  private sweepInterval?: NodeJS.Timer;
 
   private maxAge: number;
 
   constructor(options?: CacheOptions) {
+    this.cache = {};
     this.maxAge = options?.maxAge || 60;
 
     this.sweepInterval = setInterval(() => {
@@ -53,11 +61,13 @@ export class ClientCache<V> implements Cache<V> {
     return {} as V;
   }
 
-  public set(key: string, value: V): void {
+  public set(key: string, value: V): this {
     this.cache[key] = {
       value,
       timestamp: Date.now(),
     };
+
+    return this;
   }
 
   public has(key: string): boolean {
@@ -65,7 +75,8 @@ export class ClientCache<V> implements Cache<V> {
     return false;
   }
 
-  public delete(key: string): void {
-    delete this.cache[key];
+  public delete(key: string): boolean {
+    return delete this.cache[key];;
   }
+
 }

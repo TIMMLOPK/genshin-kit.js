@@ -1,9 +1,6 @@
-import { request } from "../utils/request";
-import { checkServerRegion } from "../utils/getServer";
 import { BaseRoute, fetchOptions, Options } from "./base";
+import { mergeOptions, request, basicValidator, checkServerRegion, cardListValidator } from "../utils";
 import type { ClientCache } from "../client/clientCache";
-import { basicValidator, cardListValidator } from "../utils/validator";
-import mergeOptions from "../utils/mergeOptions";
 import type { CardBackListData, CardListData, TCGData } from "../interface";
 
 export type CardListOptions = fetchOptions & {

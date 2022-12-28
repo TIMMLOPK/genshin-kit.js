@@ -8,9 +8,8 @@ export interface TCGData {
   nickname: string;
 }
 
-interface Covers {
-  id: number;
-  image: string;
+export interface CardBackListData {
+  card_back_list: Covers & { has_obtained: boolean }[];
 }
 
 export interface CardListData {
@@ -20,12 +19,19 @@ export interface CardListData {
   card_list: CardList[];
 }
 
+interface Covers {
+  id: number;
+  image: string;
+}
+
 interface CardList {
-  action_cost: never[];
-  card_sources: never[];
+  action_cost: Pick<CardList, "card_type"> extends { card_type: "CardTypeModify" | "CardTypeEvent" | "CardTypeAssist" }
+    ? ActionCost[]
+    : undefined;
+  card_skills: Pick<CardList, "card_type"> extends { card_type: "CardTypeCharacter" } ? CardSkills[] : undefined;
+  card_sources: undefined[];
   card_type: string;
   card_wiki: string;
-  card_skills: CardSkills[];
   deck_recommend: string;
   desc: string;
   hp: number;
@@ -46,6 +52,7 @@ interface CardSkills {
   tag: string;
 }
 
-export interface CardBackListData {
-  card_back_list: Covers & { has_obtained: boolean }[];
+interface ActionCost {
+  cost_type: string;
+  cost_value: number;
 }

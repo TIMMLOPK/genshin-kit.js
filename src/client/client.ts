@@ -12,7 +12,7 @@ import {
 } from "../index";
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
-import { setDebug } from "../utils/debug";
+import { setDebug } from "../utils";
 
 interface ClientOptions {
   language?: Language | Language.EnglishUS;
@@ -24,22 +24,7 @@ interface ClientOptions {
   };
 }
 
-type LoginedClient = {
-  dailyReward: DailyRewards;
-  genshinActivity: Activities;
-  gameRecordCard: GameRecordCard;
-  sprialAbyss: SpiralAbyss;
-  genshinUser: GenshinUser;
-  realTimeNotes: RealTimeNotes;
-  characters: Charcters;
-  travelDiary: TravelerDiary;
-  tcg: TCG;
-  redeemCode: RedeemCode;
-};
-
 export class Client {
-  private cookieManager: ClientCookieManager;
-
   public dailyReward?: DailyRewards;
 
   public gameRecordCard?: GameRecordCard;
@@ -61,15 +46,17 @@ export class Client {
   public tcg?: TCG;
 
   private options: {
-    language: Language | Language.EnglishUS;
+    language: Language;
     cookieManager: ClientCookieManager;
     cache: boolean;
-    cacheOptions: {
+    cacheOptions?: {
       maxAge?: number;
     };
   };
 
   private logined: boolean;
+
+  private cookieManager: ClientCookieManager;
 
   /**
    * @param {ClientOptions} options - The options to use.
@@ -89,8 +76,8 @@ export class Client {
     setDebug(options?.debug || false);
   }
 
-  public login(ltuid: string, ltoken: string): this & LoginedClient {
-    if (this.logined) return this as this & LoginedClient;
+  public login(ltuid: string, ltoken: string): Required<this> {
+    if (this.logined) return this as Required<this>;
 
     this.cookieManager.setCookie(ltuid, ltoken);
 
@@ -116,7 +103,7 @@ export class Client {
     this.redeemCode = new RedeemCode();
     this.logined = true;
 
-    return this as this & LoginedClient;
+    return this as Required<this>;
   }
 
   public addCookies(cookies: { ltuid: string; ltoken: string }[]) {
@@ -125,7 +112,7 @@ export class Client {
     });
   }
 
-  public isLogin(): this is Client & LoginedClient {
+  public isLogin(): this is Client & Required<this> {
     return this.logined;
   }
 }

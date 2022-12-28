@@ -1,9 +1,7 @@
-import { request } from "../utils/request";
-import type { RedeemData } from "../interface/RedeemCode";
 import { Genshin_Redeem_Code_URL } from "../constants/constants";
+import { checkServerRegion, redeemValidator, request } from "../utils";
 import type { Language } from "../constants/lang";
-import { checkServerRegion } from "../utils/getServer";
-import { redeemValidator } from "../utils/validator";
+import type { RedeemCodeData } from "../interface/RedeemCode";
 
 export type RedeemOptions = {
   language: Language;
@@ -17,7 +15,7 @@ export class RedeemCode {
    * @description Redeem the code
    * @param {string} code The code to redeem
    */
-  public async redeem(code: string, options: RedeemOptions): Promise<RedeemData> {
+  public async redeem(code: string, options: RedeemOptions): Promise<RedeemCodeData> {
     if (!redeemValidator(code, options)) {
       throw new Error("No code or Cookie provided");
     }

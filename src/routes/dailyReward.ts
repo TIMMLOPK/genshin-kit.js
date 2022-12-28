@@ -1,17 +1,13 @@
-import { request } from "../utils/request";
-import type {
-  ClaimHistoryData,
-  DailyRewardsData,
-  DayRewardData,
-  ExtraRewardData,
-  ResignData,
-  RewardInfoData,
-} from "../interface";
 import { Genshin_Hoyolab_Reward_URL } from "../constants/constants";
-import { alias } from "../utils/alias";
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { claimHistoryValidator, getDayRewardValidator, basicValidator } from "../utils/validator";
-import mergeOptions from "../utils/mergeOptions";
+import { mergeOptions, request, basicValidator, getDayRewardValidator, alias, claimHistoryValidator } from "../utils";
+import type {
+  DailyRewardSignInHistoryData,
+  DayRewardData,
+  DailyRewardSignInData,
+  DailyRewardInfoData,
+  DailyRewardExtraRewardData,
+} from "../interface";
 
 export type fetchClaimHistoryOption = fetchOptions & { page?: number };
 
@@ -61,7 +57,7 @@ export class DailyRewards extends BaseRoute {
   /**
    * @description CheckIn to claim Daily Rewards
    */
-  public async checkIn(options?: fetchOptions): Promise<DailyRewardsData> {
+  public async checkIn(options?: fetchOptions): Promise<DailyRewardSignInData> {
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
@@ -92,7 +88,6 @@ export class DailyRewards extends BaseRoute {
       return {
         status: "Already claimed",
         code: -5003,
-        rewards: null,
       };
     }
 
@@ -113,14 +108,13 @@ export class DailyRewards extends BaseRoute {
     return {
       status: "error",
       code: res.retcode,
-      rewards: null,
     };
   }
 
   /**
    * @description Get the daily rewards info
    */
-  async fetchRewardInfo(options?: fetchOptions): Promise<RewardInfoData> {
+  async fetchRewardInfo(options?: fetchOptions): Promise<DailyRewardInfoData> {
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
@@ -152,7 +146,7 @@ export class DailyRewards extends BaseRoute {
   /**
    * @description Get the extra rewards info
    */
-  async fetchExtraRewardInfo(options?: fetchOptions): Promise<ExtraRewardData> {
+  async fetchExtraRewardInfo(options?: fetchOptions): Promise<DailyRewardExtraRewardData> {
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
@@ -187,7 +181,7 @@ export class DailyRewards extends BaseRoute {
   /**
    * @description get resign info
    */
-  async fetchResignInfo(options?: fetchOptions): Promise<ResignData> {
+  async fetchResignInfo(options?: fetchOptions): Promise<DailyRewardSignInData> {
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
@@ -227,7 +221,7 @@ export class DailyRewards extends BaseRoute {
   /**
    * @description get check in history
    */
-  async fetchCheckInHistory(options?: fetchClaimHistoryOption): Promise<ClaimHistoryData> {
+  async fetchCheckInHistory(options?: fetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData> {
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions) as fetchClaimHistoryOption;
 
     if (!claimHistoryValidator(optionTouse)) {

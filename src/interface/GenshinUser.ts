@@ -1,7 +1,15 @@
 import type { Character } from "./Character";
 import type { TeapotData } from "./Teapot";
 
-interface Info {
+export interface GenshinUserData {
+  avatars: Character[];
+  homes: TeapotData[];
+  role: Role;
+  stats: Stats;
+  world_explorations: WorldExplorations[];
+}
+
+interface Role {
   AvatarUrl: string;
   level: number;
   nickname: string;
@@ -26,7 +34,7 @@ interface Stats {
   dendroculus_number: number;
 }
 
-interface World_explorations {
+interface WorldExplorations {
   level: number;
   exploration_percentage: number;
   icon: string;
@@ -44,12 +52,4 @@ interface World_explorations {
   background_image: string;
   inner_icon: string;
   cover: string;
-}
-
-export interface GenshinUserData {
-  avatars: Character[];
-  homes: TeapotData[];
-  role: Info;
-  stats: Stats;
-  world_explorations: World_explorations[];
 }

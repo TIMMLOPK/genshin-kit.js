@@ -1,7 +1,7 @@
-export interface DailyRewardsData {
+export interface DailyRewardSignInData {
   status: string;
   code: number;
-  rewards: DayRewardData | null;
+  rewards?: DayRewardData;
 }
 
 export interface DayRewardData {
@@ -10,7 +10,7 @@ export interface DayRewardData {
   count: number;
 }
 
-export interface RewardInfoData {
+export interface DailyRewardInfoData {
   total_sign_day: number;
   today: string;
   is_sign: boolean;
@@ -19,7 +19,7 @@ export interface RewardInfoData {
   region: string;
 }
 
-export interface ExtraRewardData {
+export interface DailyRewardExtraRewardData {
   awards: DayRewardData & { highlight: boolean; id: number; sign_day: number }[];
   end_timestamp: string;
   has_short_act: boolean;
@@ -35,7 +35,7 @@ export interface ExtraRewardData {
   total_count: number;
 }
 
-export interface ResignData {
+export interface DailyRewardResignData {
   resign_count_daily: number;
   resign_count_monthly: number;
   resign_limit_daily: number;
@@ -48,7 +48,7 @@ export interface ResignData {
   month_quality_count: number;
 }
 
-export interface ClaimHistoryData {
+export interface DailyRewardSignInHistoryData {
   list: HistoryData[];
   total: number;
 }

@@ -5,16 +5,16 @@ export interface DiaryData {
   optional_month: number[];
   month: number;
   data_month: number;
-  month_data: MonthData;
-  day_data: DayData;
+  month_data: DairyMonthData;
+  day_data: DiaryDayData;
 }
 
-export interface DayData {
+interface DiaryDayData {
   current_primogems: number;
   current_mora: number;
 }
 
-export interface MonthData {
+interface DairyMonthData {
   current_primogems: number;
   current_mora: number;
   last_primogems: number;
@@ -24,7 +24,7 @@ export interface MonthData {
   group_by: GroupBy[];
 }
 
-export interface GroupBy {
+interface GroupBy {
   action_id: number;
   action: string;
   num: number;
