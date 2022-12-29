@@ -58,3 +58,14 @@ test("TCG", async () => {
         expect(result.avatar_card_num_total).toBeGreaterThan(0);
     }
 });
+
+test("TCG List", async () => {
+    const client = new Client();
+    client.login(ltuid, ltoken);
+    if (client.isLogin()) {
+        const result = await client.tcg.cardList.fetch(GUID);
+        if (result.card_list[0].card_type === "CardTypeAssist") {
+            expect(result.card_list[0].action_cost[0]?.cost_type).toBeGreaterThan(0);
+        }
+    }
+});

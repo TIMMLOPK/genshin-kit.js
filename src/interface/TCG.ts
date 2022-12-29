@@ -24,13 +24,9 @@ interface Covers {
   image: string;
 }
 
-interface CardList {
-  action_cost: Pick<CardList, "card_type"> extends { card_type: "CardTypeModify" | "CardTypeEvent" | "CardTypeAssist" }
-    ? ActionCost[]
-    : undefined;
-  card_skills: Pick<CardList, "card_type"> extends { card_type: "CardTypeCharacter" } ? CardSkills[] : undefined;
+interface BasicCardList<CardType> {
   card_sources: undefined[];
-  card_type: string;
+  card_type: CardType;
   card_wiki: string;
   deck_recommend: string;
   desc: string;
@@ -44,6 +40,10 @@ interface CardList {
   use_count: number;
   tags: string[];
 }
+
+type CardList =
+  | (BasicCardList<"CardTypeCharacter"> & { card_skills: CardSkills[] })
+  | (BasicCardList<"CardTypeAssist" | "CardTypeModify" | "CardTypeEvent"> & { action_cost: ActionCost[] });
 
 interface CardSkills {
   desc: string;

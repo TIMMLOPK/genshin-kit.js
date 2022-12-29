@@ -76,7 +76,6 @@ export class ClientCache<V> implements Cache<V> {
   }
 
   public delete(key: string): boolean {
-    return delete this.cache[key];;
+    return delete this.cache[key];
   }
-
 }
