@@ -1,19 +1,16 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
 import { mergeOptions, request, basicValidator, checkServerRegion, cardListValidator } from "../utils";
-import type { ClientCache } from "../client/clientCache";
 import type { CardBackListData, CardListData, TCGData } from "../interface";
 
 export type CardListOptions = fetchOptions & {
-  need_avatar: boolean;
-  need_action: boolean;
-  need_stats: boolean;
-  offset: number;
-  limit: number;
+  need_avatar?: boolean;
+  need_action?: boolean;
+  need_stats?: boolean;
+  offset?: number;
+  limit?: number;
 };
 
-class BasicInfo extends BaseRoute {
-  public declare cache: ClientCache<TCGData> | null;
-
+class BasicInfo extends BaseRoute<TCGData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {
@@ -62,9 +59,7 @@ class BasicInfo extends BaseRoute {
   }
 }
 
-class CardList extends BaseRoute {
-  public declare cache: ClientCache<CardListData> | null;
-
+class CardList extends BaseRoute<CardListData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {
@@ -77,13 +72,13 @@ class CardList extends BaseRoute {
    */
   public async fetch(uid: string, options?: CardListOptions): Promise<CardListData> {
     if (this.cache?.has(uid)) return this.cache.get(uid);
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions) as CardListOptions;
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!cardListValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
-    const { language, cookie } = optionsToUse;
+    const { language, cookie, need_avatar, need_action, need_stats, offset, limit } = optionsToUse;
 
     const instance = new request({
       withDS: true,
@@ -99,11 +94,11 @@ class CardList extends BaseRoute {
       {
         server: checkServerRegion(uid),
         role_id: uid,
-        need_avatar: optionsToUse.need_avatar || true,
-        need_action: optionsToUse.need_action || true,
-        need_stats: optionsToUse.need_stats || true,
-        offset: optionsToUse.offset || 0,
-        limit: optionsToUse.limit || 32,
+        need_avatar: need_avatar || true,
+        need_action: need_action || true,
+        need_stats: need_stats || true,
+        offset: offset || 0,
+        limit: limit || 32,
       },
     );
 
@@ -117,9 +112,7 @@ class CardList extends BaseRoute {
   }
 }
 
-class CardBackList extends BaseRoute {
-  public declare cache: ClientCache<CardBackListData> | null;
-
+class CardBackList extends BaseRoute<CardBackListData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {
@@ -167,9 +160,7 @@ class CardBackList extends BaseRoute {
   }
 }
 
-export class TCG extends BaseRoute {
-  public declare cache: ClientCache<TCGData | CardBackListData | CardListData> | null;
-
+export class TCG {
   public basicInfo: BasicInfo;
 
   public cardList: CardList;
@@ -177,7 +168,6 @@ export class TCG extends BaseRoute {
   public cardBackList: CardBackList;
 
   constructor(options?: Options<fetchOptions>) {
-    super(options);
     this.basicInfo = new BasicInfo(options);
     this.cardList = new CardList(options);
     this.cardBackList = new CardBackList(options);

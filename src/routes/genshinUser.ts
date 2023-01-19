@@ -1,11 +1,8 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
 import { mergeOptions, request, basicValidator, checkServerRegion } from "../utils";
 import type { GenshinUserData } from "../interface";
-import type { ClientCache } from "../client/clientCache";
 
-export class GenshinUser extends BaseRoute {
-  public declare cache: ClientCache<GenshinUserData> | null;
-
+export class GenshinUser extends BaseRoute<GenshinUserData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {

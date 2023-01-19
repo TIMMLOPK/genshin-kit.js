@@ -12,12 +12,12 @@ export interface Options<T> {
 }
 
 export interface fetchOptions {
-  cookie: string;
-  language: Language;
+  cookie?: string;
+  language?: Language;
 }
 
-export class BaseRoute {
-  public readonly cache: ClientCache<unknown> | null;
+export class BaseRoute<cacheType = unknown> {
+  public readonly cache: ClientCache<cacheType> | null;
 
   public readonly cookieManager?: ClientCookieManager;
 

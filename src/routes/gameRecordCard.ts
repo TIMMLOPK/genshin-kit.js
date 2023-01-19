@@ -2,11 +2,8 @@ import { BaseRoute, fetchOptions, Options } from "./base";
 import { Genshin_Hoyolab_API_URL } from "../constants/constants";
 import { mergeOptions, request, basicValidator, removeFromArrayObject } from "../utils";
 import type { RecordCardData } from "../interface";
-import type { ClientCache } from "../client/clientCache";
 
-export class GameRecordCard extends BaseRoute {
-  public declare cache: ClientCache<RecordCardData> | null;
-
+export class GameRecordCard extends BaseRoute<RecordCardData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {

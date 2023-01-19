@@ -222,7 +222,7 @@ export class DailyRewards extends BaseRoute {
    * @description get check in history
    */
   async fetchCheckInHistory(options?: fetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData> {
-    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions) as fetchClaimHistoryOption;
+    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!claimHistoryValidator(optionTouse)) {
       throw new Error("No UID or Cookie provided");

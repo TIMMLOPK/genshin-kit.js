@@ -1,11 +1,8 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
 import { mergeOptions, request, basicValidator, checkServerRegion } from "../utils";
 import type { ActivitiesData } from "../interface";
-import type { ClientCache } from "../client/clientCache";
 
-export class Activities extends BaseRoute {
-  public declare cache: ClientCache<ActivitiesData> | null;
-
+export class Activities extends BaseRoute<ActivitiesData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {

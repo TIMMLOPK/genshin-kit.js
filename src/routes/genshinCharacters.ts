@@ -1,11 +1,8 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
 import { mergeOptions, request, basicValidator, checkServerRegion, getAvatarValidator } from "../utils";
-import type { ClientCache } from "../client/clientCache";
 import type { CharacterData, CharacterInfoData } from "../interface";
 
-export class Charcters extends BaseRoute {
-  public declare cache: ClientCache<CharacterData[]> | null;
-
+export class Charcters extends BaseRoute<CharacterData[]> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {

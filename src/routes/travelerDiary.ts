@@ -2,14 +2,12 @@ import { BaseRoute, fetchOptions, Options } from "./base";
 import { Genshin_Hoyolab_Diary_URL } from "../constants/constants";
 import { basicValidator, getMonthValidator, mergeOptions, request, checkServerRegion } from "../utils";
 import type { DiaryData } from "../interface";
-import type { ClientCache } from "../client/clientCache";
 
 export type getMonthDiaryOptions = fetchOptions & {
   month: number;
 };
-export class TravelerDiary extends BaseRoute {
-  public declare cache: ClientCache<DiaryData> | null;
 
+export class TravelerDiary extends BaseRoute<DiaryData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {
@@ -55,11 +53,13 @@ export class TravelerDiary extends BaseRoute {
   }
 
   public async fetchMonth(uid: string, options: getMonthDiaryOptions): Promise<DiaryData> {
-    if (!getMonthValidator(uid, options)) {
+    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+
+    if (!getMonthValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
-    const { language, cookie, month } = options;
+    const { language, cookie, month } = optionsToUse;
 
     const instance = new request({
       route: Genshin_Hoyolab_Diary_URL,

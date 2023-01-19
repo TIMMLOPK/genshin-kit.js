@@ -1,11 +1,9 @@
 import { Genshin_Redeem_Code_URL } from "../constants/constants";
 import { checkServerRegion, redeemValidator, request } from "../utils";
-import type { Language } from "../constants/lang";
 import type { RedeemCodeData } from "../interface/RedeemCode";
+import type { fetchOptions } from "./base";
 
-export type RedeemOptions = {
-  language: Language;
-  cookie: string;
+export type RedeemOptions = Required<fetchOptions> & {
   uid: string;
   cookie_token: string;
 };

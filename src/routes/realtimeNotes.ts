@@ -1,11 +1,8 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
 import { mergeOptions, request, basicValidator, checkServerRegion } from "../utils";
-import type { ClientCache } from "../client/clientCache";
 import type { RealTimeNoteData } from "../interface";
 
-export class RealTimeNotes extends BaseRoute {
-  public declare cache: ClientCache<RealTimeNoteData> | null;
-
+export class RealTimeNotes extends BaseRoute<RealTimeNoteData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {

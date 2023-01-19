@@ -6,19 +6,19 @@ export enum APIError {
 }
 
 const ERROR = [
-  { retcode: -100, message: "The provided cookie is invalid or expired" },
-  { retcode: 10001, message: "The provided cookie is invalid or expired" },
+  { retcode: -100, message: APIError.INVALID_COOKIE },
+  { retcode: 10001, message: APIError.INVALID_COOKIE },
   {
     retcode: 10101,
-    message: "Cannot get data for more than 30 accounts per cookie per day. Please use a different cookie.",
+    message: APIError.COOKIE_LIMIT,
   },
   {
     retcode: -1048,
-    message: "API system busy. Please try again later.",
+    message: APIError.API_BUSY,
   },
   {
     retcode: 1009,
-    message: "The account is not found",
+    message: APIError.ACCOUNT_NOT_FOUND,
   },
 ];
 

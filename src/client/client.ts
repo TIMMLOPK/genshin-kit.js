@@ -45,14 +45,7 @@ export class Client {
 
   public tcg?: TCG;
 
-  private options: {
-    language: Language;
-    cookieManager: ClientCookieManager;
-    cache: boolean;
-    cacheOptions?: {
-      maxAge?: number;
-    };
-  };
+  private options: Required<ClientOptions>;
 
   private logined: boolean;
 
@@ -69,11 +62,12 @@ export class Client {
       cacheOptions: {
         maxAge: options?.cacheOptions?.maxAge,
       },
+      debug: options?.debug || false,
     };
 
     this.cookieManager = this.options.cookieManager;
     this.logined = false;
-    setDebug(options?.debug || false);
+    setDebug(this.options.debug);
   }
 
   public login(ltuid: string, ltoken: string): Required<this> {

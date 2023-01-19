@@ -6,7 +6,7 @@ import type { CardListOptions } from "../routes/genshinTCG";
 import type { RedeemOptions } from "../routes/redeem";
 import type { getMonthDiaryOptions } from "../routes/travelerDiary";
 
-export const basicValidator = (key: string, options?: Partial<fetchOptions>): options is fetchOptions => {
+export const basicValidator = (key: string, options?: fetchOptions): options is fetchOptions => {
   const schema = z.object({
     key: z.string(),
     options: z.object({
@@ -20,7 +20,7 @@ export const basicValidator = (key: string, options?: Partial<fetchOptions>): op
   return true;
 };
 
-export const getDayRewardValidator = (day: number, options?: Partial<fetchOptions>): options is fetchOptions => {
+export const getDayRewardValidator = (day: number, options?: fetchOptions): options is fetchOptions => {
   const schema = z.object({
     day: z.number(),
     options: z.object({
@@ -70,7 +70,7 @@ export const cardListValidator = (uid: string, options?: CardListOptions): optio
   return true;
 };
 
-export const getAvatarValidator = (characterId: number, options?: Partial<fetchOptions>): options is fetchOptions => {
+export const getAvatarValidator = (characterId: number, options?: fetchOptions): options is fetchOptions => {
   const schema = z.object({
     characterId: z.number(),
     options: z.object({
@@ -100,7 +100,10 @@ export const redeemValidator = (code: string, options?: RedeemOptions): options 
   return true;
 };
 
-export const getMonthValidator = (uid: string, options?: getMonthDiaryOptions): options is getMonthDiaryOptions => {
+export const getMonthValidator = (
+  uid: string,
+  options?: Partial<getMonthDiaryOptions>,
+): options is getMonthDiaryOptions => {
   const schema = z.object({
     uid: z.string(),
     options: z.object({
