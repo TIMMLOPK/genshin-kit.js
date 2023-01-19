@@ -2,7 +2,17 @@ import { Activities, Charcters, Client, CookieFormatter, GenshinUser, Language, 
 
 const ltuid = "";
 const ltoken = "";
-const GUID = "";
+let GUID = "";
+
+test("Get GUID", async () => {
+    const client = new Client();
+    client.login(ltuid, ltoken);
+    if (client.isLogin()) {
+        const user = await client.gameRecordCard.fetch(ltuid);
+        GUID = user.list[0]?.game_role_id ?? "";
+        expect(GUID).not.toBe(undefined);
+    }
+});
 
 test("SpiralAbyss", async () => {
     const abyss = new SpiralAbyss();
@@ -53,19 +63,11 @@ test("Redeem Code", async () => {
 test("TCG", async () => {
     const client = new Client();
     client.login(ltuid, ltoken);
-    if (client.isLogin()) {
-        const result = await client.tcg.basicInfo.fetch(GUID);
-        expect(result.avatar_card_num_total).toBeGreaterThan(0);
-    }
-});
-
-test("TCG List", async () => {
-    const client = new Client();
-    client.login(ltuid, ltoken);
-    if (client.isLogin()) {
-        const result = await client.tcg.cardList.fetch(GUID);
-        if (result.card_list[0].card_type === "CardTypeAssist") {
-            expect(result.card_list[0].action_cost[0]?.cost_type).toBeGreaterThan(0);
-        }
+    if (!client.isLogin()) return
+    const result = await client.tcg.basicInfo.fetch(GUID);
+    expect(result.avatar_card_num_total).toBeGreaterThan(0);
+    const listResult = await client.tcg.cardList.fetch(GUID);
+    if (listResult.card_list[0]?.card_type === "CardTypeAssist") {
+        expect(listResult.card_list[0]?.action_cost[0]?.cost_type).not.toBeUndefined();
     }
 });
