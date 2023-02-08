@@ -1,4 +1,4 @@
-import md5 from "md5";
+import { createHash } from "crypto";
 import { SALT } from "../constants/constants";
 
 /**
@@ -10,6 +10,6 @@ export const generate_dynamic_secret = (): string => {
   const t = Math.floor(date.getTime() / 1000);
   let r = "";
   r = Math.random().toString(36).substring(2, 8);
-  const h = md5(`salt=${SALT}&t=${t}&r=${r}`);
+  const h = createHash("md5").update(`salt=${SALT}&t=${t}&r=${r}`).digest("hex");
   return `${t},${r},${h}`;
 };
