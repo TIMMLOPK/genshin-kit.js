@@ -20,16 +20,18 @@ interface Response {
   data: any;
 }
 
+type headers = Record<string, string | string[]>;
+
 /**
  * @description Creates a new instance for the request
  */
 class HTTPRequest {
   private baseURL: string;
   private language: Language;
-  private headers: Record<string, string | string[]>;
+  private headers: headers;
 
   constructor(option?: option) {
-    this.baseURL = API_URL.Genshin_Hoyolab;
+    this.baseURL = API_URL.Genshin_Battle;
     if (option?.route) {
       this.baseURL = option.route;
     }
@@ -61,7 +63,7 @@ class HTTPRequest {
 
   public async get(
     url: string,
-    headers?: typeof this.headers,
+    headers?: headers,
     params?: Record<string, string | number | boolean>,
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
@@ -102,7 +104,7 @@ class HTTPRequest {
 
   public async post(
     url: string,
-    headers?: typeof this.headers,
+    headers?: headers,
     data?: Record<string, string | number[] | number | boolean>,
     params?: Record<string, string>,
   ): Promise<Response> {
