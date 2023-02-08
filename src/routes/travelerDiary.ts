@@ -1,5 +1,5 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { Genshin_Hoyolab_Diary_URL } from "../constants/constants";
+import { API_URL } from "../constants/constants";
 import { basicValidator, getMonthValidator, mergeOptions, request, checkServerRegion } from "../utils";
 import type { DiaryData } from "../interface";
 
@@ -30,7 +30,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_Diary_URL,
+      route: API_URL.Genshin_Hoyolab_Diary,
     });
     const res = await instance.get(
       "month_info",
@@ -62,7 +62,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
     const { language, cookie, month } = optionsToUse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_Diary_URL,
+      route: API_URL.Genshin_Hoyolab_Diary,
     });
 
     const res = await instance.get(

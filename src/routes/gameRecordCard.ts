@@ -1,5 +1,5 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { Genshin_Hoyolab_API_URL } from "../constants/constants";
+import { API_URL } from "../constants/constants";
 import { mergeOptions, request, basicValidator, removeFromArrayObject } from "../utils";
 import type { RecordCardData } from "../interface";
 
@@ -26,7 +26,7 @@ export class GameRecordCard extends BaseRoute<RecordCardData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_API_URL,
+      route: API_URL.Genshin_Hoyolab,
       language,
     });
 

@@ -1,6 +1,6 @@
-import { Genshin_Hoyolab_Reward_URL } from "../constants/constants";
+import { API_URL } from "../constants/constants";
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { mergeOptions, request, basicValidator, getDayRewardValidator, alias, claimHistoryValidator } from "../utils";
+import { mergeOptions, request, basicValidator, alias, claimHistoryValidator } from "../utils";
 import type {
   DailyRewardSignInHistoryData,
   DayRewardData,
@@ -26,14 +26,14 @@ export class DailyRewards extends BaseRoute {
   public async fetchDayReward(day: number, options?: fetchOptions): Promise<DayRewardData> {
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
-    if (!getDayRewardValidator(day, optionTouse)) {
+    if (!basicValidator(day, optionTouse)) {
       throw new Error("No UID or Cookie provided");
     }
 
     const { cookie, language } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_Reward_URL,
+      route: API_URL.Genshin_Hoyolab_Reward,
     });
 
     const res = await instance.get(
@@ -67,7 +67,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie, language } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_Reward_URL,
+      route: API_URL.Genshin_Hoyolab_Reward,
       withUA: true,
     });
 
@@ -124,7 +124,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie, language } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_Reward_URL,
+      route: API_URL.Genshin_Hoyolab_Reward,
     });
 
     const res = await instance.get(
@@ -156,7 +156,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_Reward_URL,
+      route: API_URL.Genshin_Hoyolab_Reward,
     });
 
     const res = await instance.get(
@@ -190,7 +190,7 @@ export class DailyRewards extends BaseRoute {
 
     const { cookie, language } = optionTouse;
     const instance = new request({
-      route: Genshin_Hoyolab_Reward_URL,
+      route: API_URL.Genshin_Hoyolab_Reward,
     });
 
     const res = await instance.get(
@@ -231,7 +231,7 @@ export class DailyRewards extends BaseRoute {
     const { cookie, language, page } = optionTouse;
 
     const instance = new request({
-      route: Genshin_Hoyolab_Reward_URL,
+      route: API_URL.Genshin_Hoyolab_Reward,
     });
 
     const res = await instance.get(

@@ -1,10 +1,9 @@
-import { Genshin_Battle_API_URL, UA } from "../constants/constants";
+import { API_URL, UA } from "../constants/constants";
 import { request } from "undici";
 import { generate_dynamic_secret } from "./generateDS";
 import { APIERROR } from "./error";
 import { getErrorByRetcode } from "../constants/error";
 import { Language } from "../constants/lang";
-import type { IncomingHttpHeaders } from "http2";
 import { isDebug } from "./debug";
 
 interface option {
@@ -27,22 +26,31 @@ interface Response {
 class HTTPRequest {
   private baseURL: string;
   private language: Language;
-  private headers: IncomingHttpHeaders;
+  private headers: Record<string, string | string[]>;
 
   constructor(option?: option) {
-    this.baseURL = Genshin_Battle_API_URL;
+    this.baseURL = API_URL.Genshin_Hoyolab;
     if (option?.route) {
       this.baseURL = option.route;
     }
     this.language = option?.language ? option.language : Language.EnglishUS;
 
     this.headers = {
-      "User-Agent": option?.withUA ? UA : undefined,
       "x-rpc-language": this.language,
-      "x-rpc-app_version": option?.withExtraHeaders ? "1.5.0" : undefined,
-      "x-rpc-client_type": option?.withExtraHeaders ? "5" : undefined,
-      DS: option?.withDS ? generate_dynamic_secret() : undefined,
     };
+
+    if (option?.withUA) {
+      this.headers["User-Agent"] = UA;
+    }
+
+    if (option?.withExtraHeaders) {
+      this.headers["x-rpc-app_version"] = "1.5.0";
+      this.headers["x-rpc-client_type"] = "5";
+    }
+
+    if (option?.withDS) {
+      this.headers.DS = generate_dynamic_secret();
+    }
   }
 
   public _debug(message: string): void {
@@ -53,7 +61,7 @@ class HTTPRequest {
 
   public async get(
     url: string,
-    headers?: IncomingHttpHeaders,
+    headers?: typeof this.headers,
     params?: Record<string, string | number | boolean>,
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
@@ -94,7 +102,7 @@ class HTTPRequest {
 
   public async post(
     url: string,
-    headers?: IncomingHttpHeaders,
+    headers?: typeof this.headers,
     data?: Record<string, string | number[] | number | boolean>,
     params?: Record<string, string>,
   ): Promise<Response> {
