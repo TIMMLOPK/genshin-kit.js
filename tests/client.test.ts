@@ -1,8 +1,10 @@
 import { Client } from "../dist";
+import dotenv from "dotenv";
 
-const ltuid = "";
-const ltoken = "";
+dotenv.config();
 
+const ltuid = process.env.LTUID || "";
+const ltoken = process.env.LTOKEN || "";
 
 describe("Client", () => {
     test("Login", async () => {
