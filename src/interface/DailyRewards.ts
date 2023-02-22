@@ -1,7 +1,10 @@
-export interface DailyRewardSignInData {
-  status: string;
+export type DailyRewardSignInData = DailyRewardSignInRawData<"success"> & {
+  rewards: DayRewardData;
+} | DailyRewardSignInRawData<"error" | "Already claimed">;
+
+interface DailyRewardSignInRawData<status = unknown> {
+  status: status;
   code: number;
-  rewards?: DayRewardData;
 }
 
 export interface DayRewardData {
@@ -14,25 +17,28 @@ export interface DailyRewardInfoData {
   total_sign_day: number;
   today: string;
   is_sign: boolean;
-  first_bind: boolean;
   is_sub: boolean;
+  first_bind: boolean;
   region: string;
+  month_last_day: boolean;
 }
 
 export interface DailyRewardExtraRewardData {
   awards: DayRewardData & { highlight: boolean; id: number; sign_day: number }[];
-  end_timestamp: string;
   has_short_act: boolean;
   login: boolean;
-  mc: {
-    has_month_card: boolean;
-    start_time: string;
-    open_time: string;
-    end_time: string;
-    status: string;
-  };
+  month_card: MonthCard;
   start_timestamp: string;
+  end_timestamp: string;
   total_count: number;
+}
+
+interface MonthCard {
+  has_month_card: boolean;
+  start_time: string;
+  open_time: string;
+  end_time: string;
+  status: string;
 }
 
 export interface DailyRewardResignData {

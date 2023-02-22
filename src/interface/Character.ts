@@ -1,25 +1,26 @@
 export interface CharacterInfoData {
   id: number;
   image: string;
-  icon?: string;
+  icon: string;
   name: string;
   element: string;
   rarity: number;
-  weapon_type?: number;
-  weapon_type_name?: string;
+  weapon_type: number;
+  weapon_type_name: string;
 }
 
-export interface Character extends CharacterInfoData {
+export interface Character extends Omit<CharacterInfoData, "weapon_type_name" | "weapon_type" | "icon"> {
   fetter: number;
   level: number;
   actived_constellation_num: number;
-  card_image?: string;
+  card_image: string;
 }
 
-export interface CharacterData extends Character {
+export interface CharacterData extends Omit<Character, "card_image"> {
+  icon: string;
   weapon: Weapon;
   reliquaries: Reliquary[];
-  constellation: Constellation[];
+  constellations: Constellation[];
   costumes: Costume[];
   external: null;
 }

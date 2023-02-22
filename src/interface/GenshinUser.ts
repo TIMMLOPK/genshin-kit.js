@@ -40,11 +40,7 @@ interface WorldExplorations {
   icon: string;
   name: string;
   type: string;
-  offerings: {
-    name: string;
-    level: number;
-    icon: string;
-  }[];
+  offerings: offering[];
   id: number;
   parent_id: number;
   map_url: string;
@@ -52,4 +48,10 @@ interface WorldExplorations {
   background_image: string;
   inner_icon: string;
   cover: string;
+}
+
+interface offering {
+  name: string;
+  level: number;
+  icon: string;
 }

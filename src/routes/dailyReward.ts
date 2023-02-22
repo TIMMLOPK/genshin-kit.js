@@ -7,6 +7,7 @@ import type {
   DailyRewardSignInData,
   DailyRewardInfoData,
   DailyRewardExtraRewardData,
+  DailyRewardResignData,
 } from "../interface";
 
 export type fetchClaimHistoryOption = fetchOptions & { page?: number };
@@ -100,7 +101,7 @@ export class DailyRewards extends BaseRoute {
       });
       return {
         status: "success",
-        code: 0,
+        code: res.retcode,
         rewards: reward,
       };
     }
@@ -173,7 +174,7 @@ export class DailyRewards extends BaseRoute {
 
     const { data } = res;
 
-    alias(data, { total_cnt: "total_count", cnt: "count" });
+    alias(data, { total_cnt: "total_count", cnt: "count" , mc: "month_card"});
 
     return data;
   }
@@ -181,7 +182,7 @@ export class DailyRewards extends BaseRoute {
   /**
    * @description get resign info
    */
-  async fetchResignInfo(options?: fetchOptions): Promise<DailyRewardSignInData> {
+  async fetchResignInfo(options?: fetchOptions): Promise<DailyRewardResignData> {
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
