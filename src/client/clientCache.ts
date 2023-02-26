@@ -8,7 +8,7 @@ interface cacheStore<V> {
 /**
  * @description Cache of API responses.
  */
-export class ClientCache<V> extends Map<string, V>{
+export class ClientCache<V> extends Map<string, V> {
   private cache: cacheStore<V>;
 
   constructor() {
@@ -16,7 +16,7 @@ export class ClientCache<V> extends Map<string, V>{
     this.cache = {};
   }
 
-  public sweep(fn: (value: { value: V, timestamp: number }, key: string) => unknown): void {
+  public sweep(fn: (value: { value: V; timestamp: number }, key: string) => unknown): void {
     if (this.size === 0) return;
     Object.entries(this.cache).forEach(([key, value]) => {
       if (fn(value, key)) {

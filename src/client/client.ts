@@ -117,7 +117,7 @@ export class Client {
 
   private initSweeper() {
     setInterval(() => {
-      const filter = (v: any) => v.timestamp + (this.options.cacheOptions.maxAge) < Date.now();
+      const filter = (v: any) => v.timestamp + this.options.cacheOptions.maxAge < Date.now();
       const caches = [
         this.genshinActivity?.cache,
         this.gameRecordCard?.cache,
@@ -136,7 +136,6 @@ export class Client {
           cache.sweep(filter);
         }
       }
-
     }, 1000 * this.options.cacheOptions.maxAge).unref();
   }
 }

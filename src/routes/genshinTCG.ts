@@ -153,9 +153,7 @@ class CardBackList extends BaseRoute<CardBackListData> {
 
     const { data } = res;
 
-    if (this.cache) {
-      this.cache.set(uid, data);
-    }
+    this.cache.set(uid, data);
 
     return data;
   }

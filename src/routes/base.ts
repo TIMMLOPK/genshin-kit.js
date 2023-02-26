@@ -4,9 +4,6 @@ import type { Language } from "../constants/lang";
 
 export interface Options<T> {
   cache?: boolean;
-  cacheOptions?: {
-    maxAge?: number;
-  };
   defaultOptions?: fetchOptions & T;
   cookieManager?: ClientCookieManager;
 }
@@ -16,13 +13,13 @@ export interface fetchOptions {
   language?: Language;
 }
 
-export class BaseRoute<cacheType = unknown> {
-  public readonly cache: ClientCache<cacheType> | null;
+export class BaseRoute<cacheType> {
+  public readonly cache: ClientCache<cacheType>;
 
   public readonly cookieManager?: ClientCookieManager;
 
   constructor(options?: Options<fetchOptions>) {
-    this.cache = options?.cache ? new ClientCache() : null;
+    this.cache = new ClientCache();
     this.cookieManager = options?.cookieManager;
   }
 }
