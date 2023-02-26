@@ -1,5 +1,5 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { mergeOptions, request, basicValidator, checkServerRegion } from "../utils";
+import { mergeOptions, RequestManager, basicValidator, checkServerRegion } from "../utils";
 import type { RealTimeNoteData } from "../interface";
 
 export class RealTimeNotes extends BaseRoute<RealTimeNoteData> {
@@ -24,7 +24,7 @@ export class RealTimeNotes extends BaseRoute<RealTimeNoteData> {
 
     const { language, cookie } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       withDS: true,
       withExtraHeaders: true,
       language,

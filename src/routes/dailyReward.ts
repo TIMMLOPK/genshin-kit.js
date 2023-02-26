@@ -1,6 +1,6 @@
 import { API_URL } from "../constants/constants";
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { mergeOptions, request, basicValidator, alias, claimHistoryValidator } from "../utils";
+import { mergeOptions, RequestManager, basicValidator, alias, claimHistoryValidator } from "../utils";
 import type {
   DailyRewardSignInHistoryData,
   DayRewardData,
@@ -22,7 +22,7 @@ export class DailyRewards extends BaseRoute {
 
   /**
    * @description Get the daily rewards details
-   * @param {number} day The day to get
+   * @param {number} day Day of the rewards
    */
   public async fetchDayReward(day: number, options?: fetchOptions): Promise<DayRewardData> {
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
@@ -33,7 +33,7 @@ export class DailyRewards extends BaseRoute {
 
     const { cookie, language } = optionTouse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
     });
 
@@ -67,7 +67,7 @@ export class DailyRewards extends BaseRoute {
 
     const { cookie, language } = optionTouse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
       withUA: true,
     });
@@ -124,7 +124,7 @@ export class DailyRewards extends BaseRoute {
 
     const { cookie, language } = optionTouse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
     });
 
@@ -156,7 +156,7 @@ export class DailyRewards extends BaseRoute {
 
     const { cookie } = optionTouse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
     });
 
@@ -174,7 +174,7 @@ export class DailyRewards extends BaseRoute {
 
     const { data } = res;
 
-    alias(data, { total_cnt: "total_count", cnt: "count" , mc: "month_card"});
+    alias(data, { total_cnt: "total_count", cnt: "count", mc: "month_card" });
 
     return data;
   }
@@ -190,7 +190,7 @@ export class DailyRewards extends BaseRoute {
     }
 
     const { cookie, language } = optionTouse;
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
     });
 
@@ -231,7 +231,7 @@ export class DailyRewards extends BaseRoute {
 
     const { cookie, language, page } = optionTouse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
     });
 

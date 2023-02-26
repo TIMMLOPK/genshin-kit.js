@@ -1,5 +1,5 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { mergeOptions, request, basicValidator, checkServerRegion, getAvatarValidator } from "../utils";
+import { mergeOptions, RequestManager, basicValidator, checkServerRegion, getAvatarValidator } from "../utils";
 import type { CharacterData, CharacterInfoData } from "../interface";
 
 export class Charcters extends BaseRoute<CharacterData[]> {
@@ -24,7 +24,7 @@ export class Charcters extends BaseRoute<CharacterData[]> {
 
     const { language, cookie } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       withDS: true,
       withExtraHeaders: true,
       language,
@@ -62,7 +62,7 @@ export class Charcters extends BaseRoute<CharacterData[]> {
 
     const { language, cookie } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       withDS: true,
       withExtraHeaders: true,
       language,

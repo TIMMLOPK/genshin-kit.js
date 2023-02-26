@@ -22,7 +22,7 @@ export class BaseRoute<cacheType = unknown> {
   public readonly cookieManager?: ClientCookieManager;
 
   constructor(options?: Options<fetchOptions>) {
-    this.cache = options?.cache ? new ClientCache({ maxAge: options.cacheOptions?.maxAge }) : null;
+    this.cache = options?.cache ? new ClientCache() : null;
     this.cookieManager = options?.cookieManager;
   }
 }

@@ -1,5 +1,5 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { mergeOptions, request, spiralAbyssValidator, checkServerRegion } from "../utils";
+import { mergeOptions, RequestManager, spiralAbyssValidator, checkServerRegion } from "../utils";
 import type { AbyssBattleData } from "../interface";
 
 export type SpiralAbyssFetchOptions = fetchOptions & {
@@ -27,7 +27,7 @@ export class SpiralAbyss extends BaseRoute<AbyssBattleData> {
 
     const { language, cookie, previous } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       withDS: true,
       withExtraHeaders: true,
       language,

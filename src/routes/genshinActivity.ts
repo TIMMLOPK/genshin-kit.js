@@ -1,5 +1,5 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { mergeOptions, request, basicValidator, checkServerRegion } from "../utils";
+import { mergeOptions, RequestManager, basicValidator, checkServerRegion } from "../utils";
 import type { ActivitiesData } from "../interface";
 
 export class Activities extends BaseRoute<ActivitiesData> {
@@ -24,7 +24,7 @@ export class Activities extends BaseRoute<ActivitiesData> {
 
     const { language, cookie } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       withDS: true,
       withExtraHeaders: true,
       language,

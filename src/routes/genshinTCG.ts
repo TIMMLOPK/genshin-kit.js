@@ -1,14 +1,15 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
-import { mergeOptions, request, basicValidator, checkServerRegion, cardListValidator } from "../utils";
+import { mergeOptions, RequestManager, basicValidator, checkServerRegion, cardListValidator } from "../utils";
 import type { CardBackListData, CardListData, TCGData } from "../interface";
 
-export type CardListOptions = fetchOptions & {
-  need_avatar?: boolean;
-  need_action?: boolean;
-  need_stats?: boolean;
-  offset?: number;
-  limit?: number;
-};
+export type CardListOptions = fetchOptions &
+  Partial<{
+    need_avatar: boolean;
+    need_action: boolean;
+    need_stats: boolean;
+    offset: number;
+    limit: number;
+  }>;
 
 class BasicInfo extends BaseRoute<TCGData> {
   private readonly defaultOptions?: fetchOptions;
@@ -32,7 +33,7 @@ class BasicInfo extends BaseRoute<TCGData> {
 
     const { language, cookie } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       withDS: true,
       withExtraHeaders: true,
       language,
@@ -80,7 +81,7 @@ class CardList extends BaseRoute<CardListData> {
 
     const { language, cookie, need_avatar, need_action, need_stats, offset, limit } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       withDS: true,
       withExtraHeaders: true,
       language,
@@ -133,7 +134,7 @@ class CardBackList extends BaseRoute<CardBackListData> {
 
     const { language, cookie } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       withDS: true,
       withExtraHeaders: true,
       language,

@@ -25,7 +25,7 @@ type headers = Record<string, string | string[]>;
 /**
  * @description Creates a new instance for the request
  */
-class HTTPRequest {
+export class RequestManager {
   private baseURL: string;
   private language: Language;
   private headers: headers;
@@ -148,5 +148,3 @@ class HTTPRequest {
     return resData;
   }
 }
-
-export { HTTPRequest as request };

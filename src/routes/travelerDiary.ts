@@ -1,6 +1,6 @@
 import { BaseRoute, fetchOptions, Options } from "./base";
 import { API_URL } from "../constants/constants";
-import { basicValidator, getMonthValidator, mergeOptions, request, checkServerRegion } from "../utils";
+import { basicValidator, getMonthValidator, mergeOptions, RequestManager, checkServerRegion } from "../utils";
 import type { DiaryData } from "../interface";
 
 export type getMonthDiaryOptions = fetchOptions & {
@@ -29,7 +29,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
 
     const { language, cookie } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Diary,
     });
     const res = await instance.get(
@@ -61,7 +61,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
 
     const { language, cookie, month } = optionsToUse;
 
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Diary,
     });
 

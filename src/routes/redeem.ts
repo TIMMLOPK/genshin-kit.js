@@ -1,5 +1,5 @@
 import { API_URL } from "../constants/constants";
-import { checkServerRegion, redeemValidator, request } from "../utils";
+import { checkServerRegion, redeemValidator, RequestManager } from "../utils";
 import type { RedeemCodeData } from "../interface/RedeemCode";
 import type { fetchOptions } from "./base";
 
@@ -20,7 +20,7 @@ export class RedeemCode {
 
     const { language, cookie, uid, cookie_token } = options;
 
-    const instance = new request({
+    const instance = new RequestManager({
       route: API_URL.Genshin_Redeem_Code,
     });
 

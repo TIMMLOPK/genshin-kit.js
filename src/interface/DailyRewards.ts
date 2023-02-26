@@ -1,6 +1,8 @@
-export type DailyRewardSignInData = DailyRewardSignInRawData<"success"> & {
-  rewards: DayRewardData;
-} | DailyRewardSignInRawData<"error" | "Already claimed">;
+export type DailyRewardSignInData =
+  | (DailyRewardSignInRawData<"success"> & {
+      rewards: DayRewardData;
+    })
+  | DailyRewardSignInRawData<"error" | "Already claimed">;
 
 interface DailyRewardSignInRawData<status = unknown> {
   status: status;
