@@ -13,7 +13,7 @@ import type { ClientCookieManager } from "../client/clientCookieManager";
 
 export type fetchClaimHistoryOption = fetchOptions & { page?: number };
 
-export class DayReward extends BaseRoute<DayRewardData> {
+class DayReward extends BaseRoute<DayRewardData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {
@@ -27,6 +27,7 @@ export class DayReward extends BaseRoute<DayRewardData> {
    */
   public async fetch(day: number, options?: fetchOptions): Promise<DayRewardData> {
     if (this.cache.has(day.toString())) return this.cache.get(day.toString());
+
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator(day, optionTouse)) {
@@ -73,6 +74,7 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
    */
   public async fetch(options?: fetchOptions): Promise<DailyRewardInfoData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
+
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
@@ -117,6 +119,7 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
    */
   async fetch(options?: fetchOptions): Promise<DailyRewardExtraRewardData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
+
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
@@ -164,6 +167,7 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
    */
   async fetch(options?: fetchOptions): Promise<DailyRewardResignData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
+
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator("", optionTouse)) {
@@ -203,7 +207,7 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
   }
 }
 
-export class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
+class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
   private readonly defaultOptions?: fetchOptions;
 
   constructor(options?: Options<fetchOptions>) {
@@ -216,6 +220,7 @@ export class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
    */
   async fetch(options?: fetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
+
     const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!claimHistoryValidator(optionTouse)) {

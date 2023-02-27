@@ -1,3 +1,5 @@
+import type { Client } from "../client/client";
+
 export enum API_URL {
   Genshin_Battle = "https://bbs-api-os.hoyolab.com/game_record/genshin/api/",
   Genshin_Hoyolab = " https://bbs-api-os.hoyolab.com/game_record/card/wapi/",
@@ -9,6 +11,31 @@ export enum API_URL {
 
 export const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36";
-
 export const SALT = "6s25p5ox5y14umn1p61aqyyvbvvl3lrt";
 export const CN_SALT = "N50pqm7FSy2AkFz2B3TqtuZMJ5TOl3Ep";
+
+export const cacheKeys = (client: Client) => {
+  if (!client.isLogin()) {
+    return [];
+  }
+
+  const caches = [
+    client.dailyReward.checkInHistory.cache,
+    client.dailyReward.dayReward.cache,
+    client.dailyReward.extraRewardInfo.cache,
+    client.dailyReward.resignInfo.cache,
+    client.dailyReward.rewardInfo.cache,
+    client.genshinActivity.cache,
+    client.gameRecordCard.cache,
+    client.sprialAbyss.cache,
+    client.genshinUser.cache,
+    client.realTimeNotes.cache,
+    client.characters.cache,
+    client.travelDiary.cache,
+    client.tcg.cardList.cache,
+    client.tcg.cardBackList.cache,
+    client.tcg.basicInfo.cache,
+  ];
+
+  return caches;
+};

@@ -19,7 +19,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
    * @param {string} uid Genshin Impact UID
    */
   public async fetch(uid: string, options: fetchOptions): Promise<DiaryData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid);
+    if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
@@ -46,9 +46,8 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
 
     const { data } = res;
 
-    if (this.cache) {
-      this.cache.set(uid, data);
-    }
+    this.cache.set(uid, data);
+
     return data;
   }
 

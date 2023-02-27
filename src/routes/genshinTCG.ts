@@ -23,7 +23,7 @@ class BasicInfo extends BaseRoute<TCGData> {
    * @param {string} uid Genshin Impact UID
    */
   public async fetch(uid: string, options?: fetchOptions): Promise<TCGData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid);
+    if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
@@ -52,9 +52,7 @@ class BasicInfo extends BaseRoute<TCGData> {
 
     const { data } = res;
 
-    if (this.cache) {
-      this.cache.set(uid, data);
-    }
+    this.cache.set(uid, data);
 
     return data;
   }
@@ -72,7 +70,7 @@ class CardList extends BaseRoute<CardListData> {
    * @param {string} uid Genshin Impact UID
    */
   public async fetch(uid: string, options?: CardListOptions): Promise<CardListData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid);
+    if (this.cache.has(uid)) return this.cache.get(uid);
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!cardListValidator(uid, optionsToUse)) {
@@ -105,9 +103,7 @@ class CardList extends BaseRoute<CardListData> {
 
     const { data } = res;
 
-    if (this.cache) {
-      this.cache.set(uid, data);
-    }
+    this.cache.set(uid, data);
 
     return data;
   }
@@ -125,7 +121,7 @@ class CardBackList extends BaseRoute<CardBackListData> {
    * @param {string} uid Genshin Impact UID
    */
   public async fetch(uid: string, options?: fetchOptions): Promise<CardBackListData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid);
+    if (this.cache.has(uid)) return this.cache.get(uid);
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
     if (!basicValidator(uid, optionsToUse)) {

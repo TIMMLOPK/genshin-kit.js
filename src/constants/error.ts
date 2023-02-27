@@ -5,6 +5,13 @@ export enum APIError {
   ACCOUNT_NOT_FOUND = "The account is not found",
 }
 
+interface Error {
+  retcode: number;
+  message: APIError;
+}
+
+export type HoYoLabError = Error;
+
 const ERROR = [
   { retcode: -100, message: APIError.INVALID_COOKIE },
   { retcode: 10001, message: APIError.INVALID_COOKIE },

@@ -14,7 +14,7 @@ export class Charcters extends BaseRoute<CharacterData[]> {
    * @param {string} uid Genshin Impact UID
    */
   public async fetch(uid: string, options?: fetchOptions): Promise<CharacterData[]> {
-    if (this.cache?.has(uid)) return this.cache.get(uid);
+    if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
@@ -43,9 +43,7 @@ export class Charcters extends BaseRoute<CharacterData[]> {
 
     const { data } = res;
 
-    if (this.cache) {
-      this.cache.set(uid, data.avatars);
-    }
+    this.cache.set(uid, data.avatars);
 
     return data.avatars;
   }

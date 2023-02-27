@@ -14,7 +14,7 @@ export class RealTimeNotes extends BaseRoute<RealTimeNoteData> {
    * @param {string} uid Genshin Impact UID
    */
   public async fetch(uid: string, options: fetchOptions): Promise<RealTimeNoteData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid);
+    if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
@@ -43,9 +43,8 @@ export class RealTimeNotes extends BaseRoute<RealTimeNoteData> {
 
     const { data } = res;
 
-    if (this.cache) {
-      this.cache.set(uid, data);
-    }
+    this.cache.set(uid, data);
+
     return data;
   }
 }

@@ -13,14 +13,15 @@ import {
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
 import { setDebug } from "../utils";
+import { cacheKeys } from "../constants/constants";
 
 interface ClientOptions {
   language: Language | Language.EnglishUS;
   cookieManager: ClientCookieManager;
-  cache: boolean;
   debug: boolean;
   cacheOptions: {
     maxAge: number;
+    maxSize?: number;
   };
 }
 
@@ -58,9 +59,9 @@ export class Client {
     this.options = {
       language: options?.language || Language.EnglishUS,
       cookieManager: options?.cookieManager || new ClientCookieManager(),
-      cache: options?.cache || false,
       cacheOptions: {
         maxAge: options?.cacheOptions?.maxAge || 60,
+        maxSize: options?.cacheOptions?.maxSize,
       },
       debug: options?.debug || false,
     };
@@ -76,7 +77,6 @@ export class Client {
     this.cookieManager.setCookie(ltuid, ltoken);
 
     const option = {
-      cache: this.options.cache,
       cacheOptions: this.options.cacheOptions,
       defaultOptions: {
         language: this.options.language,
@@ -96,10 +96,7 @@ export class Client {
     this.tcg = new TCG(option);
     this.redeemCode = new RedeemCode();
 
-    if (this.options.cache) {
-      this.initSweeper();
-    }
-
+    this.initSweeper();
     this.logined = true;
 
     return this as Required<this>;
@@ -117,25 +114,16 @@ export class Client {
 
   private initSweeper() {
     setInterval(() => {
-      const filter = (v: any) => v.timestamp + this.options.cacheOptions.maxAge < Date.now();
-      const caches = [
-        this.genshinActivity?.cache,
-        this.gameRecordCard?.cache,
-        this.sprialAbyss?.cache,
-        this.genshinUser?.cache,
-        this.realTimeNotes?.cache,
-        this.characters?.cache,
-        this.travelDiary?.cache,
-        this.tcg?.cardList?.cache,
-        this.tcg?.cardBackList?.cache,
-        this.tcg?.basicInfo?.cache,
-      ];
+      const filter = (v: any) =>
+        v.timestamp + this.options.cacheOptions.maxAge < Date.now() ||
+        (this.options.cacheOptions.maxSize && v.size > this.options.cacheOptions.maxSize);
 
-      for (const cache of caches) {
+      for (const cache of cacheKeys(this)) {
         if (cache) {
+          if (this.options.debug) console.log(`[DEBUG] Sweeping cache: ${cache.constructor.name}`);
           cache.sweep(filter);
         }
       }
-    }, 1000 * this.options.cacheOptions.maxAge).unref();
+    }, 1000 * this.options.cacheOptions.maxAge);
   }
 }

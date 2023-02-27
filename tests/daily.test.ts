@@ -16,27 +16,27 @@ describe("Daily Rewards", () => {
     });
 
     test("Daily reward info", async () => {
-        const result = await reward.fetchRewardInfo(options);
+        const result = await reward.rewardInfo.fetch(options);
         expect(result.is_sign).toBeTruthy();
     });
 
     test("Daily reward resign Info", async () => {
-        const result = await reward.fetchExtraRewardInfo(options);
-        expect(result.login).toBeTruthy();
+        const result = await reward.resignInfo.fetch(options);
+        expect(result.signed).toBeTruthy();
     });
 
     test("Daily reward checkIn history", async () => {
-        const result = await reward.fetchCheckInHistory(options);
+        const result = await reward.checkInHistory.fetch(options);
         expect(result.total).not.toBe(undefined);
     });
 
     test("Daily reward extra reward", async () => {
-        const result = await reward.fetchExtraRewardInfo(options);
+        const result = await reward.extraRewardInfo.fetch(options);
         expect(result.start_timestamp).not.toBe(undefined);
     });
 
     test("Daily reward day reward", async () => {
-        const result = await reward.fetchDayReward(1, options);
+        const result = await reward.dayReward.fetch(1, options);
         expect(result.count).not.toBe(undefined);
     });
 

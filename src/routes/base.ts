@@ -3,7 +3,10 @@ import type { ClientCookieManager } from "../client/clientCookieManager";
 import type { Language } from "../constants/lang";
 
 export interface Options<T> {
-  cache?: boolean;
+  cacheOptions?: {
+    maxAge?: number;
+    maxSize?: number;
+  };
   defaultOptions?: fetchOptions & T;
   cookieManager?: ClientCookieManager;
 }
@@ -19,7 +22,7 @@ export class BaseRoute<cacheType> {
   public readonly cookieManager?: ClientCookieManager;
 
   constructor(options?: Options<fetchOptions>) {
-    this.cache = new ClientCache();
+    this.cache = new ClientCache({ maxSize: options?.cacheOptions?.maxSize });
     this.cookieManager = options?.cookieManager;
   }
 }

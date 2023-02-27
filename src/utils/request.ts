@@ -57,7 +57,7 @@ export class RequestManager {
 
   public _debug(message: string): void {
     if (isDebug()) {
-      console.log(message);
+      console.log(`[DEBUG] ${message}`);
     }
   }
 

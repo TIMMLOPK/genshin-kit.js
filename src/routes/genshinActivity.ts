@@ -14,7 +14,7 @@ export class Activities extends BaseRoute<ActivitiesData> {
    * @param {string} uid Genshin Impact UID
    */
   public async fetch(uid: string, options?: fetchOptions): Promise<ActivitiesData> {
-    if (this.cache?.has(uid)) return this.cache.get(uid);
+    if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
 
@@ -55,9 +55,7 @@ export class Activities extends BaseRoute<ActivitiesData> {
       spray: data.activities[8].spray,
     };
 
-    if (this.cache) {
-      this.cache.set(uid, returnData);
-    }
+    this.cache.set(uid, returnData);
 
     return returnData;
   }
