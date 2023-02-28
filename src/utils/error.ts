@@ -1,6 +1,6 @@
 export class APIERROR extends Error {
   public readonly retcode: number;
-  public readonly description: string | undefined;
+  public readonly description?: string;
 
   constructor(message: string, retcode: number, description?: string) {
     super(message);

@@ -72,6 +72,10 @@ export class Client {
   }
 
   public login(ltuid: string, ltoken: string): Required<this> {
+    if (typeof ltuid !== "string" || typeof ltoken !== "string") {
+      throw new Error("ltuid and ltoken must be a string");
+    }
+    
     if (this.isLogin()) return this;
 
     this.cookieManager.setCookie(ltuid, ltoken);
@@ -103,6 +107,10 @@ export class Client {
   }
 
   public addCookies(cookies: { ltuid: string; ltoken: string }[]) {
+    if (!Array.isArray(cookies) || cookies.length === 0) {
+      throw new Error("Cookies must be an array");
+    };
+
     cookies.forEach(cookie => {
       this.cookieManager.setCookie(cookie.ltuid, cookie.ltoken);
     });
