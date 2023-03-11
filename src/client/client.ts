@@ -132,6 +132,6 @@ export class Client {
           cache.sweep(filter);
         }
       }
-    }, 1000 * this.options.cacheOptions.maxAge);
+    }, 1000 * this.options.cacheOptions.maxAge).unref();
   }
 }
