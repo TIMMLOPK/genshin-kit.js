@@ -8,11 +8,7 @@ interface cookie {
   cookie: string;
 }
 
-interface cookieStore {
-  ltuid: string;
-  ltoken: string;
-  cookie_token?: string;
-}
+type cookieStore = Pick<cookie, "ltoken" | "ltuid"> & { cookie_token?: string };
 
 export class ClientCookieManager {
   private cookie: cookieStore[];

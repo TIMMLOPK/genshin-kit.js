@@ -2,12 +2,13 @@
  * @description Cache of API responses.
  */
 export class ClientCache<V> extends Map<string, V> {
-  private lifeMap: Map<string, number> = new Map();
+  private lifeMap: Map<string, number>;
   private _maxSize?: number;
 
   constructor(cacheOptions: { maxSize?: number }) {
     super();
     this._maxSize = cacheOptions.maxSize;
+    this.lifeMap = new Map();
   }
 
   public sweep(fn: (value: { value: V; timestamp: number }, key: string) => unknown): void {

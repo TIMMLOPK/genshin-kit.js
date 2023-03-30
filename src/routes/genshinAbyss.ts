@@ -7,10 +7,11 @@ export type SpiralAbyssFetchOptions = fetchOptions & {
 };
 
 export class SpiralAbyss extends BaseRoute<AbyssBattleData> {
-  public declare defaultOptions: SpiralAbyssFetchOptions;
+  public readonly defaultOptions?: SpiralAbyssFetchOptions;
 
   constructor(options?: Options<SpiralAbyssFetchOptions>) {
     super(options);
+    this.defaultOptions = options?.defaultOptions;
   }
 
   /**

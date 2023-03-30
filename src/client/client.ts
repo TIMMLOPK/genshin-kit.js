@@ -15,8 +15,8 @@ import { Language } from "../constants/lang";
 import { setDebug } from "../utils";
 import { cacheKeys } from "../constants/constants";
 
-interface ClientOptions {
-  language: Language | Language.EnglishUS;
+export interface ClientOptions {
+  language: Language;
   cookieManager: ClientCookieManager;
   debug: boolean;
   cacheOptions: {
@@ -72,10 +72,6 @@ export class Client {
   }
 
   public login(ltuid: string, ltoken: string): Required<this> {
-    if (typeof ltuid !== "string" || typeof ltoken !== "string") {
-      throw new Error("ltuid and ltoken must be a string");
-    }
-
     if (this.isLogin()) return this;
 
     this.cookieManager.setCookie(ltuid, ltoken);
@@ -107,10 +103,6 @@ export class Client {
   }
 
   public addCookies(cookies: { ltuid: string; ltoken: string }[]) {
-    if (!Array.isArray(cookies) || cookies.length === 0) {
-      throw new Error("Cookies must be an array");
-    }
-
     cookies.forEach(cookie => {
       this.cookieManager.setCookie(cookie.ltuid, cookie.ltoken);
     });
@@ -122,13 +114,13 @@ export class Client {
 
   private initSweeper() {
     setInterval(() => {
+      if (this.options.debug) console.log(`[DEBUG] Sweeping cache`);
       const filter = (v: any) =>
         v.timestamp + this.options.cacheOptions.maxAge < Date.now() ||
         (this.options.cacheOptions.maxSize && v.size > this.options.cacheOptions.maxSize);
 
       for (const cache of cacheKeys(this)) {
         if (cache) {
-          if (this.options.debug) console.log(`[DEBUG] Sweeping cache: ${cache.constructor.name}`);
           cache.sweep(filter);
         }
       }
