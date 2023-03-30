@@ -1,6 +1,8 @@
 /**
  * @description Cache of API responses.
  */
+export type sweepFilterOptions<V> = (value: { value: V; timestamp: number; size: number }, key: string) => boolean;
+
 export class ClientCache<V> extends Map<string, V> {
   private lifeMap: Map<string, number>;
   private _maxSize?: number;
@@ -11,7 +13,7 @@ export class ClientCache<V> extends Map<string, V> {
     this.lifeMap = new Map();
   }
 
-  public sweep(fn: (value: { value: V; timestamp: number }, key: string) => unknown): void {
+  public sweep(fn: sweepFilterOptions<V>): void {
     if (this.size === 0) return;
     Object.entries(this).forEach(([key, value]) => {
       const input = { value, timestamp: this.lifeMap.get(key) as number, size: this.size };

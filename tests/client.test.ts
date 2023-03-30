@@ -1,4 +1,4 @@
-import { Client, HoYoLabError } from "../dist";
+import { Client, ClientCookieManager } from "../dist";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -30,8 +30,28 @@ describe("Client", () => {
             const expected = user.list[0]?.game_id;
             expect(expected).toBe(2);
             expect(client.gameRecordCard.cache.get(ltuid)).not.toBe(undefined);
-            console.log(client.gameRecordCard.cache.get(ltuid));
             expect(client.gameRecordCard.cache.get(ltuid).list[0]?.game_id).toBe(expected);
         }
+    });
+
+    test("Client cookieManager", async () => {
+        const cookieManager = new ClientCookieManager();
+        expect(() => cookieManager.get()).toThrowError();
+
+        cookieManager.setCookie(undefined!, undefined!);
+        expect(() => cookieManager.get()).toThrowError();
+
+        cookieManager.delete(1);
+        expect(cookieManager.size === 0).toBe(true);
+
+        cookieManager.setCookie(ltuid, ltoken);
+        expect(cookieManager.get().ltoken).toBe(ltoken);
+
+        cookieManager.clear();
+        expect(cookieManager.size === 0).toBe(true);
+
+        cookieManager.setCookie(ltuid, ltoken);
+        expect(cookieManager.getAll().length).toBe(1);
+
     });
 });

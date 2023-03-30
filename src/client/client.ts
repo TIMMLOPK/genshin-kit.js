@@ -14,6 +14,7 @@ import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
 import { setDebug } from "../utils";
 import { cacheKeys } from "../constants/constants";
+import type { sweepFilterOptions } from "./clientCache";
 
 export interface ClientOptions {
   language: Language;
@@ -115,9 +116,9 @@ export class Client {
   private initSweeper() {
     setInterval(() => {
       if (this.options.debug) console.log(`[DEBUG] Sweeping cache`);
-      const filter = (v: any) =>
+      const filter: sweepFilterOptions<any> = (v) =>
         v.timestamp + this.options.cacheOptions.maxAge < Date.now() ||
-        (this.options.cacheOptions.maxSize && v.size > this.options.cacheOptions.maxSize);
+        (this.options.cacheOptions.maxSize !== undefined ? v.size > this.options.cacheOptions.maxSize : false);
 
       for (const cache of cacheKeys(this)) {
         if (cache) {

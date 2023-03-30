@@ -59,7 +59,7 @@ export class ClientCookieManager {
    * @param key - The key to remove.
    */
   public delete(key: number): void {
-    this.cookie.splice(key, 1);
+    this.cookie.splice(key - 1, 1);
   }
 
   public clear(): void {
