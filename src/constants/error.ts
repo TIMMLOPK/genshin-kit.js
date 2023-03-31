@@ -3,6 +3,7 @@ export enum APIError {
   COOKIE_LIMIT = "Cannot get data for more than 30 accounts per cookie per day. Please use a different cookie.",
   API_BUSY = "API system busy. Please try again later.",
   ACCOUNT_NOT_FOUND = "The account is not found",
+  CODE_IS_USED = "The code has been used",
 }
 
 export interface HoYoLabError {
@@ -26,6 +27,10 @@ const ERROR = [
     retcode: 1009,
     message: APIError.ACCOUNT_NOT_FOUND,
   },
+  {
+    retcode: -2017,
+    message: APIError.CODE_IS_USED
+  }
 ];
 
 export function getErrorByRetcode(retcode: number): string | undefined {

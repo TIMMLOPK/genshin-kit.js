@@ -1,5 +1,5 @@
 export interface RedeemCodeData {
-  msg?: string;
-  special_shipping?: string;
+  msg: string;
+  special_shipping: string;
   success: boolean;
 }
