@@ -13,54 +13,6 @@ import type { ClientCookieManager } from "../client/clientCookieManager";
 
 export type fetchClaimHistoryOption = fetchOptions & { page?: number };
 
-class DayReward extends BaseRoute<DayRewardData> {
-  private readonly defaultOptions?: fetchOptions;
-
-  constructor(options?: Options<fetchOptions>) {
-    super(options);
-    this.defaultOptions = options?.defaultOptions;
-  }
-
-  /**
-   * @description Get the daily rewards details
-   * @param {number} day Day of the rewards
-   */
-  public async fetch(day: number, options?: fetchOptions): Promise<DayRewardData> {
-    if (this.cache.has(day.toString())) return this.cache.get(day.toString());
-
-    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
-
-    if (!basicValidator(day, optionTouse)) {
-      throw new Error("No UID or Cookie provided");
-    }
-
-    const { cookie, language } = optionTouse;
-
-    const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Reward,
-    });
-
-    const res = await instance.get(
-      "home",
-      {
-        Cookie: cookie,
-      },
-      {
-        lang: language,
-        act_id: "e202102251931481",
-      },
-    );
-
-    const { data } = res;
-
-    const resData = alias(data.awards[day - 1], { cnt: "count" });
-
-    this.cache.set(day.toString(), resData);
-
-    return resData;
-  }
-}
-
 class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   private readonly defaultOptions?: fetchOptions;
 
@@ -103,6 +55,43 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
     this.cache.set(cookie, data);
 
     return data;
+  }
+
+  /**
+   * @description Get the daily rewards details
+   * @param {number} day Day of the rewards
+   */
+  public async fetchDay(day: number, options?: fetchOptions): Promise<DayRewardData> {
+    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+
+    if (!basicValidator(day, optionTouse)) {
+      throw new Error("No UID or Cookie provided");
+    }
+
+    const { cookie, language } = optionTouse;
+
+    const instance = new RequestManager({
+      route: API_URL.Genshin_Hoyolab_Reward,
+    });
+
+    const res = await instance.get(
+      "home",
+      {
+        Cookie: cookie,
+      },
+      {
+        lang: language,
+        act_id: "e202102251931481",
+      },
+    );
+
+    const { data } = res;
+
+    const resData = alias(data.awards[day - 1], { cnt: "count" });
+
+    this.cache.set(day.toString(), resData);
+
+    return resData;
   }
 }
 
@@ -261,8 +250,6 @@ export class DailyRewards {
 
   public readonly cookieManager?: ClientCookieManager;
 
-  public dayReward: DayReward;
-
   public rewardInfo: RewardInfo;
 
   public extraRewardInfo: ExtraRewardInfo;
@@ -275,7 +262,6 @@ export class DailyRewards {
     this.defaultOptions = options?.defaultOptions;
     this.cookieManager = options?.cookieManager;
 
-    this.dayReward = new DayReward(options);
     this.rewardInfo = new RewardInfo(options);
     this.extraRewardInfo = new ExtraRewardInfo(options);
     this.resignInfo = new ResignInfo(options);
@@ -287,7 +273,7 @@ export class DailyRewards {
    * @deprecated use `DailyRewards.dayReward.fetch()` instead
    */
   public async fetchDayReward(): Promise<DayRewardData> {
-    throw new Error("Deprecated, use `DailyRewards.dayReward.fetch()` instead");
+    throw new Error("Deprecated, use `DailyRewards.rewardInfo.fetchDay()` instead");
   }
 
   /**
@@ -332,7 +318,7 @@ export class DailyRewards {
     if (data.code === "ok" && res.retcode === 0) {
       const info = await this.rewardInfo.fetch(options);
       const today = info.today.split("-")[2];
-      const reward = await this.dayReward.fetch(parseInt(today || "1"), {
+      const reward = await this.rewardInfo.fetchDay(parseInt(today || "1"), {
         cookie,
         language,
       });
