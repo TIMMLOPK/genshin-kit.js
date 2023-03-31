@@ -21,7 +21,6 @@ export const cacheKeys = (client: Client) => {
 
   const caches = [
     client.dailyReward.checkInHistory.cache,
-    client.dailyReward.dayReward.cache,
     client.dailyReward.extraRewardInfo.cache,
     client.dailyReward.resignInfo.cache,
     client.dailyReward.rewardInfo.cache,
