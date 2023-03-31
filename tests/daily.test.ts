@@ -36,7 +36,7 @@ describe("Daily Rewards", () => {
     });
 
     test("Daily reward day reward", async () => {
-        const result = await reward.dayReward.fetch(1, options);
+        const result = await reward.rewardInfo.fetchDay(1, options);
         expect(result.count).not.toBe(undefined);
     });
 
