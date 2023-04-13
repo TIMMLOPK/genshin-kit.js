@@ -1,5 +1,5 @@
 dist
 node_modules
-example.js
+.index.js
 coverage
 .env
