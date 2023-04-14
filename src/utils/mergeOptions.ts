@@ -9,15 +9,9 @@ interface mergeUtilOptions {
   defaultOptions?: FetchOptions;
 }
 
-enum mergeOptionsType {
-  FetchOptions = "fetchOptions",
-  SpiralAbyssFetchOptions = "SpiralAbyssFetchOptions",
-  FetchClaimHistoryOption = "fetchClaimHistoryOption",
-  CardListOptions = "CardListOptions",
-  MonthDiaryOptions = "MonthDiaryOptions",
-}
+type mergeOptionsType = "FetchOptions" | "SpiralAbyssFetchOptions" | "FetchClaimHistoryOption" | "CardListOptions" | "MonthDiaryOptions";
 
-export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = mergeOptionsType.FetchOptions) {
+export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = "FetchOptions") {
   const options = input.options;
   const cookieManager = input.cookieManager;
   const defaultOptions = input.defaultOptions;
@@ -26,7 +20,7 @@ export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = m
 
   const language = options?.language ?? defaultOptions?.language ?? Language.EnglishUS;
 
-  if (type === mergeOptionsType.SpiralAbyssFetchOptions) {
+  if (type === "SpiralAbyssFetchOptions") {
     const options = input.options as SpiralAbyssFetchOptions | undefined;
     return {
       cookie,
@@ -35,7 +29,7 @@ export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = m
     };
   }
 
-  if (type === mergeOptionsType.FetchClaimHistoryOption) {
+  if (type === "FetchClaimHistoryOption") {
     const options = input.options as FetchClaimHistoryOption | undefined;
     return {
       cookie,
@@ -44,7 +38,7 @@ export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = m
     };
   }
 
-  if (type === mergeOptionsType.CardListOptions) {
+  if (type === "CardListOptions") {
     const options = input.options as CardListOptions | undefined;
     const { need_avatar, need_action, need_stats, offset, limit } = options ?? {};
     return {
@@ -58,7 +52,7 @@ export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = m
     };
   }
 
-  if (type === mergeOptionsType.MonthDiaryOptions) {
+  if (type === "MonthDiaryOptions") {
     const options = input.options as MonthDiaryOptions | undefined;
     return {
       cookie,

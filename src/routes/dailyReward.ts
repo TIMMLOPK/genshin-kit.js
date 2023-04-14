@@ -228,7 +228,7 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
 
     const optionsToUse = mergeOptions(
       { options, cookieManager: this.cookieManager, defaultOptions: this.defaultOptions },
-      "fetchClaimHistoryOption",
+      "FetchClaimHistoryOption",
     );
 
     if (!claimHistoryValidator(optionsToUse)) {
