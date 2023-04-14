@@ -104,9 +104,9 @@ export class Client {
   }
 
   public addCookies(cookies: { ltuid: string; ltoken: string }[]) {
-    cookies.forEach(cookie => {
+    for (const cookie of cookies) {
       this.cookieManager.setCookie(cookie.ltuid, cookie.ltoken);
-    });
+    }
   }
 
   public isLogin(): this is Client & Required<this> {

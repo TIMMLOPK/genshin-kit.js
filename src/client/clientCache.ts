@@ -15,13 +15,13 @@ export class ClientCache<V> extends Map<string, V> {
 
   public sweep(fn: SweepFilterOptions<V>): void {
     if (this.size === 0) return;
-    Object.entries(this).forEach(([key, value]) => {
+    for (const [key, value] of this) {
       const input = { value, timestamp: this.lifeMap.get(key) as number, size: this.size };
       if (fn(input, key)) {
         this.delete(key);
         this.lifeMap.delete(key);
       }
-    });
+    }
   }
 
   public override set(key: string, value: V): this {
