@@ -12,7 +12,6 @@ export enum API_URL {
 export const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36";
 export const SALT = "6s25p5ox5y14umn1p61aqyyvbvvl3lrt";
-export const CN_SALT = "N50pqm7FSy2AkFz2B3TqtuZMJ5TOl3Ep";
 
 export const cacheKeys = (client: Client) => {
   if (!client.isLogin()) {

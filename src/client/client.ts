@@ -9,12 +9,12 @@ import {
   Activities,
   RedeemCode,
   TCG,
-} from "../index";
+} from "../routes";
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
 import { setDebug } from "../utils";
 import { cacheKeys } from "../constants/constants";
-import type { sweepFilterOptions } from "./clientCache";
+import type { SweepFilterOptions } from "./clientCache";
 
 export interface ClientOptions {
   language: Language;
@@ -116,7 +116,7 @@ export class Client {
   private initSweeper() {
     setInterval(() => {
       if (this.options.debug) console.log(`[DEBUG] Sweeping cache`);
-      const filter: sweepFilterOptions<any> = (v) =>
+      const filter: SweepFilterOptions<any> = v =>
         v.timestamp + this.options.cacheOptions.maxAge < Date.now() ||
         (this.options.cacheOptions.maxSize !== undefined ? v.size > this.options.cacheOptions.maxSize : false);
 

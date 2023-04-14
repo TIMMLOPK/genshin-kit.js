@@ -1,21 +1,56 @@
 import { Language } from "../constants/lang";
 import type { ClientCookieManager } from "../client/clientCookieManager";
-import type { fetchOptions } from "../routes/base";
-import type { fetchClaimHistoryOption } from "../routes/dailyReward";
-import type { SpiralAbyssFetchOptions } from "../routes/genshinAbyss";
-import type { CardListOptions } from "../routes/genshinTCG";
-import type { getMonthDiaryOptions } from "../routes/travelerDiary";
+import type { FetchOptions } from "../routes/base";
+import type { FetchClaimHistoryOption, SpiralAbyssFetchOptions, CardListOptions, MonthDiaryOptions } from "../routes";
 
-export function mergeOptions(
-  options?: fetchOptions | SpiralAbyssFetchOptions | fetchClaimHistoryOption | CardListOptions | getMonthDiaryOptions,
-  cookieManager?: ClientCookieManager,
-  defaultOptions?: fetchOptions,
-) {
+interface mergeUtilOptions {
+  options?: FetchOptions | SpiralAbyssFetchOptions | FetchClaimHistoryOption | CardListOptions | MonthDiaryOptions;
+  cookieManager?: ClientCookieManager;
+  defaultOptions?: FetchOptions;
+}
+
+type mergeOptionsType =
+  | "fetchOptions"
+  | "SpiralAbyssFetchOptions"
+  | "fetchClaimHistoryOption"
+  | "CardListOptions"
+  | "MonthDiaryOptions";
+
+function isSpiralAbyssFetchOptions(
+  _options: mergeUtilOptions["options"],
+  type: mergeOptionsType,
+): _options is SpiralAbyssFetchOptions {
+  return type === "SpiralAbyssFetchOptions";
+}
+
+function isClaimHistoryOptions(
+  _options: mergeUtilOptions["options"],
+  type: mergeOptionsType,
+): _options is FetchClaimHistoryOption {
+  return type === "fetchClaimHistoryOption";
+}
+
+function isCardListOptions(_options: mergeUtilOptions["options"], type: mergeOptionsType): _options is CardListOptions {
+  return type === "CardListOptions";
+}
+
+function isMonthDiaryOptions(
+  _options: mergeUtilOptions["options"],
+  type: mergeOptionsType,
+): _options is MonthDiaryOptions {
+  return type === "MonthDiaryOptions";
+}
+
+export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = "fetchOptions") {
+  const options = input.options;
+  const cookieManager = input.cookieManager;
+  const defaultOptions = input.defaultOptions;
+
   const cookie = options?.cookie || cookieManager?.get().cookie || defaultOptions?.cookie;
 
   const language = options?.language || defaultOptions?.language || Language.EnglishUS;
 
-  if (options && "previous" in options) {
+  if (isSpiralAbyssFetchOptions(options, type)) {
     return {
       cookie,
       language,
@@ -23,22 +58,15 @@ export function mergeOptions(
     };
   }
 
-  if (options && "page" in options) {
+  if (isClaimHistoryOptions(options, type)) {
     return {
       cookie,
       language,
-      page: options.page,
+      month: options.page,
     };
   }
 
-  if (
-    options &&
-    ("need_avatar" in options ||
-      "need_action" in options ||
-      "need_stats" in options ||
-      "offset" in options ||
-      "limit" in options)
-  ) {
+  if (isCardListOptions(options, type)) {
     const { need_avatar, need_action, need_stats, offset, limit } = options;
     return {
       cookie,
@@ -51,7 +79,7 @@ export function mergeOptions(
     };
   }
 
-  if (options && "month" in options) {
+  if (isMonthDiaryOptions(options, type)) {
     return {
       cookie,
       language,

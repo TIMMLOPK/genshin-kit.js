@@ -1,8 +1,8 @@
-import { BaseRoute, fetchOptions, Options } from "./base";
+import { BaseRoute, FetchOptions, Options } from "./base";
 import { mergeOptions, RequestManager, basicValidator, checkServerRegion, cardListValidator } from "../utils";
-import type { CardBackListData, CardListData, TCGData } from "../interface";
+import type { CardBackListData, CardListData, TCGData, TCGGameRecordData } from "../interface";
 
-export type CardListOptions = fetchOptions &
+export type CardListOptions = FetchOptions &
   Partial<{
     need_avatar: boolean;
     need_action: boolean;
@@ -12,9 +12,9 @@ export type CardListOptions = fetchOptions &
   }>;
 
 class BasicInfo extends BaseRoute<TCGData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -22,10 +22,14 @@ class BasicInfo extends BaseRoute<TCGData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: fetchOptions): Promise<TCGData> {
+  public async fetch(uid: string, options?: FetchOptions): Promise<TCGData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -59,9 +63,9 @@ class BasicInfo extends BaseRoute<TCGData> {
 }
 
 class CardList extends BaseRoute<CardListData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -71,7 +75,10 @@ class CardList extends BaseRoute<CardListData> {
    */
   public async fetch(uid: string, options?: CardListOptions): Promise<CardListData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions(
+      { options, cookieManager: this.cookieManager, defaultOptions: this.defaultOptions },
+      "CardListOptions",
+    );
 
     if (!cardListValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -93,11 +100,11 @@ class CardList extends BaseRoute<CardListData> {
       {
         server: checkServerRegion(uid),
         role_id: uid,
-        need_avatar: need_avatar || true,
-        need_action: need_action || true,
-        need_stats: need_stats || true,
-        offset: offset || 0,
-        limit: limit || 32,
+        need_avatar: need_avatar ?? true,
+        need_action: need_action ?? true,
+        need_stats: need_stats ?? true,
+        offset: offset ?? 0,
+        limit: limit ?? 32,
       },
     );
 
@@ -110,9 +117,9 @@ class CardList extends BaseRoute<CardListData> {
 }
 
 class CardBackList extends BaseRoute<CardBackListData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -120,9 +127,13 @@ class CardBackList extends BaseRoute<CardBackListData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: fetchOptions): Promise<CardBackListData> {
+  public async fetch(uid: string, options?: FetchOptions): Promise<CardBackListData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -155,6 +166,57 @@ class CardBackList extends BaseRoute<CardBackListData> {
   }
 }
 
+export class GameRecord extends BaseRoute<TCGGameRecordData> {
+  private readonly defaultOptions?: FetchOptions;
+
+  constructor(options?: Options<FetchOptions>) {
+    super(options);
+    this.defaultOptions = options?.defaultOptions;
+  }
+
+  /**
+   * @param {string} uid Genshin Impact UID
+   */
+  public async fetch(uid: string, options?: FetchOptions): Promise<TCGGameRecordData> {
+    if (this.cache.has(uid)) return this.cache.get(uid);
+
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
+
+    if (!basicValidator(uid, optionsToUse)) {
+      throw new Error("No UID or Cookie provided");
+    }
+
+    const { language, cookie } = optionsToUse;
+
+    const instance = new RequestManager({
+      withDS: true,
+      withExtraHeaders: true,
+      language,
+    });
+
+    const res = await instance.get(
+      "gcg/matchList",
+      {
+        Cookie: cookie,
+      },
+      {
+        server: checkServerRegion(uid),
+        role_id: uid,
+      },
+    );
+
+    const { data } = res;
+
+    this.cache.set(uid, data);
+
+    return data;
+  }
+}
+
 export class TCG {
   public basicInfo: BasicInfo;
 
@@ -162,9 +224,12 @@ export class TCG {
 
   public cardBackList: CardBackList;
 
-  constructor(options?: Options<fetchOptions>) {
+  public gameRecord: GameRecord;
+
+  constructor(options?: Options<FetchOptions>) {
     this.basicInfo = new BasicInfo(options);
     this.cardList = new CardList(options);
     this.cardBackList = new CardBackList(options);
+    this.gameRecord = new GameRecord(options);
   }
 }

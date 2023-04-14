@@ -1,11 +1,11 @@
-import { BaseRoute, fetchOptions, Options } from "./base";
-import { mergeOptions, RequestManager, basicValidator, checkServerRegion, getAvatarValidator } from "../utils";
+import { BaseRoute, FetchOptions, Options } from "./base";
+import { mergeOptions, RequestManager, basicValidator, checkServerRegion } from "../utils";
 import type { CharacterData, CharacterInfoData } from "../interface";
 
 export class Charcters extends BaseRoute<CharacterData[]> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -13,10 +13,14 @@ export class Charcters extends BaseRoute<CharacterData[]> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: fetchOptions): Promise<CharacterData[]> {
+  public async fetch(uid: string, options?: FetchOptions): Promise<CharacterData[]> {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -51,10 +55,14 @@ export class Charcters extends BaseRoute<CharacterData[]> {
   /**
    * @param {number} characterId The avatar's id
    */
-  public async fetchAvatarInfo(characterId: number, options?: fetchOptions): Promise<CharacterInfoData> {
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+  public async fetchAvatarInfo(characterId: number, options?: FetchOptions): Promise<CharacterInfoData> {
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
-    if (!getAvatarValidator(characterId, optionsToUse)) {
+    if (!basicValidator(characterId, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 

@@ -1,14 +1,16 @@
 import { z } from "zod";
-import type { fetchOptions } from "../routes/base";
-import type { fetchClaimHistoryOption } from "../routes/dailyReward";
-import type { SpiralAbyssFetchOptions } from "../routes/genshinAbyss";
-import type { CardListOptions } from "../routes/genshinTCG";
-import type { RedeemOptions } from "../routes/redeem";
-import type { getMonthDiaryOptions } from "../routes/travelerDiary";
+import type { FetchOptions } from "../routes/base";
+import type {
+  FetchClaimHistoryOption,
+  SpiralAbyssFetchOptions,
+  CardListOptions,
+  RedeemOptions,
+  MonthDiaryOptions,
+} from "../routes";
 
-type requiredFetchOptions = Required<fetchOptions>;
+type RequiredFetchOptions = Required<FetchOptions>;
 
-export const basicValidator = (key: string | number, options?: fetchOptions): options is requiredFetchOptions => {
+export const basicValidator = (key: string | number, options?: FetchOptions): options is RequiredFetchOptions => {
   if (typeof key === "string") {
     const schema = z.object({
       key: z.string(),
@@ -43,7 +45,7 @@ export const basicValidator = (key: string | number, options?: fetchOptions): op
 export const spiralAbyssValidator = (
   uid: string,
   options?: SpiralAbyssFetchOptions,
-): options is Required<SpiralAbyssFetchOptions> => {
+): options is RequiredFetchOptions & SpiralAbyssFetchOptions => {
   const schema = z.object({
     uid: z.string(),
     options: z.object({
@@ -57,7 +59,10 @@ export const spiralAbyssValidator = (
   return true;
 };
 
-export const cardListValidator = (uid: string, options?: CardListOptions): options is Required<CardListOptions> => {
+export const cardListValidator = (
+  uid: string,
+  options?: CardListOptions,
+): options is RequiredFetchOptions & CardListOptions => {
   const schema = z.object({
     uid: z.string(),
     options: z.object({
@@ -76,28 +81,14 @@ export const cardListValidator = (uid: string, options?: CardListOptions): optio
   return true;
 };
 
-export const getAvatarValidator = (characterId: number, options?: fetchOptions): options is requiredFetchOptions => {
-  const schema = z.object({
-    characterId: z.number(),
-    options: z.object({
-      language: z.string(),
-      cookie: z.string().min(1),
-    }),
-  });
-
-  schema.parse({ characterId, options });
-
-  return true;
-};
-
 export const redeemValidator = (code: string, options?: RedeemOptions): options is Required<RedeemOptions> => {
   const schema = z.object({
     code: z.string(),
     options: z.object({
       language: z.string(),
       cookie: z.string().min(1),
-      uid: z.string(),
       cookie_token: z.string(),
+      uid: z.string(),
     }),
   });
 
@@ -108,8 +99,8 @@ export const redeemValidator = (code: string, options?: RedeemOptions): options 
 
 export const getMonthValidator = (
   uid: string,
-  options?: Partial<getMonthDiaryOptions>,
-): options is Required<getMonthDiaryOptions> => {
+  options?: Partial<MonthDiaryOptions>,
+): options is Required<MonthDiaryOptions> => {
   const schema = z.object({
     uid: z.string(),
     options: z.object({
@@ -125,8 +116,8 @@ export const getMonthValidator = (
 };
 
 export const claimHistoryValidator = (
-  options?: fetchClaimHistoryOption,
-): options is Required<fetchClaimHistoryOption> => {
+  options?: FetchClaimHistoryOption,
+): options is RequiredFetchOptions & FetchClaimHistoryOption => {
   const schema = z.object({
     options: z.object({
       language: z.string(),
@@ -136,5 +127,6 @@ export const claimHistoryValidator = (
   });
 
   schema.parse({ options });
+
   return true;
 };

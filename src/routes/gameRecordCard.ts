@@ -1,12 +1,12 @@
-import { BaseRoute, fetchOptions, Options } from "./base";
+import { BaseRoute, FetchOptions, Options } from "./base";
 import { API_URL } from "../constants/constants";
-import { mergeOptions, RequestManager, basicValidator, removeFromArrayObject } from "../utils";
+import { mergeOptions, RequestManager, basicValidator, removeFromObject } from "../utils";
 import type { RecordCardData } from "../interface";
 
 export class GameRecordCard extends BaseRoute<RecordCardData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -14,10 +14,14 @@ export class GameRecordCard extends BaseRoute<RecordCardData> {
   /**
    * @param {string} uid HoYoLab Account ID
    */
-  public async fetch(uid: string, options?: fetchOptions): Promise<RecordCardData> {
+  public async fetch(uid: string, options?: FetchOptions): Promise<RecordCardData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -42,7 +46,7 @@ export class GameRecordCard extends BaseRoute<RecordCardData> {
 
     const { data } = res;
 
-    removeFromArrayObject(data.list, ["h5_data_switches", "data_switches"]);
+    removeFromObject(data.list, ["h5_data_switches", "data_switches"]);
 
     const returnData = {
       list: data.list,

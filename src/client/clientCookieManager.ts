@@ -8,10 +8,10 @@ interface cookie {
   cookie: string;
 }
 
-type cookieStore = Pick<cookie, "ltoken" | "ltuid"> & { cookie_token?: string };
+type CookieStore = Pick<cookie, "ltoken" | "ltuid"> & { cookie_token?: string };
 
 export class ClientCookieManager {
-  private cookie: cookieStore[];
+  private cookie: CookieStore[];
 
   constructor() {
     this.cookie = [];
@@ -81,7 +81,7 @@ export class ClientCookieManager {
     return cookie;
   }
 
-  public async getBrowserCookie(customProfile: string): Promise<cookieStore> {
+  public async getBrowserCookie(customProfile: string): Promise<CookieStore> {
     try {
       await dynamic("chrome-cookies-secure");
     } catch (e) {

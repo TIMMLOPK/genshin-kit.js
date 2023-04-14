@@ -1,31 +1,31 @@
 export interface ActivitiesData {
-  sumo: SumoRecords[];
-  rogue: RogueRecords[];
+  sumo: SumoRecord[];
+  rogue: RogueRecord[];
   channeller_slab_copy: ChannellerSlabCopy;
-  potion: PotionRecords[];
-  sumo_second: SumoRecords[];
-  crystal: CrystalRecords[];
-  perilous: PerilousRecords[];
+  potion: PotionRecord[];
+  sumo_second: SumoRecord[];
+  crystal: CrystalRecord[];
+  perilous: PerilousRecord[];
   summer_v2: SummerV2;
   spray: Spray;
 }
 
-interface SumoRecords {
+interface SumoRecord {
   challenge_id: number;
   challenge_name: string;
   difficulty: number;
   heraldry_icon: string;
-  lineups: Lineups[];
+  lineups: Lineup[];
   max_score: number;
   score_mutiple: number;
 }
 
-interface Lineups {
-  avatars: Avatars[];
-  skills: Skills[];
+interface Lineup {
+  avatars: Avatar[];
+  skills: Skill[];
 }
 
-interface Avatars {
+interface Avatar {
   icon: string;
   id: number;
   is_trail_avatar: boolean;
@@ -33,44 +33,44 @@ interface Avatars {
   rarity: number;
 }
 
-interface Skills {
+interface Skill {
   desc: string;
   icon: string;
   id: number;
   name: string;
 }
 
-interface RogueRecords {
+interface RogueRecord {
   challenge_id: number;
   challenge_name: string;
   is_passed: boolean;
-  main_avatars: Omit<Avatars, "is_trail_avatar">[];
-  runes: Skills & { element: string }[];
+  main_avatars: Omit<Avatar, "is_trail_avatar">[];
+  runes: Skill & { element: string }[];
   settled_level: number;
-  support_avatars: Omit<Avatars, "is_trail_avatar">[];
+  support_avatars: Omit<Avatar, "is_trail_avatar">[];
 }
 
 interface ChannellerSlabCopy {
   end_time: string;
   exists_data: boolean;
-  records: ChannellerSlabCopyRecords[];
+  records: ChannellerSlabCopyRecord[];
   start_time: string;
   total_score: number;
 }
 
-interface ChannellerSlabCopyRecords {
-  avatars: Omit<Avatars, "is_trail_avatar">[];
-  buffs: Omit<Skills, "icon"> & { energy: number; quality: number }[];
+interface ChannellerSlabCopyRecord {
+  avatars: Omit<Avatar, "is_trail_avatar">[];
+  buffs: Omit<Skill, "icon"> & { energy: number; quality: number }[];
   challenge_id: number;
   challenge_name: string;
   difficulty: number;
   energy: number;
-  limit_conditions: Pick<Skills, "desc" | "id"> & { score: number }[];
+  limit_conditions: Pick<Skill, "desc" | "id"> & { score: number }[];
   max_score: number;
   score_mutiple: number;
 }
 
-interface PotionRecords {
+interface PotionRecord {
   finised: boolean;
   levels: Level[];
   stage_name: string;
@@ -78,8 +78,8 @@ interface PotionRecords {
 }
 
 interface Level {
-  avatars: Avatars[];
-  buffs: Skills & { cornor_mark: string; quality: number }[];
+  avatars: Avatar[];
+  buffs: Skill & { cornor_mark: string; quality: number }[];
   difficulty: number;
   difficulty_id: number;
   factor: number;
@@ -87,7 +87,7 @@ interface Level {
   score: number;
 }
 
-interface CrystalRecords extends Pick<Level, "difficulty" | "difficulty_id" | "factor"> {
+interface CrystalRecord extends Pick<Level, "difficulty" | "difficulty_id" | "factor"> {
   first_half: FirstHalf;
   second_half: FirstHalf;
   heraldray_icon: string;
@@ -103,7 +103,7 @@ interface CrystalRecords extends Pick<Level, "difficulty" | "difficulty_id" | "f
 }
 
 interface FirstHalf {
-  avatars: Avatars[];
+  avatars: Avatar[];
   buff_count: number;
   buffs: {
     cond_id: number;
@@ -115,16 +115,16 @@ interface FirstHalf {
   }[];
 }
 
-interface PerilousRecords {
-  Levels: PerilousRecordsLevels[];
+interface PerilousRecord {
+  Levels: PerilousRecordsLevel[];
   cost_time_seconds: number;
   difficulty_id: number;
   name: string;
 }
 
-interface PerilousRecordsLevels {
-  avatars: Omit<Avatars, "is_trail_avatar" | "level">[];
-  buffs: Skills[];
+interface PerilousRecordsLevel {
+  avatars: Omit<Avatar, "is_trail_avatar" | "level">[];
+  buffs: Skill[];
 }
 
 interface SummerV2 {
@@ -143,10 +143,10 @@ interface SummerV2 {
 
 interface Challenge {
   unlocked: boolean;
-  records: ChallengeRecords[];
+  records: ChallengeRecord[];
 }
 
-interface ChallengeRecords {
+interface ChallengeRecord {
   finish_time: {
     year: number;
     month: number;
@@ -163,10 +163,10 @@ interface ChallengeRecords {
 }
 
 interface Sailing {
-  records: SailingRecords[];
+  records: SailingRecord[];
 }
 
-interface SailingRecords {
+interface SailingRecord {
   id: number;
   cost_time: number;
   mission_id: number;
@@ -174,10 +174,10 @@ interface SailingRecords {
 }
 
 interface Story {
-  records: StoryRecords[];
+  records: StoryRecord[];
 }
 
-interface StoryRecords {
+interface StoryRecord {
   finish_time: {
     year: number;
     month: number;
@@ -208,7 +208,7 @@ interface SprayData {
 }
 
 interface SprayGallery {
-  avatars: Avatars[];
-  buffs: Pick<Skills, "name" | "desc" | "icon">[];
+  avatars: Avatar[];
+  buffs: Pick<Skill, "name" | "desc" | "icon">[];
   score: number;
 }

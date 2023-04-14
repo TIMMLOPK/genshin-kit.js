@@ -1,16 +1,16 @@
-import { BaseRoute, fetchOptions, Options } from "./base";
+import { BaseRoute, FetchOptions, Options } from "./base";
 import { API_URL } from "../constants/constants";
 import { basicValidator, getMonthValidator, mergeOptions, RequestManager, checkServerRegion } from "../utils";
 import type { DiaryData } from "../interface";
 
-export type getMonthDiaryOptions = fetchOptions & {
+export type MonthDiaryOptions = FetchOptions & {
   month: number;
 };
 
 export class TravelerDiary extends BaseRoute<DiaryData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -18,10 +18,14 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options: fetchOptions): Promise<DiaryData> {
+  public async fetch(uid: string, options: FetchOptions): Promise<DiaryData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
@@ -51,8 +55,11 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
     return data;
   }
 
-  public async fetchMonth(uid: string, options: getMonthDiaryOptions): Promise<DiaryData> {
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+  public async fetchMonth(uid: string, options: MonthDiaryOptions): Promise<DiaryData> {
+    const optionsToUse = mergeOptions(
+      { options, cookieManager: this.cookieManager, defaultOptions: this.defaultOptions },
+      "MonthDiaryOptions",
+    );
 
     if (!getMonthValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");

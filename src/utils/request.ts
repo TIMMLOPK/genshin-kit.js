@@ -20,7 +20,7 @@ interface Response {
   data: any;
 }
 
-type headers = Record<string, string | string[]>;
+type Headers = Record<string, string | string[]>;
 
 /**
  * @description Creates a new instance for the request
@@ -28,7 +28,7 @@ type headers = Record<string, string | string[]>;
 export class RequestManager {
   private baseURL: string;
   private language: Language;
-  private headers: headers;
+  private headers: Headers;
 
   constructor(option?: option) {
     this.baseURL = API_URL.Genshin_Battle;
@@ -63,7 +63,7 @@ export class RequestManager {
 
   public async get(
     url: string,
-    headers?: headers,
+    headers?: Headers,
     params?: Record<string, string | number | boolean>,
   ): Promise<Response> {
     const URL = `${this.baseURL}${url}`;
@@ -104,7 +104,7 @@ export class RequestManager {
 
   public async post(
     url: string,
-    headers?: headers,
+    headers?: Headers,
     data?: Record<string, string | number[] | number | boolean>,
     params?: Record<string, string>,
   ): Promise<Response> {

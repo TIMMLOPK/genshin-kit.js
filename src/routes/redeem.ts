@@ -1,9 +1,9 @@
 import { API_URL } from "../constants/constants";
 import { checkServerRegion, redeemValidator, RequestManager } from "../utils";
 import type { RedeemCodeData } from "../interface/RedeemCode";
-import type { fetchOptions } from "./base";
+import type { FetchOptions } from "./base";
 
-export type RedeemOptions = Required<fetchOptions> & {
+export type RedeemOptions = Required<FetchOptions> & {
   uid: string;
   cookie_token: string;
 };

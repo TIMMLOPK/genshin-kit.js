@@ -1,4 +1,6 @@
-export function alias(obj: any, aliasMap: any) {
+export type aliasMapType = { [key: string]: string };
+
+export function alias(obj: any, aliasMap: aliasMapType) {
   for (const key in obj) {
     if (Array.isArray(obj[key])) {
       obj[key].forEach((item: any) => {
@@ -6,7 +8,7 @@ export function alias(obj: any, aliasMap: any) {
       });
     }
     if (aliasMap[key]) {
-      obj[aliasMap[key]] = obj[key];
+      obj[aliasMap[key] as string] = obj[key];
       delete obj[key];
     }
   }

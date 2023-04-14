@@ -29,8 +29,8 @@ const ERROR = [
   },
   {
     retcode: -2017,
-    message: APIError.CODE_IS_USED
-  }
+    message: APIError.CODE_IS_USED,
+  },
 ];
 
 export function getErrorByRetcode(retcode: number): string | undefined {

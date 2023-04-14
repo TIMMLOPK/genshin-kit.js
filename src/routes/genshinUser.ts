@@ -1,11 +1,11 @@
-import { BaseRoute, fetchOptions, Options } from "./base";
+import { BaseRoute, FetchOptions, Options } from "./base";
 import { mergeOptions, RequestManager, basicValidator, checkServerRegion } from "../utils";
 import type { GenshinUserData } from "../interface";
 
 export class GenshinUser extends BaseRoute<GenshinUserData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -13,10 +13,14 @@ export class GenshinUser extends BaseRoute<GenshinUserData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: fetchOptions): Promise<GenshinUserData> {
+  public async fetch(uid: string, options?: FetchOptions): Promise<GenshinUserData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
-    const optionsToUse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
     if (!basicValidator(uid, optionsToUse)) {
       throw new Error("No UID or Cookie provided");

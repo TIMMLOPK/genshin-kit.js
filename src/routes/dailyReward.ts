@@ -1,5 +1,5 @@
 import { API_URL } from "../constants/constants";
-import { BaseRoute, fetchOptions, Options } from "./base";
+import { BaseRoute, FetchOptions, Options } from "./base";
 import { mergeOptions, RequestManager, basicValidator, alias, claimHistoryValidator } from "../utils";
 import type {
   DailyRewardSignInHistoryData,
@@ -11,12 +11,12 @@ import type {
 } from "../interface";
 import type { ClientCookieManager } from "../client/clientCookieManager";
 
-export type fetchClaimHistoryOption = fetchOptions & { page?: number };
+export type FetchClaimHistoryOption = FetchOptions & { page?: number };
 
 class RewardInfo extends BaseRoute<DailyRewardInfoData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -24,16 +24,20 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   /**
    * @description Get the daily rewards info
    */
-  public async fetch(options?: fetchOptions): Promise<DailyRewardInfoData> {
+  public async fetch(options?: FetchOptions): Promise<DailyRewardInfoData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
-    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
-    if (!basicValidator("", optionTouse)) {
+    if (!basicValidator("", optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
-    const { cookie, language } = optionTouse;
+    const { cookie, language } = optionsToUse;
 
     const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
@@ -61,14 +65,18 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
    * @description Get the daily rewards details
    * @param {number} day Day of the rewards
    */
-  public async fetchDay(day: number, options?: fetchOptions): Promise<DayRewardData> {
-    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+  public async fetchDay(day: number, options?: FetchOptions): Promise<DayRewardData> {
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
-    if (!basicValidator(day, optionTouse)) {
+    if (!basicValidator(day, optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
-    const { cookie, language } = optionTouse;
+    const { cookie, language } = optionsToUse;
 
     const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
@@ -96,9 +104,9 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
 }
 
 class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -106,16 +114,20 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
   /**
    * @description Get the extra rewards info
    */
-  async fetch(options?: fetchOptions): Promise<DailyRewardExtraRewardData> {
+  async fetch(options?: FetchOptions): Promise<DailyRewardExtraRewardData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
-    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
-    if (!basicValidator("", optionTouse)) {
+    if (!basicValidator("", optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
-    const { cookie } = optionTouse;
+    const { cookie } = optionsToUse;
 
     const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
@@ -144,9 +156,9 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
 }
 
 class ResignInfo extends BaseRoute<DailyRewardResignData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -154,16 +166,20 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
   /**
    * @description get resign info
    */
-  async fetch(options?: fetchOptions): Promise<DailyRewardResignData> {
+  async fetch(options?: FetchOptions): Promise<DailyRewardResignData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
-    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
-    if (!basicValidator("", optionTouse)) {
+    if (!basicValidator("", optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
-    const { cookie, language } = optionTouse;
+    const { cookie, language } = optionsToUse;
     const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
     });
@@ -197,9 +213,9 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
 }
 
 class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -207,16 +223,19 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
   /**
    * @description get check in history
    */
-  async fetch(options?: fetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData> {
+  async fetch(options?: FetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
-    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+    const optionsToUse = mergeOptions(
+      { options, cookieManager: this.cookieManager, defaultOptions: this.defaultOptions },
+      "fetchClaimHistoryOption",
+    );
 
-    if (!claimHistoryValidator(optionTouse)) {
+    if (!claimHistoryValidator(optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
-    const { cookie, language, page } = optionTouse;
+    const { cookie, language, page } = optionsToUse;
 
     const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,
@@ -230,7 +249,7 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
       {
         lang: language,
         act_id: "e202102251931481",
-        current_page: page || 1,
+        current_page: page ?? 1,
         page_size: 10,
       },
     );
@@ -246,7 +265,7 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
 }
 
 export class DailyRewards {
-  private readonly defaultOptions?: fetchOptions;
+  private readonly defaultOptions?: FetchOptions;
 
   public readonly cookieManager?: ClientCookieManager;
 
@@ -258,7 +277,7 @@ export class DailyRewards {
 
   public checkInHistory: CheckInHistory;
 
-  constructor(options?: Options<fetchOptions>) {
+  constructor(options?: Options<FetchOptions>) {
     this.defaultOptions = options?.defaultOptions;
     this.cookieManager = options?.cookieManager;
 
@@ -279,14 +298,18 @@ export class DailyRewards {
   /**
    * @description CheckIn to claim Daily Rewards
    */
-  public async checkIn(options?: fetchOptions): Promise<DailyRewardSignInData> {
-    const optionTouse = mergeOptions(options, this.cookieManager, this.defaultOptions);
+  public async checkIn(options?: FetchOptions): Promise<DailyRewardSignInData> {
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
 
-    if (!basicValidator("", optionTouse)) {
+    if (!basicValidator("", optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
-    const { cookie, language } = optionTouse;
+    const { cookie, language } = optionsToUse;
 
     const instance = new RequestManager({
       route: API_URL.Genshin_Hoyolab_Reward,

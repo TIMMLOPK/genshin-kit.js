@@ -3,13 +3,13 @@ export interface TCGData {
   action_card_num_total: number;
   avatar_card_num_gained: number;
   avatar_card_num_total: number;
-  covers: Covers[];
+  covers: Cover[];
   level: number;
   nickname: string;
 }
 
 export interface CardBackListData {
-  card_back_list: Covers & { has_obtained: boolean }[];
+  card_back_list: Cover & { has_obtained: boolean }[];
 }
 
 export interface CardListData {
@@ -19,7 +19,33 @@ export interface CardListData {
   card_list: CardList[];
 }
 
-interface Covers {
+export interface TCGGameRecordData {
+  favourite_matches: MatchData[];
+  recent_matches: MatchData[];
+}
+
+export interface MatchData {
+  game_id: string;
+  is_win: boolean;
+  match_time: {
+    year: number;
+    month: number;
+    day: number;
+    hour: number;
+    minute: number;
+  };
+  match_type: string;
+  opposite: {
+    name: string;
+    linups: string[];
+  };
+  self: {
+    name: string;
+    linups: string[];
+  };
+}
+
+interface Cover {
   id: number;
   image: string;
 }
