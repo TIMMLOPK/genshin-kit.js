@@ -9,65 +9,44 @@ interface mergeUtilOptions {
   defaultOptions?: FetchOptions;
 }
 
-type mergeOptionsType =
-  | "fetchOptions"
-  | "SpiralAbyssFetchOptions"
-  | "fetchClaimHistoryOption"
-  | "CardListOptions"
-  | "MonthDiaryOptions";
-
-function isSpiralAbyssFetchOptions(
-  _options: mergeUtilOptions["options"],
-  type: mergeOptionsType,
-): _options is SpiralAbyssFetchOptions {
-  return type === "SpiralAbyssFetchOptions";
+enum mergeOptionsType {
+  FetchOptions = "fetchOptions",
+  SpiralAbyssFetchOptions = "SpiralAbyssFetchOptions",
+  FetchClaimHistoryOption = "fetchClaimHistoryOption",
+  CardListOptions = "CardListOptions",
+  MonthDiaryOptions = "MonthDiaryOptions",
 }
 
-function isClaimHistoryOptions(
-  _options: mergeUtilOptions["options"],
-  type: mergeOptionsType,
-): _options is FetchClaimHistoryOption {
-  return type === "fetchClaimHistoryOption";
-}
-
-function isCardListOptions(_options: mergeUtilOptions["options"], type: mergeOptionsType): _options is CardListOptions {
-  return type === "CardListOptions";
-}
-
-function isMonthDiaryOptions(
-  _options: mergeUtilOptions["options"],
-  type: mergeOptionsType,
-): _options is MonthDiaryOptions {
-  return type === "MonthDiaryOptions";
-}
-
-export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = "fetchOptions") {
+export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = mergeOptionsType.FetchOptions) {
   const options = input.options;
   const cookieManager = input.cookieManager;
   const defaultOptions = input.defaultOptions;
 
-  const cookie = options?.cookie || cookieManager?.get().cookie || defaultOptions?.cookie;
+  const cookie = options?.cookie ?? cookieManager?.get().cookie ?? defaultOptions?.cookie;
 
-  const language = options?.language || defaultOptions?.language || Language.EnglishUS;
+  const language = options?.language ?? defaultOptions?.language ?? Language.EnglishUS;
 
-  if (isSpiralAbyssFetchOptions(options, type)) {
+  if (type === mergeOptionsType.SpiralAbyssFetchOptions) {
+    const options = input.options as SpiralAbyssFetchOptions | undefined;
     return {
       cookie,
       language,
-      previous: options.previous,
+      previous: options?.previous,
     };
   }
 
-  if (isClaimHistoryOptions(options, type)) {
+  if (type === mergeOptionsType.FetchClaimHistoryOption) {
+    const options = input.options as FetchClaimHistoryOption | undefined;
     return {
       cookie,
       language,
-      month: options.page,
+      page: options?.page,
     };
   }
 
-  if (isCardListOptions(options, type)) {
-    const { need_avatar, need_action, need_stats, offset, limit } = options || {};
+  if (type === mergeOptionsType.CardListOptions) {
+    const options = input.options as CardListOptions | undefined;
+    const { need_avatar, need_action, need_stats, offset, limit } = options ?? {};
     return {
       cookie,
       language,
@@ -79,11 +58,12 @@ export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = "
     };
   }
 
-  if (isMonthDiaryOptions(options, type)) {
+  if (type === mergeOptionsType.MonthDiaryOptions) {
+    const options = input.options as MonthDiaryOptions | undefined;
     return {
       cookie,
       language,
-      month: options.month,
+      month: options?.month,
     };
   }
 
