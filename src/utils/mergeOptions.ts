@@ -67,7 +67,7 @@ export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = "
   }
 
   if (isCardListOptions(options, type)) {
-    const { need_avatar, need_action, need_stats, offset, limit } = options;
+    const { need_avatar, need_action, need_stats, offset, limit } = options || {};
     return {
       cookie,
       language,

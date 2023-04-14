@@ -49,14 +49,14 @@ export class Activities extends BaseRoute<ActivitiesData> {
 
     const returnData = {
       sumo: data.activities[0].sumo.records,
-      rogue: data.activities[1].rogue.records,
-      channeller_slab_copy: data.activities[2].channeller_slab_copy,
-      potion: data.activities[3].potion.records,
-      sumo_second: data.activities[4].sumo_second.records,
-      crystal: data.activities[5].crystal.records,
-      perilous: data.activities[6].perilous.records,
-      summer_v2: data.activities[7].summer_v2,
-      spray: data.activities[8].spray,
+      // rogue: data.activities[1].rogue.records,
+      channeller_slab_copy: data.activities[1].channeller_slab_copy,
+      potion: data.activities[2].potion.records,
+      sumo_second: data.activities[3].sumo_second.records,
+      crystal: data.activities[4].crystal.records,
+      perilous: data.activities[5].perilous.records,
+      summer_v2: data.activities[6].summer_v2,
+      spray: data.activities[7].spray,
     };
 
     this.cache.set(uid, returnData);
