@@ -1,6 +1,6 @@
 export interface ActivitiesData {
   sumo: SumoRecord[];
-  rogue: RogueRecord[];
+  // rogue: RogueRecord[];
   channeller_slab_copy: ChannellerSlabCopy;
   potion: PotionRecord[];
   sumo_second: SumoRecord[];
@@ -40,15 +40,15 @@ interface Skill {
   name: string;
 }
 
-interface RogueRecord {
-  challenge_id: number;
-  challenge_name: string;
-  is_passed: boolean;
-  main_avatars: Omit<Avatar, "is_trail_avatar">[];
-  runes: Skill & { element: string }[];
-  settled_level: number;
-  support_avatars: Omit<Avatar, "is_trail_avatar">[];
-}
+// interface RogueRecord {
+//   challenge_id: number;
+//   challenge_name: string;
+//   is_passed: boolean;
+//   main_avatars: Omit<Avatar, "is_trail_avatar">[];
+//   runes: Skill & { element: string }[];
+//   settled_level: number;
+//   support_avatars: Omit<Avatar, "is_trail_avatar">[];
+// }
 
 interface ChannellerSlabCopy {
   end_time: string;
