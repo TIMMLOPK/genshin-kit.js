@@ -6,10 +6,12 @@ export const enum Language {
   SpanishES = "es-es",
   French = "fr-fr",
   Indonesia = "id-id",
+  Italian = "it-it",
   Japanese = "ja-jp",
   Korean = "ko-kr",
   Portuguese = "pt-pt",
   Russian = "ru-ru",
   Thai = "th-th",
+  Turkish = "tr-tr",
   Vietnamese = "vi-vn",
 }
