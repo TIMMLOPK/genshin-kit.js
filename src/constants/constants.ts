@@ -2,11 +2,11 @@ import type { Client } from "../client/client";
 
 export enum API_URL {
   Genshin_Battle = "https://bbs-api-os.hoyolab.com/game_record/genshin/api/",
-  Genshin_Hoyolab = " https://bbs-api-os.hoyolab.com/game_record/card/wapi/",
-  Genshin_Hoyolab_Reward = "https://sg-hk4e-api.hoyolab.com/event/sol/",
-  Genshin_Hoyolab_Diary = "https://hk4e-api-os.hoyoverse.com/event/ysledgeros/",
+  Genshin_HoYolab = " https://bbs-api-os.hoyolab.com/game_record/card/wapi/",
+  Genshin_HoYolab_Reward = "https://sg-hk4e-api.hoyolab.com/event/sol/",
+  Genshin_HoYolab_Diary = "https://hk4e-api-os.hoyoverse.com/event/ysledgeros/",
   Genshin_Redeem_Code = "https://sg-hk4e-api.hoyoverse.com/common/apicdkey/api/webExchangeCdkey",
-  Genshin_Hoyolab_Cookie = "https://webapi-os.account.hoyoverse.com/Api/fetch_cookie_accountinfo",
+  Genshin_HoYolab_Cookie = "https://webapi-os.account.hoyoverse.com/Api/fetch_cookie_accountinfo",
 }
 
 export const UA =
@@ -18,7 +18,7 @@ export const cacheKeys = (client: Client) => {
     return [];
   }
 
-  const caches = [
+  const caches= [
     client.dailyReward.checkInHistory.cache,
     client.dailyReward.extraRewardInfo.cache,
     client.dailyReward.resignInfo.cache,
@@ -33,6 +33,7 @@ export const cacheKeys = (client: Client) => {
     client.tcg.cardList.cache,
     client.tcg.cardBackList.cache,
     client.tcg.basicInfo.cache,
+    client.tcg.gameRecord.cache,
   ];
 
   return caches;
