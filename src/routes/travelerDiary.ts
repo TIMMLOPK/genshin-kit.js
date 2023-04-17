@@ -34,7 +34,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Diary,
+      route: API_URL.Genshin_HoYolab_Diary,
     });
     const res = await instance.get(
       "month_info",
@@ -68,7 +68,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
     const { language, cookie, month } = optionsToUse;
 
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Diary,
+      route: API_URL.Genshin_HoYolab_Diary,
     });
 
     const res = await instance.get(

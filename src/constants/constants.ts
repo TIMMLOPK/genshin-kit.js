@@ -18,7 +18,7 @@ export const cacheKeys = (client: Client) => {
     return [];
   }
 
-  const caches= [
+  const caches = [
     client.dailyReward.checkInHistory.cache,
     client.dailyReward.extraRewardInfo.cache,
     client.dailyReward.resignInfo.cache,

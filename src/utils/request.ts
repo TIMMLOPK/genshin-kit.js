@@ -6,7 +6,7 @@ import { getErrorByRetcode } from "../constants/error";
 import { Language } from "../constants/lang";
 import { isDebug } from "./debug";
 
-interface option {
+interface Option {
   route?: string;
   withUA?: boolean;
   withDS?: boolean;
@@ -30,11 +30,8 @@ export class RequestManager {
   private language: Language;
   private headers: Headers;
 
-  constructor(option?: option) {
-    this.baseURL = API_URL.Genshin_Battle;
-    if (option?.route) {
-      this.baseURL = option.route;
-    }
+  constructor(option?: Option) {
+    this.baseURL = option?.route ? option.route : API_URL.Genshin_Battle;
     this.language = option?.language ? option.language : Language.EnglishUS;
 
     this.headers = {
@@ -55,9 +52,15 @@ export class RequestManager {
     }
   }
 
-  public _debug(message: string): void {
+  public _debug(message: string | string[]): void {
     if (isDebug()) {
-      console.log(`[DEBUG] ${message}`);
+      if (Array.isArray(message)) {
+        for (const m of message) {
+          console.log(`[DEBUG] ${m}`);
+        }
+      } else {
+        console.log(`[DEBUG] ${message}`);
+      }
     }
   }
 
@@ -72,9 +75,7 @@ export class RequestManager {
       ...headers,
     };
 
-    this._debug(`GET ${URL}`);
-    this._debug(`Headers: ${JSON.stringify(requestHeaders)}`);
-    this._debug(`Params: ${JSON.stringify(params)}`);
+    this._debug([`GET ${URL}`, `Headers: ${JSON.stringify(requestHeaders)}`, `Params: ${JSON.stringify(params)}`]);
 
     const { body: res, statusCode } = await request(URL, {
       method: "GET",
@@ -89,9 +90,11 @@ export class RequestManager {
 
     const resData = await res.json();
 
-    this._debug(`Retcode: ${resData.retcode}`);
-    this._debug(`Message: ${resData.message}`);
-    this._debug(`Data: ${JSON.stringify(resData.data)}`);
+    this._debug([
+      `Retcode: ${resData.retcode}`,
+      `Message: ${resData.message}`,
+      `Data: ${JSON.stringify(resData.data)}`,
+    ]);
 
     if (resData.retcode !== 0) {
       const description = getErrorByRetcode(resData.retcode);
@@ -116,10 +119,12 @@ export class RequestManager {
     };
     const body = JSON.stringify(data);
 
-    this._debug(`POST ${URL}`);
-    this._debug(`Headers: ${JSON.stringify(requestHeaders)}`);
-    this._debug(`Params: ${JSON.stringify(params)}`);
-    this._debug(`Body: ${body}`);
+    this._debug([
+      `POST ${URL}`,
+      `Headers: ${JSON.stringify(requestHeaders)}`,
+      `Params: ${JSON.stringify(params)}`,
+      `Body: ${body}`,
+    ]);
 
     const { body: res, statusCode } = await request(URL, {
       method: "POST",
@@ -135,9 +140,11 @@ export class RequestManager {
 
     const resData = await res.json();
 
-    this._debug(`Retcode: ${resData.retcode}`);
-    this._debug(`Message: ${resData.message}`);
-    this._debug(`Data: ${JSON.stringify(resData.data)}`);
+    this._debug([
+      `Retcode: ${resData.retcode}`,
+      `Message: ${resData.message}`,
+      `Data: ${JSON.stringify(resData.data)}`,
+    ]);
 
     if (resData.retcode !== 0 && resData.retcode !== -5003) {
       const description = getErrorByRetcode(resData.retcode);

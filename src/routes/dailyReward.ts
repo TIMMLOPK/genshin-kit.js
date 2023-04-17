@@ -40,7 +40,7 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
     const { cookie, language } = optionsToUse;
 
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Reward,
+      route: API_URL.Genshin_HoYolab_Reward,
     });
 
     const res = await instance.get(
@@ -79,7 +79,7 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
     const { cookie, language } = optionsToUse;
 
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Reward,
+      route: API_URL.Genshin_HoYolab_Reward,
     });
 
     const res = await instance.get(
@@ -130,7 +130,7 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
     const { cookie } = optionsToUse;
 
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Reward,
+      route: API_URL.Genshin_HoYolab_Reward,
     });
 
     const res = await instance.get(
@@ -181,7 +181,7 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
 
     const { cookie, language } = optionsToUse;
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Reward,
+      route: API_URL.Genshin_HoYolab_Reward,
     });
 
     const res = await instance.get(
@@ -238,7 +238,7 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
     const { cookie, language, page } = optionsToUse;
 
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Reward,
+      route: API_URL.Genshin_HoYolab_Reward,
     });
 
     const res = await instance.get(
@@ -312,7 +312,7 @@ export class DailyRewards {
     const { cookie, language } = optionsToUse;
 
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab_Reward,
+      route: API_URL.Genshin_HoYolab_Reward,
       withUA: true,
     });
 

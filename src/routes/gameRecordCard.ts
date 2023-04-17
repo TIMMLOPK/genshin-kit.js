@@ -30,7 +30,7 @@ export class GameRecordCard extends BaseRoute<RecordCardData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new RequestManager({
-      route: API_URL.Genshin_Hoyolab,
+      route: API_URL.Genshin_HoYolab,
       language,
     });
 

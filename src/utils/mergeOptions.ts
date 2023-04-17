@@ -9,7 +9,12 @@ interface mergeUtilOptions {
   defaultOptions?: FetchOptions;
 }
 
-type mergeOptionsType = "FetchOptions" | "SpiralAbyssFetchOptions" | "FetchClaimHistoryOption" | "CardListOptions" | "MonthDiaryOptions";
+type mergeOptionsType =
+  | "FetchOptions"
+  | "SpiralAbyssFetchOptions"
+  | "FetchClaimHistoryOption"
+  | "CardListOptions"
+  | "MonthDiaryOptions";
 
 export function mergeOptions(input: mergeUtilOptions, type: mergeOptionsType = "FetchOptions") {
   const options = input.options;

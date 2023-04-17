@@ -61,7 +61,7 @@ export class Client {
       language: options?.language || Language.EnglishUS,
       cookieManager: options?.cookieManager || new ClientCookieManager(),
       cacheOptions: {
-        maxAge: options?.cacheOptions?.maxAge || 60,
+        maxAge: options?.cacheOptions?.maxAge ?? 60,
         maxSize: options?.cacheOptions?.maxSize,
       },
       debug: options?.debug || false,

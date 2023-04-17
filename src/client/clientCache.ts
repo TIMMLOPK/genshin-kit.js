@@ -5,11 +5,11 @@ export type SweepFilterOptions<V> = (value: { value: V; timestamp: number; size:
 
 export class ClientCache<V> extends Map<string, V> {
   private lifeMap: Map<string, number>;
-  private _maxSize?: number;
+  private maxSize?: number;
 
   constructor(cacheOptions: { maxSize?: number }) {
     super();
-    this._maxSize = cacheOptions.maxSize;
+    this.maxSize = cacheOptions.maxSize;
     this.lifeMap = new Map();
   }
 
@@ -25,7 +25,7 @@ export class ClientCache<V> extends Map<string, V> {
   }
 
   public override set(key: string, value: V): this {
-    if (this._maxSize !== undefined && this.size >= this._maxSize) {
+    if (this.maxSize !== undefined && this.size >= this.maxSize) {
       return this;
     }
 
