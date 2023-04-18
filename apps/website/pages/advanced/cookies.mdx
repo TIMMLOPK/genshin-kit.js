@@ -1,0 +1,10 @@
+# Cookies
+
+## Multiple cookies
+Sometime you want to use different cookies to avoid hitting cookies limit.You can use `addCookies` to add more cookies to the client.
+
+If you provide more than one cookie, it will use the first , and then the second...
+```javascript
+const client = new Client()
+client.addCookies([{ ltoken: "LTOKEN", ltuid: "LTUID" }, {}, {}, {}])
+```
