@@ -76,7 +76,11 @@ class CardList extends BaseRoute<CardListData> {
   public async fetch(uid: string, options?: CardListOptions): Promise<CardListData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
     const optionsToUse = mergeOptions(
-      { options, cookieManager: this.cookieManager, defaultOptions: this.defaultOptions },
+      {
+        options,
+        cookieManager: this.cookieManager,
+        defaultOptions: this.defaultOptions,
+      },
       "CardListOptions",
     );
 

@@ -24,7 +24,7 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   /**
    * @description Get the daily rewards info
    */
-  public async fetch(options?: FetchOptions): Promise<DailyRewardInfoData | undefined> {
+  public async fetch(options?: FetchOptions): Promise<DailyRewardInfoData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -114,7 +114,7 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
   /**
    * @description Get the extra rewards info
    */
-  async fetch(options?: FetchOptions): Promise<DailyRewardExtraRewardData | undefined> {
+  async fetch(options?: FetchOptions): Promise<DailyRewardExtraRewardData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -166,7 +166,7 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
   /**
    * @description get resign info
    */
-  async fetch(options?: FetchOptions): Promise<DailyRewardResignData | undefined> {
+  async fetch(options?: FetchOptions): Promise<DailyRewardResignData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -223,11 +223,15 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
   /**
    * @description get check in history
    */
-  async fetch(options?: FetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData | undefined> {
+  async fetch(options?: FetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions(
-      { options, cookieManager: this.cookieManager, defaultOptions: this.defaultOptions },
+      {
+        options,
+        cookieManager: this.cookieManager,
+        defaultOptions: this.defaultOptions,
+      },
       "FetchClaimHistoryOption",
     );
 
@@ -344,7 +348,7 @@ export class DailyRewards {
       if (!info) {
         throw new Error("Failed to fetch reward info");
       }
-      
+
       const today = info.today.split("-")[2];
       const reward = await this.rewardInfo.fetchDay(parseInt(today || "1"), {
         cookie,

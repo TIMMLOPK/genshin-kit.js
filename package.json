@@ -4,12 +4,12 @@
   "description": "Hoyolab API unofficial library",
   "private": true,
   "scripts": {
-		"build": "turbo run build",
-		"build:apps": "turbo run build:local --filter='...{apps/*}'",
-		"test": "turbo run test --parallel",
-		"lint": "turbo run lint --parallel",
-		"format": "turbo run format --parallel",
-		"docs": "turbo run docs --parallel"
+    "build": "turbo run build",
+    "build:apps": "turbo run build:local --filter='...{apps/*}'",
+    "test": "turbo run test --parallel",
+    "lint": "turbo run lint --parallel",
+    "format": "turbo run format --parallel",
+    "docs": "turbo run docs --parallel"
   },
   "repository": {
     "url": "https://github.com/TIMMLOPK/genshin-kit.js"

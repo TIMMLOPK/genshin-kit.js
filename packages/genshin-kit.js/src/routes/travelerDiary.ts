@@ -57,7 +57,11 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
 
   public async fetchMonth(uid: string, options: MonthDiaryOptions): Promise<DiaryData> {
     const optionsToUse = mergeOptions(
-      { options, cookieManager: this.cookieManager, defaultOptions: this.defaultOptions },
+      {
+        options,
+        cookieManager: this.cookieManager,
+        defaultOptions: this.defaultOptions,
+      },
       "MonthDiaryOptions",
     );
 

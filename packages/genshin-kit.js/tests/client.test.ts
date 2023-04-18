@@ -1,4 +1,4 @@
-import { Client, ClientCookieManager } from "../dist";
+import { Client, ClientCookieManager } from "../../../dist";
 import dotenv from "dotenv";
 
 dotenv.config();
