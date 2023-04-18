@@ -19,7 +19,6 @@
   "license": "MIT",
   "devDependencies": {
     "prettier": "^2.8.7",
-    "ts-jest": "^29.1.0",
     "turbo": "^1.9.3",
     "typescript": "^5.0.4"
   },

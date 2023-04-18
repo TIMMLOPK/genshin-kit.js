@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build:check": "tsc --noEmit",
-    "build:clean": "del-cli ./dist",
+    "build:clean": "del-cli ../../dist --force",
     "build:compile": "tsc",
     "build": "npm run build:check && npm run build:clean && npm run build:compile",
     "lint": "eslint src --ext .ts",
