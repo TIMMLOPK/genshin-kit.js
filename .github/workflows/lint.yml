@@ -3,10 +3,10 @@ name: Lint
 on:
   push:
     branches:
-      - master
+      - feat/monorepo
   pull_request:
     branches:
-      - master
+      - feat/monorepo
 
 jobs:
   run-linters:

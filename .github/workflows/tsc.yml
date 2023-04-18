@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - master
+      - feat/monorepo
   pull_request:
 
 jobs:
