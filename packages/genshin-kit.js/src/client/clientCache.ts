@@ -40,6 +40,6 @@ export class ClientCache<V> extends Map<string, V> {
       return super.get(key) as V;
     }
 
-    return {} as V;
+    return undefined as unknown as V;
   }
 }

@@ -24,7 +24,7 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   /**
    * @description Get the daily rewards info
    */
-  public async fetch(options?: FetchOptions): Promise<DailyRewardInfoData> {
+  public async fetch(options?: FetchOptions): Promise<DailyRewardInfoData | undefined> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -114,7 +114,7 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
   /**
    * @description Get the extra rewards info
    */
-  async fetch(options?: FetchOptions): Promise<DailyRewardExtraRewardData> {
+  async fetch(options?: FetchOptions): Promise<DailyRewardExtraRewardData | undefined> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -166,7 +166,7 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
   /**
    * @description get resign info
    */
-  async fetch(options?: FetchOptions): Promise<DailyRewardResignData> {
+  async fetch(options?: FetchOptions): Promise<DailyRewardResignData | undefined> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -223,7 +223,7 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
   /**
    * @description get check in history
    */
-  async fetch(options?: FetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData> {
+  async fetch(options?: FetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData | undefined> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions(
@@ -340,6 +340,11 @@ export class DailyRewards {
 
     if (data.code === "ok" && res.retcode === 0) {
       const info = await this.rewardInfo.fetch(options);
+
+      if (!info) {
+        throw new Error("Failed to fetch reward info");
+      }
+      
       const today = info.today.split("-")[2];
       const reward = await this.rewardInfo.fetchDay(parseInt(today || "1"), {
         cookie,

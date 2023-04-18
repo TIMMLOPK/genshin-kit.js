@@ -30,7 +30,7 @@ describe("Client", () => {
             const expected = user.list[0]?.game_id;
             expect(expected).toBe(2);
             expect(client.gameRecordCard.cache.get(ltuid)).not.toBe(undefined);
-            expect(client.gameRecordCard.cache.get(ltuid).list[0]?.game_id).toBe(expected);
+            expect(client.gameRecordCard.cache.get(ltuid)?.list[0]?.game_id).toBe(expected);
         }
     });
 

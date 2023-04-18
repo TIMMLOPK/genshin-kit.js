@@ -1,5 +1,5 @@
+.turbo
+coverage
 dist
 node_modules
 .index.js
-coverage
-.env

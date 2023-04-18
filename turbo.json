@@ -1,0 +1,48 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"pipeline": {
+		"build": {
+			"dependsOn": ["^build"],
+			"inputs": ["../../tsconfig.json", "src/**/*.ts", "tsconfig.json"],
+			"outputs": ["dist/**"]
+		},
+		"test": {
+			"dependsOn": ["^build"],
+            "inputs": ["tests/**/*.ts", "tests/**/*.tsx", "tests/**/*.js", "tests/**/*.jsx"]
+        },
+		"lint": {
+			"dependsOn": ["^build"],
+			"inputs": [
+				"../../.eslintrc.json",
+				"../../.prettierrc.json",
+				"../../tsconfig.json",
+				"src/**/*.tsx",
+				"src/**/*.ts",
+				"src/**/*.css",
+				"src/**/*.mdx",
+				".eslintrc.json",
+				".prettierrc.json",
+				"tsconfig.json",
+				"next.config.js"
+			],
+			"outputs": []
+		},
+		"format": {
+			"dependsOn": ["^build"],
+			"inputs": [
+				"../../.eslintrc.json",
+				"../../.prettierrc.json",
+				"../../tsconfig.json",
+				"src/**/*.tsx",
+				"src/**/*.ts",
+				"src/**/*.css",
+				"src/**/*.mdx",
+				".eslintrc.json",
+				".prettierrc.json",
+				"tsconfig.json",
+				"next.config.js"
+			],
+			"outputs": []
+		}
+	}
+}
