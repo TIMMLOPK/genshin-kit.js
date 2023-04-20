@@ -1,0 +1,19 @@
+# Others
+
+Some routes are smiliar:
+
+`GameRecordCard`, `Activities`, `GenshinUser` and `RealTimeNotes`
+
+> They all have:
+
+| Name                                                                | Type                    | Description                    |
+| :------------------------------------------------------------------ | :---------------------- | :----------------------------- |
+| `cache`                                                             | `ClientCache<DataType>` | The cache for the route        |
+| `fetch(uid: string, options?: BaseFetchOptions): Promise<DataType>` | `function`              | Fetches the data for the route |
+
+### DataType
+
+- `GameRecordCard` : `RecordCardData`
+- `Activities` : `ActivitiesData`
+- `GenshinUser` : `GenshinUserData`
+- `RealTimeNotes` : `RealTimeNoteData`

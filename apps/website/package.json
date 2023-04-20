@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write pages/**/*.{mdx,js,jsx,ts,tsx}"
   },
   "dependencies": {
     "next": "^13.3.0",

@@ -18,7 +18,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options: FetchOptions): Promise<DiaryData> {
+  public async fetch(uid: string, options?: FetchOptions): Promise<DiaryData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions({

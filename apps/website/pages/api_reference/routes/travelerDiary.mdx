@@ -1,0 +1,15 @@
+# `TravelerDiary` API Reference
+
+| Name                                                                      | Type                     | Description                                                  |
+| ------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
+| `cache`                                                                   | `ClientCache<DiaryData>` | The cache for the traveler diary data                        |
+| `fetch(uid: string, options?: BaseFetchOptions): Promise<DiaryData>`      | `function`               | Fetches the traveler diary data for the given uid.           |
+| `fetchMonth(uid: string, options: MonthDiaryOptions): Promise<DiaryData>` | `function`               | Fetches the traveler diary data for the given uid and month. |
+
+### `MonthDiaryOptions`
+
+Extend the [`BaseFetchOptions`](/api_reference/routes/base) interface.
+
+| Option  | Type     | Description                            |
+| ------- | -------- | -------------------------------------- |
+| `month` | `number` | The month to fetch the diary data for. |

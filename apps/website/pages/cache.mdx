@@ -1,18 +1,21 @@
 # Cache
+
 genshin-kit.js has cached all responses from the API(except `RedeemCode`), so you can use it without making a request to the API.
 
 **Note**: The key of cache is the UID, cookie or other things you use to make the request.
+
 ```javascript
 const client = new Client();
 client.[ROUTE_NAME].cache.get("key");
 ```
 
 Client have a global sweeper for cleaning the cache, you can customize it by passing `cacheOptions` to the constructor.
+
 ```javascript
 const client = new Client({
-    cacheOptions: {
-        maxAge: 60, // the cache will be deleted after 60 seconds
-        maxSize: 0, // it wouldn't cache anythings
-    },
+  cacheOptions: {
+    maxAge: 60, // the cache will be deleted after 60 seconds
+    maxSize: 0, // it wouldn't cache anythings
+  },
 });
 ```

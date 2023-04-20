@@ -1,0 +1,47 @@
+# `TCG` API Reference
+
+| Name           | Type           | Description                                  |
+| :------------- | :------------- | :------------------------------------------- |
+| `basicInfo`    | `BasicInfo`    | Fetch basic info of the TCG game             |
+| `cardList`     | `CardList`     | Fetch the list of cards in the TCG game      |
+| `cardBackList` | `CardBackList` | Fetch the list of card backs in the TCG game |
+| `gameRecord`   | `GameRecord`   | Fetch the game record of the TCG game        |
+
+## `BasicInfo`
+
+| Name                                                           | Type                   | Description                                  |
+| :------------------------------------------------------------- | :--------------------- | :------------------------------------------- |
+| `cache`                                                        | `ClientCache<TCGData>` | The cache for the basic info of the TCG game |
+| `fetch(uid: string, options?: FetchOptions): Promise<TCGData>` | `function`             | Fetch the basic info of the TCG game         |
+
+## `CardList`
+
+| Name                                                                   | Type                        | Description                                     |
+| :--------------------------------------------------------------------- | :-------------------------- | :---------------------------------------------- |
+| `cache`                                                                | `ClientCache<CardListData>` | The cache for the list of cards in the TCG game |
+| `fetch(uid: string, options?: CardListOptions): Promise<CardListData>` | `function`                  | Fetch the list of cards in the TCG game         |
+
+### `CardListOptions`
+
+Extend the [`BaseFetchOptions`](/api_reference/routes/base) interface.
+| Option | Type | Description |
+| :--- | :--- | :--- |
+| `need_avatar` | `boolean?` | Whether to fetch the avatar of the card. Default: `true` |
+| `need_action` | `boolean?` | Whether to fetch the action of the card. Default: `true` |
+| `need_stats` | `boolean?` | Whether to fetch the stats of the card. Default: `true` |
+| `offset` | `number?` | The offset of the card list. Default: `0` |
+| `limit` | `number?` | The limit of the card list. Default: `32` |
+
+## `CardBackList`
+
+| Name                                                                    | Type                            | Description                                          |
+| :---------------------------------------------------------------------- | :------------------------------ | :--------------------------------------------------- |
+| `cache`                                                                 | `ClientCache<CardBackListData>` | The cache for the list of card backs in the TCG game |
+| `fetch(uid: string, options?: FetchOptions): Promise<CardBackListData>` | `function`                      | Fetch the list of card backs in the TCG game         |
+
+## `GameRecord`
+
+| Name                                                                         | Type                             | Description                                   |
+| :--------------------------------------------------------------------------- | :------------------------------- | :-------------------------------------------- |
+| `cache`                                                                      | `ClientCache<TCGGameRecordData>` | The cache for the game record of the TCG game |
+| `fetch(uid: string, options?: BaseFetchOptions): Promise<TCGGameRecordData>` | `function`                       | Fetch the game record of the TCG game         |

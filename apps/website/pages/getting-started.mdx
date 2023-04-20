@@ -1,43 +1,31 @@
-import { Tab, Tabs } from 'nextra-theme-docs'
+import { Tab, Tabs } from "nextra-theme-docs";
 
 # Getting Started
 
 ## Installation
+
 **Node.js 16.9.0 or newer is required.**
 
-<Tabs items={['pnpm', 'npm', 'yarn']}>
-  <Tab>
-    ```sh copy
-    pnpm install genshin-kit.js
-    ```
-  </Tab>
-  <Tab>
-    ```sh copy
-    npm install genshin-kit.js
-    ```
-  </Tab>
-  <Tab>
-    ```sh copy
-    yarn add genshin-kit.js
-    ```
-  </Tab>
+<Tabs items={["pnpm", "npm", "yarn"]}>
+  <Tab>```sh copy pnpm install genshin-kit.js ```</Tab>
+  <Tab>```sh copy npm install genshin-kit.js ```</Tab>
+  <Tab>```sh copy yarn add genshin-kit.js ```</Tab>
 </Tabs>
 
 ## Quick Start
 
 ```js copy
-const { Client, Language, SpiralAbyss, CookieFormatter } = require('genshin-kit.js');
+const { Client, Language, SpiralAbyss, CookieFormatter } = require("genshin-kit.js");
 
 (async () => {
-    const client = new Client({
-        language: Language.EnglishUS,
-    });
+  const client = new Client({
+    language: Language.EnglishUS,
+  });
 
-    client.login("LTUID", "LTOKEN");
+  client.login("LTUID", "LTOKEN");
 
-    // make the request
-    const abyss = await client.sprialAbyss.fetch("UID");
-    console.log(abyss);
-}
-)();
+  // make the request
+  const abyss = await client.sprialAbyss.fetch("UID");
+  console.log(abyss);
+})();
 ```

@@ -1,0 +1,38 @@
+# `DailyRewards` API Reference
+
+| Name                                                                  | Type              | Description              |
+| --------------------------------------------------------------------- | ----------------- | ------------------------ |
+| `checkIn(options?: BaseFetchOptions): Promise<DailyRewardSignInData>` | `function`        | Claims the daily reward. |
+| `rewardInfo`                                                          | `RewardInfo`      | The reward info.         |
+| `extraRewardInfo`                                                     | `ExtraRewardInfo` | The extra reward info.   |
+| `resignInfo`                                                          | `ResignInfo`      | The resign info.         |
+| `checkInHistory`                                                      | `CheckInHistory`  | The check in history.    |
+
+### `RewardInfo`
+
+| Name                                                                        | Type                                 | Description                                 |
+| --------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------- |
+| `cache`                                                                     | `ClientCache<DailyRewardSignInData>` | The cache for the reward info.              |
+| `fetch(options?: BaseFetchOptions): Promise<DailyRewardSignInData>`         | `function`                           | Fetches the reward info.                    |
+| `fetchDay(day: number, options?: BaseFetchOptions): Promise<DayRewardData>` | `function`                           | Fetches the reward info for a specific day. |
+
+### `ExtraRewardInfo`
+
+| Name                                                                     | Type                                      | Description                          |
+| ------------------------------------------------------------------------ | ----------------------------------------- | ------------------------------------ |
+| `cache`                                                                  | `ClientCache<DailyRewardExtraRewardData>` | The cache for the extra reward info. |
+| `fetch(options?: BaseFetchOptions): Promise<DailyRewardExtraRewardData>` | `function`                                | Fetches the extra reward info.       |
+
+### `ResignInfo`
+
+| Name                                                                | Type                                 | Description                    |
+| ------------------------------------------------------------------- | ------------------------------------ | ------------------------------ |
+| `cache`                                                             | `ClientCache<DailyRewardResignData>` | The cache for the resign info. |
+| `fetch(options?: BaseFetchOptions): Promise<DailyRewardResignData>` | `function`                           | Fetches the resign info.       |
+
+### `CheckInHistory`
+
+| Name                                                                              | Type                                        | Description                         |
+| --------------------------------------------------------------------------------- | ------------------------------------------- | ----------------------------------- |
+| `cache`                                                                           | `ClientCache<DailyRewardSignInHistoryData>` | The cache for the check in history. |
+| `fetch(options?: FetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData>` | `function`                                  | Fetches the check in history.       |

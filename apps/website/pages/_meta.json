@@ -1,7 +1,9 @@
 {
     "index": "Introduction",
     "getting-started": "Getting started",
-    "advanced": {
-        "title": "Advanced"
+    "cache": "Cache",
+    "cookies": "Cookies",
+    "api_reference": {
+        "title": "API Reference"
     }
 }

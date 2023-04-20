@@ -1,0 +1,16 @@
+# `RedeemCode` API Reference
+
+⚠️ **This routes doesn't extend base route.**
+
+| Name                                                                    | Type       | Description    |
+| ----------------------------------------------------------------------- | ---------- | -------------- |
+| `redeem(code: string, options: RedeemOptions): Promise<RedeemCodeData>` | `function` | Redeem a code. |
+
+## `RedeemOptions`
+
+Extend the [`Required<BaseFetchOptions>`](/api_reference/routes/base) interface.
+
+| Option         | Type     | Description       |
+| :------------- | :------- | :---------------- |
+| `uid`          | `string` | The user id.      |
+| `cookie_token` | `string` | The cookie token. |

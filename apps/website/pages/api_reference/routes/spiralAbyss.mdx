@@ -1,0 +1,13 @@
+# `SpiralAbyss` API Reference
+
+| Name                                                                              | Type                           | Description                                                                                                                                     |
+| --------------------------------------------------------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cache`                                                                           | `ClientCache<AbyssBattleData>` | The cache for the abyss battle data                                                                                                             |
+| `fetch(uid: string, options?: SpiralAbyssFetchOptions): Promise<AbyssBattleData>` | `function`                     | Fetches the abyss battle data for the given user id. If the `previous` option is set to `true`, the previous abyss battle data will be fetched. |
+
+### `SpiralAbyssFetchOptions`
+
+Extend the [`BaseFetchOptions`](/api_reference/routes/base) interface.
+| Option | Type | Description |
+| ------ | ---- | ----------- |
+| `previous` | `boolean?` | Whether to fetch the previous abyss battle data |
