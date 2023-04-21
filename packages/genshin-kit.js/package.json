@@ -11,7 +11,7 @@
     "build:check": "tsc --noEmit",
     "build:clean": "del-cli ../../dist --force",
     "build:compile": "tsc",
-    "build": "npm run build:check && npm run build:clean && npm run build:compile",
+    "build": "yarn build:check && yarn build:clean && yarn build:compile",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src/**/*.ts",
     "test": "jest --coverage"
