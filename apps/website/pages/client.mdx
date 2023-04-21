@@ -1,0 +1,31 @@
+# Client
+
+Client contains all routes in the library, and you can login with the ltoken and ltuid.
+
+```ts
+  const client = new Client();
+
+  client.login("LTUID", "LTOKEN");
+```
+
+## Routes
+
+To send a request to the API you can use the following routes:
+
+Example:
+
+```ts
+    await client.sprialAbyss.fetch("UID");
+```
+
+The benefit of using client is that you don't have to pass the ltoken and ltuid every time you want to send a request.
+
+
+## Cache Sweeper
+
+Client has a cache sweeper that will clear the cache every 30 minutes. You can customize the sweeper. See [Caching](/caching.mdx) for more information.
+
+
+## Cookies Manager
+ 
+Client has a cookies manager with multiple cookies and more features.

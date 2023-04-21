@@ -1,7 +1,8 @@
 {
     "index": "Introduction",
     "getting-started": "Getting started",
-    "cache": "Cache",
+    "client": "Client",
+    "cache": "Caching",
     "cookies": "Cookies",
     "api_reference": {
         "title": "API Reference"

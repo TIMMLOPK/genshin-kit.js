@@ -1,3 +1,4 @@
+{/* @prettier-ignore */}
 import { Tab, Tabs } from "nextra-theme-docs";
 
 # Getting Started
@@ -7,15 +8,28 @@ import { Tab, Tabs } from "nextra-theme-docs";
 **Node.js 16.9.0 or newer is required.**
 
 <Tabs items={["pnpm", "npm", "yarn"]}>
-  <Tab>```sh copy pnpm install genshin-kit.js ```</Tab>
-  <Tab>```sh copy npm install genshin-kit.js ```</Tab>
-  <Tab>```sh copy yarn add genshin-kit.js ```</Tab>
+  <Tab>
+  ```sh copy 
+  pnpm install genshin-kit.js 
+  ```
+  </Tab>
+  <Tab>
+  ```sh copy 
+  npm install genshin-kit.js 
+  ```
+  </Tab>
+  <Tab>
+  ```sh copy 
+  yarn add genshin-kit.js 
+  ```
+  </Tab>
 </Tabs>
 
 ## Quick Start
 
 ```js copy
-const { Client, Language, SpiralAbyss, CookieFormatter } = require("genshin-kit.js");
+const { Client, Language, SpiralAbyss } = require("genshin-kit.js");
+// import { Client, Language, SpiralAbyss } from "genshin-kit.js"; (if you use typescript)
 
 (async () => {
   const client = new Client({
@@ -24,8 +38,8 @@ const { Client, Language, SpiralAbyss, CookieFormatter } = require("genshin-kit.
 
   client.login("LTUID", "LTOKEN");
 
-  // make the request
   const abyss = await client.sprialAbyss.fetch("UID");
+
   console.log(abyss);
 })();
 ```
