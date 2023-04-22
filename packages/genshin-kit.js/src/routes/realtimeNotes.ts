@@ -13,7 +13,7 @@ export class RealTimeNotes extends BaseRoute<RealTimeNoteData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options: FetchOptions): Promise<RealTimeNoteData> {
+  public async fetch(uid: string, options?: FetchOptions): Promise<RealTimeNoteData> {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions({

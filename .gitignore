@@ -1,5 +1,10 @@
+.turbo
+coverage
 dist
 node_modules
 .index.js
-coverage
-.env
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

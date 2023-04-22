@@ -1,0 +1,60 @@
+# ClientCache
+
+`ClientCache` extends JavaScript's native Map class, so it has all the Map features and more!
+
+## Types
+
+`ClientCache` is a generic type, which means you can specify the type of the key and value.
+
+```ts
+const cache = new ClientCache<valueType>(options);
+```
+
+## Options
+
+`ClientCache` has some options that you can pass in the constructor.
+
+### `maxSize`
+
+The maximum size of the cache. If the cache exceeds this size, the least recently used item will be removed.
+
+```ts
+const cache = new ClientCache({ maxSize: 100 });
+```
+
+## Methods
+
+### `get(key: string)`
+
+It overrides the native `get` method, it checks the cache is exist or not, if it's not exist, it will return `undefined`.
+
+```ts
+const cache = new ClientCache();
+cache.get("key");
+```
+
+### `set(key: string, value: valueType)`
+
+It overrides the native `set` method, it checks the maximum size of the cache, if the cache exceeds the maximum size, it won't add the new item to the cache.
+
+```ts
+const cache = new ClientCache();
+cache.set("key", "value");
+```
+
+### `sweep(fn: SweepFilterOptions<V>)`
+
+It removes the items from the cache that match the filter function.
+
+SweepFilterOptions:
+
+```ts
+type SweepFilterOptions<V> = (value: { value: V; timestamp: number; size: number }, key: string) => boolean;
+```
+
+Usage:
+
+```ts
+const cache = new ClientCache();
+cache.sweep(value => value === "value");
+```

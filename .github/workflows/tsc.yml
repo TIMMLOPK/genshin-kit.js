@@ -15,6 +15,6 @@ jobs:
       with:
         node-version: 16
     - name: install dependencies
-      run: npm install
+      run: yarn install --frozen-lockfile
     - name: tsc
-      run: npm run build
+      run: yarn build

@@ -1,0 +1,50 @@
+# Client API Reference
+
+## Client
+
+### `constructor(options: Partial<ClientOptions>)`
+
+Creates a new client.
+
+### `login(ltuid: string, ltoken: string): Required<Client>`
+
+Logins to the client.
+
+### `addCookies(cookies: { ltuid: string; ltoken: string }[])`
+
+Adds cookies to the client.
+
+### `isLogin(): boolean`
+
+Type guard to check if the client is logged in.
+
+### Routes
+
+| Route             | Description                                                                 |
+| ----------------- | --------------------------------------------------------------------------- |
+| `dailyReward`     | The daily reward route. [DailyRewards](/api_reference/routes/dailyRewards)  |
+| `gameRecordCard`  | The game record card route. [GameRecordCards](/api_reference/routes/others) |
+| `sprialAbyss`     | The spiral abyss route. [SpiralAbyss](/api_reference/routes/spiralAbyss)    |
+| `genshinActivity` | The genshin activity route. [GenshinActivity](/api_reference/routes/others) |
+| `characters`      | The characters route. [Characters](/api_reference/routes/characters)        |
+| `genshinUser`     | The genshin user route. [GenshinUser](/api_reference/routes/others)         |
+| `realTimeNotes`   | The real time notes route. [RealTimeNotes](/api_reference/routes/others)    |
+| `travelDiary`     | The travel diary route. [TravelDiary](/api_reference/routes/travelDiary)    |
+| `redeemCode`      | The redeem code route. [RedeemCode](/api_reference/routes/redeemCode)       |
+| `tcg`             | The tcg route. [TCG](/api_reference/routes/tcg)                             |
+
+## Client Options
+
+| Option          | Type                             | Description                                                               |
+| --------------- | -------------------------------- | ------------------------------------------------------------------------- |
+| `language`      | [`Language?`](#language)         | The language to use for the API. Defaults to `Language.EnglishUS`.        |
+| `cookieManager` | `ClientCookieManager?`           | The cookie manager to use for the API. Defaults to `ClientCookieManager`. |
+| `debug`         | `boolean?`                       | Whether to enable debug mode. Defaults to `false`.                        |
+| `cacheOptions`  | [`CacheOptions?`](#cacheoptions) | The cache options to use for the API. Defaults to `{}`.                   |
+
+### Cache Options
+
+| Option    | Type      | Description                                                       |
+| --------- | --------- | ----------------------------------------------------------------- |
+| `maxAge`  | `number?` | The maximum age of the cache in seconds. Defaults to `undefined`. |
+| `maxSize` | `number?` | The maximum size of the cache in bytes. Defaults to `undefined`.  |

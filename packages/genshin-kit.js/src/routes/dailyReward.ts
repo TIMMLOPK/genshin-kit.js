@@ -227,7 +227,11 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions(
-      { options, cookieManager: this.cookieManager, defaultOptions: this.defaultOptions },
+      {
+        options,
+        cookieManager: this.cookieManager,
+        defaultOptions: this.defaultOptions,
+      },
       "FetchClaimHistoryOption",
     );
 
@@ -340,6 +344,7 @@ export class DailyRewards {
 
     if (data.code === "ok" && res.retcode === 0) {
       const info = await this.rewardInfo.fetch(options);
+
       const today = info.today.split("-")[2];
       const reward = await this.rewardInfo.fetchDay(parseInt(today || "1"), {
         cookie,

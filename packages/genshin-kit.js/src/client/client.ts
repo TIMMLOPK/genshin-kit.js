@@ -20,10 +20,12 @@ export interface ClientOptions {
   language: Language;
   cookieManager: ClientCookieManager;
   debug: boolean;
-  cacheOptions: {
-    maxAge: number;
-    maxSize?: number;
-  };
+  cacheOptions: Partial<CacheOptions>;
+}
+
+interface CacheOptions {
+  maxAge: number;
+  maxSize?: number;
 }
 
 export class Client {
@@ -47,7 +49,7 @@ export class Client {
 
   public tcg?: TCG;
 
-  private options: ClientOptions;
+  private options: ClientOptions & { cacheOptions: CacheOptions };
 
   private logined: boolean;
 

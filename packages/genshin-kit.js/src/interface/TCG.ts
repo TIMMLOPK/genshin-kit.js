@@ -69,7 +69,9 @@ interface BasicCardList<CardType> {
 
 type CardList =
   | (BasicCardList<"CardTypeCharacter"> & { card_skills: CardSkills[] })
-  | (BasicCardList<"CardTypeAssist" | "CardTypeModify" | "CardTypeEvent"> & { action_cost: ActionCost[] });
+  | (BasicCardList<"CardTypeAssist" | "CardTypeModify" | "CardTypeEvent"> & {
+      action_cost: ActionCost[];
+    });
 
 interface CardSkills {
   desc: string;
