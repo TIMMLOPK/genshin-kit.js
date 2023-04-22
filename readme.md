@@ -4,4 +4,4 @@ Genshin-kit.js is a Node.js module that allows you to easily interact with the G
 
 ---
 
-Documentation: Coming soon.
+Documentation: https://genshin-kit-js.vercel.app/
