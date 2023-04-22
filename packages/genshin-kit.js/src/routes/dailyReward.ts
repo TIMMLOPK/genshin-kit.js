@@ -345,10 +345,6 @@ export class DailyRewards {
     if (data.code === "ok" && res.retcode === 0) {
       const info = await this.rewardInfo.fetch(options);
 
-      if (!info) {
-        throw new Error("Failed to fetch reward info");
-      }
-
       const today = info.today.split("-")[2];
       const reward = await this.rewardInfo.fetchDay(parseInt(today || "1"), {
         cookie,

@@ -10,12 +10,10 @@ Client contains all routes in the library, and you can login with the ltoken and
 
 ## Routes
 
-To send a request to the API you can use the following routes:
-
-Example:
+To send a request to the API you can use the following methods:
 
 ```ts
-    await client.sprialAbyss.fetch("UID");
+  await client.<route>.<method>(<params>);
 ```
 
 The benefit of using client is that you don't have to pass the ltoken and ltuid every time you want to send a request.
