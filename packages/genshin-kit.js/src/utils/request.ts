@@ -7,7 +7,7 @@ import { Language } from "../constants/lang";
 import { isDebug } from "./debug";
 
 interface Option {
-  route?: string;
+  route?: API_URL;
   withUA?: boolean;
   withDS?: boolean;
   withExtraHeaders?: boolean;
@@ -26,13 +26,13 @@ type Headers = Record<string, string | string[]>;
  * @description Creates a new instance for the request
  */
 export class RequestManager {
-  private baseURL: string;
+  private baseURL: API_URL;
   private language: Language;
   private headers: Headers;
 
   constructor(option?: Option) {
-    this.baseURL = option?.route ? option.route : API_URL.Genshin_Battle;
-    this.language = option?.language ? option.language : Language.EnglishUS;
+    this.baseURL = option?.route || API_URL.Genshin_Battle;
+    this.language = option?.language || Language.EnglishUS;
 
     this.headers = {
       "x-rpc-language": this.language,
@@ -55,9 +55,7 @@ export class RequestManager {
   public _debug(message: string | string[]): void {
     if (isDebug()) {
       if (Array.isArray(message)) {
-        for (const m of message) {
-          console.log(`[DEBUG] ${m}`);
-        }
+        console.log(`[DEBUG] ${message.join("\n[DEBUG] ")}`);
       } else {
         console.log(`[DEBUG] ${message}`);
       }

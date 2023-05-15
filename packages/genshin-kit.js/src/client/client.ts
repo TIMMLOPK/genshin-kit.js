@@ -123,9 +123,7 @@ export class Client {
         (this.options.cacheOptions.maxSize !== undefined ? v.size > this.options.cacheOptions.maxSize : false);
 
       for (const cache of cacheKeys(this)) {
-        if (cache) {
-          cache.sweep(filter);
-        }
+        cache.sweep(filter);
       }
     }, 1000 * this.options.cacheOptions.maxAge).unref();
   }
