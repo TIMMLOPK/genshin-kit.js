@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build:check": "tsc --noEmit",
-    "build:clean": "del-cli ../../dist --force",
+    "build:clean": "del-cli ./dist",
     "build:compile": "tsc",
     "build": "yarn build:check && yarn build:clean && yarn build:compile",
     "lint": "eslint src --ext .ts",
