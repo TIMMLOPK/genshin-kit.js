@@ -1,6 +1,6 @@
 export interface RecordCardData {
   list: ListItem[];
-  currecnt: ListItem;
+  current: ListItem | undefined;
 }
 
 interface ListItem {

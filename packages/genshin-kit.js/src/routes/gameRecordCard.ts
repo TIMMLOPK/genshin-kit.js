@@ -50,7 +50,7 @@ export class GameRecordCard extends BaseRoute<RecordCardData> {
 
     const returnData = {
       list: data.list,
-      currecnt: data.list[0],
+      current: data.list[0],
     };
 
     this.cache.set(uid, returnData);
