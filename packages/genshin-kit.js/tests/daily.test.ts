@@ -1,4 +1,4 @@
-import { CookieFormatter, DailyRewards, Language } from "../../../dist";
+import { CookieFormatter, DailyRewards, Language } from "../dist";
 import dotenv from "dotenv";
 
 dotenv.config();

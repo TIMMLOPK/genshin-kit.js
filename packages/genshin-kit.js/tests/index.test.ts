@@ -1,4 +1,4 @@
-import { Activities, Charcters, Client, CookieFormatter, GenshinUser, Language, RealTimeNotes, SpiralAbyss, TravelerDiary } from '../../../dist';
+import { Activities, Charcters, Client, CookieFormatter, GenshinUser, Language, RealTimeNotes, SpiralAbyss, TravelerDiary } from '../dist';
 import dotenv from "dotenv";
 
 dotenv.config();
