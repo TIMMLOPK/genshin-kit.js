@@ -11,7 +11,7 @@ export default {
         </>
     ),
     darkMode: true,
-    docsRepositoryBase: "https://github.com/TIMMLOPK/genshin-kit.js",
+    docsRepositoryBase: "https://github.com/TIMMLOPK/genshin-kit.js/tree/master/apps/website",
     useNextSeoProps() {
         return {
             titleTemplate: '%s – Genshin-kit.js',
