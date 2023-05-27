@@ -1,3 +1,5 @@
+import { Time } from "./shared";
+
 export interface TCGData {
   action_card_num_gained: number;
   action_card_num_total: number;
@@ -27,13 +29,7 @@ export interface TCGGameRecordData {
 export interface MatchData {
   game_id: string;
   is_win: boolean;
-  match_time: {
-    year: number;
-    month: number;
-    day: number;
-    hour: number;
-    minute: number;
-  };
+  match_time: Omit<Time, "second">;
   match_type: string;
   opposite: {
     name: string;

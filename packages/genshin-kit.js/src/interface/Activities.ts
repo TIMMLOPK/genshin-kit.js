@@ -1,3 +1,5 @@
+import { KeyToUpperCase, Time } from "./shared";
+
 export interface ActivitiesData {
   sumo: SumoRecord[];
   // rogue: RogueRecord[];
@@ -93,13 +95,7 @@ interface CrystalRecord extends Pick<Level, "difficulty" | "difficulty_id" | "fa
   heraldray_icon: string;
   stage_name: string;
   stage_score: number;
-  unlock_time: {
-    Day: number;
-    Hour: number;
-    Minute: number;
-    Second: number;
-    reached: boolean;
-  };
+  unlock_time: KeyToUpperCase<Omit<Time, "year" | "month">> & { reached: boolean };
 }
 
 interface FirstHalf {
@@ -147,13 +143,7 @@ interface Challenge {
 }
 
 interface ChallengeRecord {
-  finish_time: {
-    year: number;
-    month: number;
-    day: number;
-    hour: number;
-    minute: number;
-  };
+  finish_time: Omit<Time, "second">;
   finised: boolean;
   icon: string;
   id: number;
@@ -178,13 +168,7 @@ interface Story {
 }
 
 interface StoryRecord {
-  finish_time: {
-    year: number;
-    month: number;
-    day: number;
-    hour: number;
-    minute: number;
-  };
+  finish_time: Omit<Time, "second">;
   finised: boolean;
   icon: string;
   id: number;

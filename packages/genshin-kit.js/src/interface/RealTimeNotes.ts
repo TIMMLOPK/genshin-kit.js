@@ -1,3 +1,5 @@
+import { KeyToUpperCase, Time } from "./shared";
+
 export interface RealTimeNoteData {
   current_resin: number;
   max_resin: number;
@@ -19,13 +21,7 @@ export interface RealTimeNoteData {
 
 interface Transformer {
   obtained: boolean;
-  recovery_time: {
-    Day: number;
-    Hour: number;
-    Minute: number;
-    Second: number;
-    reached: boolean;
-  };
+  recovery_time: KeyToUpperCase<Omit<Time, "year" | "month">> & { reached: boolean };
   wiki: string;
   noticed: boolean;
   last_job_id: string;
