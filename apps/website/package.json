@@ -10,13 +10,13 @@
     "format": "prettier --write pages/**/*.{mdx,js,jsx,ts,tsx}"
   },
   "dependencies": {
-    "next": "^13.4.4",
-    "nextra": "^2.6.1",
-    "nextra-theme-docs": "^2.6.1",
+    "next": "^13.4.6",
+    "nextra": "^2.7.1",
+    "nextra-theme-docs": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "eslint-config-next": "^13.4.4"
+    "eslint-config-next": "^13.4.6"
   }
 }
