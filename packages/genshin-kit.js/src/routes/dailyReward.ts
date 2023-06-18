@@ -342,6 +342,14 @@ export class DailyRewards {
       };
     }
 
+
+    if (res.retcode === 0 && data.gt_result.is_risk) {
+      return {
+        status: "geetest tiggered",
+        code: res.retcode,
+      }
+    }
+ 
     if (data.code === "ok" && res.retcode === 0) {
       const info = await this.rewardInfo.fetch(options);
 
