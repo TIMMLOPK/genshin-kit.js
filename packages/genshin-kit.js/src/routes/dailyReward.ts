@@ -12,7 +12,9 @@ import type {
 import type { ClientCookieManager } from "../client/clientCookieManager";
 
 export type FetchClaimHistoryOption = FetchOptions & { page?: number };
-export type CheckInFetchOptions = FetchOptions & { geetestCallback?: (challenge: string, gt: string) => Promise<{ validate: string; seccode: string }> };
+export type CheckInFetchOptions = FetchOptions & {
+  geetestCallback?: (challenge: string, gt: string) => Promise<{ validate: string; seccode: string }>;
+};
 
 class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   private readonly defaultOptions?: FetchOptions;
@@ -378,7 +380,6 @@ export class DailyRewards {
         code: -5003,
       };
     }
-
 
     if (data.code === "ok" && res.retcode === 0) {
       const info = await this.rewardInfo.fetch(options);
