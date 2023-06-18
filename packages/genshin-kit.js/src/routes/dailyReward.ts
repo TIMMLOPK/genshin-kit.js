@@ -361,7 +361,7 @@ export class DailyRewards {
 
       if (res2.retcode === 0 && data.gt_result.is_risk) {
         return {
-          status: "geetest tiggered",
+          status: "geetest triggered",
           code: res2.retcode,
         };
       }
@@ -369,7 +369,7 @@ export class DailyRewards {
 
     if (res.retcode === 0 && data.gt_result.is_risk && !options?.geetestCallback) {
       return {
-        status: "geetest tiggered",
+        status: "geetest triggered",
         code: res.retcode,
       };
     }

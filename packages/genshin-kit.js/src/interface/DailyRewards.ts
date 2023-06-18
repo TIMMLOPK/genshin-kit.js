@@ -2,7 +2,7 @@ export type DailyRewardSignInData =
   | (DailyRewardSignInRawData<"success"> & {
       rewards: DayRewardData;
     })
-  | DailyRewardSignInRawData<"error" | "Already claimed" | "geetest tiggered">;
+  | DailyRewardSignInRawData<"error" | "Already claimed" | "geetest triggered">;
 
 interface DailyRewardSignInRawData<status = unknown> {
   status: status;
