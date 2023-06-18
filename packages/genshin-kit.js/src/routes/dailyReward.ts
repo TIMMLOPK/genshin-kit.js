@@ -12,6 +12,7 @@ import type {
 import type { ClientCookieManager } from "../client/clientCookieManager";
 
 export type FetchClaimHistoryOption = FetchOptions & { page?: number };
+export type CheckInFetchOptions = FetchOptions & { geetestCallback?: (challenge: string, gt: string) => Promise<{ validate: string; seccode: string }> };
 
 class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   private readonly defaultOptions?: FetchOptions;
@@ -302,7 +303,7 @@ export class DailyRewards {
   /**
    * @description CheckIn to claim Daily Rewards
    */
-  public async checkIn(options?: FetchOptions): Promise<DailyRewardSignInData> {
+  public async checkIn(options?: CheckInFetchOptions): Promise<DailyRewardSignInData> {
     const optionsToUse = mergeOptions({
       options,
       cookieManager: this.cookieManager,
@@ -333,7 +334,43 @@ export class DailyRewards {
       },
     );
 
-    const { data } = res;
+    let { data } = res;
+
+    if (res.retcode === 0 && data.gt_result.is_risk && options?.geetestCallback) {
+      const geetest = await options.geetestCallback(data.gt_result.challenge, data.gt_result.gt);
+
+      const res2 = await instance.post(
+        "sign",
+        {
+          Cookie: cookie,
+        },
+        {
+          act_id: "e202102251931481",
+          "x-rpc-challenge": data.gt_result.challenge,
+          "x-rpc-seccode": geetest.seccode,
+          "x-rpc-validate": geetest.validate,
+        },
+        {
+          lang: language,
+        },
+      );
+
+      data = res2.data;
+
+      if (res2.retcode === 0 && data.gt_result.is_risk) {
+        return {
+          status: "geetest tiggered",
+          code: res2.retcode,
+        };
+      }
+    }
+
+    if (res.retcode === 0 && data.gt_result.is_risk && !options?.geetestCallback) {
+      return {
+        status: "geetest tiggered",
+        code: res.retcode,
+      };
+    }
 
     if (res.retcode === -5003) {
       return {
@@ -343,13 +380,6 @@ export class DailyRewards {
     }
 
 
-    if (res.retcode === 0 && data.gt_result.is_risk) {
-      return {
-        status: "geetest tiggered",
-        code: res.retcode,
-      }
-    }
- 
     if (data.code === "ok" && res.retcode === 0) {
       const info = await this.rewardInfo.fetch(options);
 
