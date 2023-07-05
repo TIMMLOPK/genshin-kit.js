@@ -27,7 +27,7 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   /**
    * @description Get the daily rewards info
    */
-  public async fetch(options?: FetchOptions): Promise<DailyRewardInfoData> {
+  public async fetch(options?: FetchOptions) {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -46,7 +46,7 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
       route: API_URL.Genshin_HoYolab_Reward,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<DailyRewardInfoData>(
       "info",
       {
         Cookie: cookie,
@@ -100,8 +100,6 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
 
     const resData = alias(data.awards[day - 1], { cnt: "count" });
 
-    this.cache.set(day.toString(), resData);
-
     return resData;
   }
 }
@@ -117,7 +115,7 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
   /**
    * @description Get the extra rewards info
    */
-  async fetch(options?: FetchOptions): Promise<DailyRewardExtraRewardData> {
+  async fetch(options?: FetchOptions) {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -136,7 +134,7 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
       route: API_URL.Genshin_HoYolab_Reward,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<DailyRewardExtraRewardData>(
       "extra_award",
       {
         Cookie: cookie,
@@ -150,7 +148,7 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
 
     const { data } = res;
 
-    alias(data, { total_cnt: "total_count", cnt: "count", mc: "month_card" });
+    alias(data, { total_cnt: "total_count", mc: "month_card" });
 
     this.cache.set(cookie, data);
 
@@ -169,7 +167,7 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
   /**
    * @description get resign info
    */
-  async fetch(options?: FetchOptions): Promise<DailyRewardResignData> {
+  async fetch(options?: FetchOptions) {
     if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
 
     const optionsToUse = mergeOptions({
@@ -187,7 +185,7 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
       route: API_URL.Genshin_HoYolab_Reward,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<DailyRewardResignData>(
       "resign_info",
       {
         Cookie: cookie,

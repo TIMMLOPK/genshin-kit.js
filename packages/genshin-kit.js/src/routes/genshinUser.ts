@@ -13,7 +13,7 @@ export class GenshinUser extends BaseRoute<GenshinUserData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: FetchOptions): Promise<GenshinUserData> {
+  public async fetch(uid: string, options?: FetchOptions) {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions({
@@ -34,7 +34,7 @@ export class GenshinUser extends BaseRoute<GenshinUserData> {
       language,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<GenshinUserData>(
       "index",
       {
         Cookie: cookie,

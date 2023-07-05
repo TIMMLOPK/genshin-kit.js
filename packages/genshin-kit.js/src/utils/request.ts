@@ -14,10 +14,10 @@ interface Option {
   language?: Language;
 }
 
-interface Response {
+interface Response<T> {
   retcode: number;
   message: string;
-  data: any;
+  data: T;
 }
 
 type Headers = Record<string, string | string[]>;
@@ -62,11 +62,11 @@ export class RequestManager {
     }
   }
 
-  public async get(
+  public async get<T = any>(
     url: string,
     headers?: Headers,
     params?: Record<string, string | number | boolean>,
-  ): Promise<Response> {
+  ): Promise<Response<T>> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {
       ...this.headers,
@@ -103,12 +103,12 @@ export class RequestManager {
     return resData;
   }
 
-  public async post(
+  public async post<T = any>(
     url: string,
     headers?: Headers,
     data?: Record<string, string | number[] | number | boolean>,
     params?: Record<string, string>,
-  ): Promise<Response> {
+  ): Promise<Response<T>> {
     const URL = `${this.baseURL}${url}`;
     const requestHeaders = {
       "content-type": "application/json",

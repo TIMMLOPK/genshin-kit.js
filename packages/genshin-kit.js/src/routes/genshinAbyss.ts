@@ -17,7 +17,7 @@ export class SpiralAbyss extends BaseRoute<AbyssBattleData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: SpiralAbyssFetchOptions): Promise<AbyssBattleData> {
+  public async fetch(uid: string, options?: SpiralAbyssFetchOptions) {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions(
@@ -41,7 +41,7 @@ export class SpiralAbyss extends BaseRoute<AbyssBattleData> {
       language,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<AbyssBattleData>(
       "spiralAbyss",
       {
         Cookie: cookie,

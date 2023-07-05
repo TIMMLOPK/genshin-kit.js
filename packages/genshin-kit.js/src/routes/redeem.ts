@@ -13,7 +13,7 @@ export class RedeemCode {
    * @description Redeem the code
    * @param {string} code The code to redeem
    */
-  public async redeem(code: string, options: RedeemOptions): Promise<RedeemCodeData> {
+  public async redeem(code: string, options: RedeemOptions) {
     if (!redeemValidator(code, options)) {
       throw new Error("No code or Cookie provided");
     }
@@ -29,7 +29,7 @@ export class RedeemCode {
       .find(item => item.includes("ltuid"))
       ?.split("=")[1];
 
-    const res = await instance.get(
+    const res = await instance.get<RedeemCodeData>(
       "",
       {
         Cookie: `${cookie}; cookie_token=${cookie_token}; account_id=${ac_id}`,

@@ -1,5 +1,5 @@
 import { BaseRoute, FetchOptions, Options } from "./base";
-import { mergeOptions, RequestManager, basicValidator, checkServerRegion, cardListValidator } from "../utils";
+import { mergeOptions, RequestManager, basicValidator, checkServerRegion, cardListValidator, alias } from "../utils";
 import type { CardBackListData, CardListData, TCGData, TCGGameRecordData } from "../interface";
 
 export type CardListOptions = FetchOptions &
@@ -56,6 +56,11 @@ class BasicInfo extends BaseRoute<TCGData> {
 
     const { data } = res;
 
+
+    alias(data, {
+      win_cnt: "win_count",
+    });
+
     this.cache.set(uid, data);
 
     return data;
@@ -73,7 +78,7 @@ class CardList extends BaseRoute<CardListData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: CardListOptions): Promise<CardListData> {
+  public async fetch(uid: string, options?: CardListOptions) {
     if (this.cache.has(uid)) return this.cache.get(uid);
     const optionsToUse = mergeOptions(
       {
@@ -96,7 +101,7 @@ class CardList extends BaseRoute<CardListData> {
       language,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<CardListData>(
       "gcg/cardList",
       {
         Cookie: cookie,
@@ -131,7 +136,7 @@ class CardBackList extends BaseRoute<CardBackListData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: FetchOptions): Promise<CardBackListData> {
+  public async fetch(uid: string, options?: FetchOptions) {
     if (this.cache.has(uid)) return this.cache.get(uid);
     const optionsToUse = mergeOptions({
       options,
@@ -151,7 +156,7 @@ class CardBackList extends BaseRoute<CardBackListData> {
       language,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<CardBackListData>(
       "gcg/cardBackList",
       {
         Cookie: cookie,
@@ -181,7 +186,7 @@ export class GameRecord extends BaseRoute<TCGGameRecordData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: FetchOptions): Promise<TCGGameRecordData> {
+  public async fetch(uid: string, options?: FetchOptions) {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions({
@@ -202,7 +207,7 @@ export class GameRecord extends BaseRoute<TCGGameRecordData> {
       language,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<TCGGameRecordData>(
       "gcg/matchList",
       {
         Cookie: cookie,

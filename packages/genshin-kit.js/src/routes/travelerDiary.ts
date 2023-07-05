@@ -18,7 +18,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
   /**
    * @param {string} uid Genshin Impact UID
    */
-  public async fetch(uid: string, options?: FetchOptions): Promise<DiaryData> {
+  public async fetch(uid: string, options?: FetchOptions) {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions({
@@ -36,7 +36,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
     const instance = new RequestManager({
       route: API_URL.Genshin_HoYolab_Diary,
     });
-    const res = await instance.get(
+    const res = await instance.get<DiaryData>(
       "month_info",
       {
         Cookie: cookie,
@@ -55,7 +55,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
     return data;
   }
 
-  public async fetchMonth(uid: string, options: MonthDiaryOptions): Promise<DiaryData> {
+  public async fetchMonth(uid: string, options: MonthDiaryOptions) {
     const optionsToUse = mergeOptions(
       {
         options,
@@ -75,7 +75,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
       route: API_URL.Genshin_HoYolab_Diary,
     });
 
-    const res = await instance.get(
+    const res = await instance.get<DiaryData>(
       "month_info",
       {
         Cookie: cookie,
