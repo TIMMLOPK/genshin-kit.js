@@ -5,9 +5,28 @@ export interface TCGData {
   action_card_num_total: number;
   avatar_card_num_gained: number;
   avatar_card_num_total: number;
+  challenge_basic: ChallengeBasic;
   covers: Cover[];
+  hornor_character: null;
   level: number;
   nickname: string;
+  replays: MatchData[];
+}
+
+interface ChallengeBasic {
+  has_data: boolean;
+  medal: string;
+  nickname: string;
+  schedule: Schedule;
+  uid: string;
+  win_count: number;
+}
+
+interface Schedule {
+  begin: Time;
+  end: Time;
+  id: number;
+  name: string;
 }
 
 export interface CardBackListData {
@@ -31,14 +50,13 @@ export interface MatchData {
   is_win: boolean;
   match_time: Omit<Time, "second">;
   match_type: string;
-  opposite: {
-    name: string;
-    linups: string[];
-  };
-  self: {
-    name: string;
-    linups: string[];
-  };
+  opposite: Player;
+  self: Player;
+}
+
+interface Player {
+  name: string;
+  linups: string[];
 }
 
 interface Cover {
