@@ -1,4 +1,4 @@
-import { Activities, Charcters, Client, CookieFormatter, GenshinUser, Language, RealTimeNotes, SpiralAbyss, TravelerDiary } from '../dist';
+import { Activities, Charcters, Client, CookieFormatter, GameRecordCard, GenshinUser, Language, RealTimeNotes, SpiralAbyss, TravelerDiary } from '../dist';
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -16,6 +16,12 @@ test("Get GUID", async () => {
         GUID = user.list[0]?.game_role_id ?? "";
         expect(GUID).not.toBe(undefined);
     }
+});
+
+test("Game Record Card removed unused keys", async () => {
+    const user = new GameRecordCard();
+    const result = await user.fetch(GUID, options) as any;
+    expect(result.list[0]?.h5_data_switches).toBe(undefined);
 });
 
 test("SpiralAbyss", async () => {

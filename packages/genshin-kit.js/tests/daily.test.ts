@@ -17,12 +17,12 @@ describe("Daily Rewards", () => {
 
     test("Daily reward info", async () => {
         const result = await reward.rewardInfo.fetch(options);
-        expect(result.is_sign).toBeTruthy();
+        expect(typeof result.total_sign_day).toBe("number");
     });
 
     test("Daily reward resign Info", async () => {
         const result = await reward.resignInfo.fetch(options);
-        expect(result.signed).toBeTruthy();
+        expect(typeof result.signed).toBe("boolean");
     });
 
     test("Daily reward checkIn history", async () => {
@@ -38,6 +38,11 @@ describe("Daily Rewards", () => {
     test("Daily reward day reward", async () => {
         const result = await reward.rewardInfo.fetchDay(1, options);
         expect(result.count).not.toBe(undefined);
+    });
+
+    test("Daily reward day reward aliased", async () => {
+        const result = await reward.rewardInfo.fetchDay(1, options) as any;
+        expect(result.cnt).toBe(undefined);
     });
 
 });
