@@ -1,6 +1,8 @@
+import { Callout } from 'nextra/components'
+
 # Client
 
-Client contains all routes in the library, and you can login with the ltoken and ltuid.
+Client contains all routes, and you could login with the ltoken and ltuid.
 
 ```ts
 const client = new Client();
@@ -10,18 +12,42 @@ client.login("LTUID", "LTOKEN");
 
 ## Routes
 
-To send a request to the API you can use the following methods:
+To send a request to the API you could use the following methods:
 
 ```ts
   await client.<route>.<method>(<params>);
 ```
-
-The benefit of using client is that you don't have to pass the ltoken and ltuid every time you want to send a request.
+<Callout>
+You wouldn't have to pass the ltoken and ltuid every time you want to send a request when using client.
+</Callout>
 
 ## Cache Sweeper
 
-Client has a cache sweeper that will clear the cache every minute. You can customize the sweeper. See [Caching](/cache.mdx) for more information.
+Client has built-in cache sweeper that would clear the cache every minute. You could customize the sweeper.
+
+### Custom Cache Sweeper
+
+```javascript
+const client = new Client({
+  cacheOptions: {
+    maxAge: 60, // the cache will be deleted after 60 seconds
+    maxSize: 0, // it wouldn't cache anythings
+  },
+});
+```
+
+More information about caching can be found [here](/cache.mdx).
 
 ## Cookies Manager
 
-Client has a cookies manager with multiple cookies and more features.
+Client could using cookies manager for multiple cookies.
+
+```javascript
+const { Client } = require("genshin-kit.js");
+// import { Client } from "genshin-kit.js"; (if you use typescript)
+
+const client = new Client();
+client.addCookies([{ ltoken: "LTOKEN", ltuid: "LTUID" }, {}, {}, {}]);
+```
+
+More information about cookies can be found [here](/cookies.mdx).

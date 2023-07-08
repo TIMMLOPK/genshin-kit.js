@@ -2,9 +2,10 @@
     "index": "Introduction",
     "getting-started": "Getting started",
     "client": "Client",
-    "cache": "Caching",
+    "cache": "Cache",
     "cookies": "Cookies",
     "api_reference": {
         "title": "API Reference"
-    }
+    },
+    "daily-rewards-checkin": "Daily Rewards CheckIn"
 }

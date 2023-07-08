@@ -6,7 +6,7 @@
 
 `ClientCache` is a generic type, which means you can specify the type of the key and value.
 
-```ts
+```js
 const cache = new ClientCache<valueType>(options);
 ```
 
@@ -18,7 +18,7 @@ const cache = new ClientCache<valueType>(options);
 
 The maximum size of the cache. If the cache exceeds this size, the least recently used item will be removed.
 
-```ts
+```js
 const cache = new ClientCache({ maxSize: 100 });
 ```
 
@@ -28,7 +28,7 @@ const cache = new ClientCache({ maxSize: 100 });
 
 It overrides the native `get` method, it checks the cache is exist or not, if it's not exist, it will return `undefined`.
 
-```ts
+```js
 const cache = new ClientCache();
 cache.get("key");
 ```
@@ -37,7 +37,7 @@ cache.get("key");
 
 It overrides the native `set` method, it checks the maximum size of the cache, if the cache exceeds the maximum size, it won't add the new item to the cache.
 
-```ts
+```js
 const cache = new ClientCache();
 cache.set("key", "value");
 ```
@@ -54,7 +54,7 @@ type SweepFilterOptions<V> = (value: { value: V; timestamp: number; size: number
 
 Usage:
 
-```ts
+```js
 const cache = new ClientCache();
-cache.sweep(value => value === "value");
+cache.sweep(value => value.size > 100);
 ```

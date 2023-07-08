@@ -5,8 +5,48 @@
 If you want to use different cookies to send request to avoid hitting cookies limit, you could use `addCookies` to add more than one cookies to the client.
 
 ```javascript
+const { Client } = require("genshin-kit.js");
+// import { Client } from "genshin-kit.js"; (if you use typescript)
+
 const client = new Client();
 client.addCookies([{ ltoken: "LTOKEN", ltuid: "LTUID" }, {}, {}, {}]);
 ```
 
 If you have more than one cookie, it will use the first , and then the second...
+
+## Custom Cookies Manager
+```javascript
+const { Client , ClientCookieManager } = require("genshin-kit.js");
+// import { Client , ClientCookieManager } from "genshin-kit.js"; (if you use typescript)
+
+const manager = new ClientCookieManager();
+manager.setCookie("LTUID", "LTOKEN");
+
+const client = new Client({ cookieManager: manager });
+```
+
+You can use your own cookie manager to manage cookies.
+
+```javascript
+// ...
+manager.setCookie("","") // set cookie
+manager.getAll(); // get all cookies
+manager.delete(0); // delete cookie by index
+manager.clear(); // clear all cookies
+manager.get(); // get cookie to send request
+```
+
+### Get Cookies from browser(Chrome)
+
+Prepare: 
+1. Install https://www.npmjs.com/package/chrome-cookies-secure
+```bash
+npm i chrome-cookies-secure
+```
+2. Open Chrome and login to the HoYoLab website
+3. Get the cookie in ClientCookieManager
+```javascript
+// ...
+manager.getBrowserCookie("Profile"); // you need to pass browser Profile
+```
+4. Done ✨

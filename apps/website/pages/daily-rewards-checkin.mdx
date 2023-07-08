@@ -1,14 +1,24 @@
+import { Callout } from 'nextra/components'
+
 # Daily rewards checkIn
 
 ## Geetest of checkIn
-HoYoLab has added Geetest to the checkIn of daily rewards, you would need to solve the captcha to get the rewards. Genshin-kit.js wouldn't help you to solve the captcha, you would need to solve it manually.
+
+Since HoYoLab updated the checkIn API, you may trigger the geetest CAPTCHA.You need to solve the captcha to get the rewards.
+
+<Callout>
+Genshin-kit.js wouldn't help you to solve geetest, you need to solve it manually.
+</Callout>
 
 If you want to solve the geetest when it tiggers, you can use the following code:
 ```js
-await client.dailyReward.checkIn({ geetestCallback: (challenge, gt) => { 
+await client.dailyReward.checkIn({
+  geetestCallback: (challenge, gt) => {
     // solve the captcha here
-    return {validate: 'xxx', seccode: 'xxx'};
-}})
+    return { validate: "xxx", seccode: "xxx" };
+  },
+});
 ```
 
-When you solve the geetest, Genshin-kit.js will send new request to the server with the `validate` and `seccode` you returned. Or else, it will return status `geetest triggered`.
+When you solve the geetest, Genshin-kit.js will send new request to the server with the `validate` and `seccode` you returned.
+Or else, it will return status `geetest triggered`.
