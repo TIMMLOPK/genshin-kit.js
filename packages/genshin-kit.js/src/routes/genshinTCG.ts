@@ -56,7 +56,6 @@ class BasicInfo extends BaseRoute<TCGData> {
 
     const { data } = res;
 
-
     alias(data, {
       win_cnt: "win_count",
     });

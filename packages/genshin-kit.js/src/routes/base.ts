@@ -8,8 +8,11 @@ export interface FetchOptions {
   language?: Language;
 }
 
-export type Options<T> = Omit<ClientOptions, "debug" | "language"> & {
+export type Options<T> = Omit<ClientOptions, "debug" | "language" | "cacheOptions"> & {
   defaultOptions?: FetchOptions & T;
+  cacheOptions?: {
+    maxSize?: number;
+  };
 };
 
 export class BaseRoute<CacheType> {

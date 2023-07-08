@@ -25,7 +25,6 @@ export function alias<T extends { [key: string]: any }>(obj: T, aliasMap: aliasM
   return obj;
 }
 
-
 export function removeFromObject<T extends { [key: string]: any }>(obj: T, keys: string[]) {
   if (Array.isArray(obj)) {
     let i = obj.length;
