@@ -5,7 +5,7 @@ import type { CharacterData, CharacterInfoData } from "../interface";
 export class Charcters extends BaseRoute<CharacterData[]> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }

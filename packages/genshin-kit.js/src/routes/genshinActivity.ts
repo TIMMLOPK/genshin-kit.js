@@ -5,7 +5,7 @@ import type { ActivitiesData } from "../interface";
 export class Activities extends BaseRoute<ActivitiesData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }

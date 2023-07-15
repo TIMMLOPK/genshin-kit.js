@@ -19,7 +19,7 @@ export type CheckInFetchOptions = FetchOptions & {
 class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -107,7 +107,7 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
 class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -159,7 +159,7 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
 class ResignInfo extends BaseRoute<DailyRewardResignData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -216,7 +216,7 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
 class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -282,7 +282,7 @@ export class DailyRewards {
 
   public checkInHistory: CheckInHistory;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     this.defaultOptions = options?.defaultOptions;
     this.cookieManager = options?.cookieManager;
 

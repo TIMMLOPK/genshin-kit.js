@@ -10,7 +10,7 @@ export type MonthDiaryOptions = FetchOptions & {
 export class TravelerDiary extends BaseRoute<DiaryData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }

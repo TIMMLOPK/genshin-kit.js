@@ -6,7 +6,7 @@ import type { RecordCardData } from "../interface";
 export class GameRecordCard extends BaseRoute<RecordCardData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }

@@ -5,7 +5,7 @@ import type { GenshinUserData } from "../interface";
 export class GenshinUser extends BaseRoute<GenshinUserData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }

@@ -14,7 +14,7 @@ export type CardListOptions = FetchOptions &
 class BasicInfo extends BaseRoute<TCGData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -69,7 +69,7 @@ class BasicInfo extends BaseRoute<TCGData> {
 class CardList extends BaseRoute<CardListData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -127,7 +127,7 @@ class CardList extends BaseRoute<CardListData> {
 class CardBackList extends BaseRoute<CardBackListData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -177,7 +177,7 @@ class CardBackList extends BaseRoute<CardBackListData> {
 export class GameRecord extends BaseRoute<TCGGameRecordData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }
@@ -234,7 +234,7 @@ export class TCG {
 
   public gameRecord: GameRecord;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     this.basicInfo = new BasicInfo(options);
     this.cardList = new CardList(options);
     this.cardBackList = new CardBackList(options);

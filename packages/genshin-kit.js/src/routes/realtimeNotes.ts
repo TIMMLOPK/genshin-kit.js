@@ -5,7 +5,7 @@ import type { RealTimeNoteData } from "../interface";
 export class RealTimeNotes extends BaseRoute<RealTimeNoteData> {
   private readonly defaultOptions?: FetchOptions;
 
-  constructor(options?: Options<FetchOptions>) {
+  constructor(options?: Options) {
     super(options);
     this.defaultOptions = options?.defaultOptions;
   }

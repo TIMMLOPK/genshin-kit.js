@@ -1,7 +1,10 @@
 /**
  * @description Cache of API responses.
  */
-export type SweepFilterOptions<V> = (value: { value: V; timestamp: number; size: number }, key: string) => boolean;
+export type SweepFilterOptions<V = unknown> = (
+  value: { value: V; timestamp: number; size: number },
+  key: string,
+) => boolean;
 
 export class ClientCache<V> extends Map<string, V> {
   private lifeMap: Map<string, number>;

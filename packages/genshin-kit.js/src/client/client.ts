@@ -25,7 +25,7 @@ export interface ClientOptions {
 
 interface CacheOptions {
   maxAge: number;
-  maxSize?: number;
+  maxSize: number;
 }
 
 export class Client {
@@ -49,7 +49,7 @@ export class Client {
 
   public tcg?: TCG;
 
-  private options: ClientOptions & { cacheOptions: CacheOptions };
+  private options: ClientOptions & { cacheOptions: { maxAge: number; maxSize?: number } };
 
   private logined: boolean;
 
@@ -80,7 +80,9 @@ export class Client {
     this.cookieManager.setCookie(ltuid, ltoken);
 
     const option = {
-      cacheOptions: this.options.cacheOptions,
+      cacheOptions: {
+        maxSize: this.options.cacheOptions.maxSize,
+      },
       defaultOptions: {
         language: this.options.language,
         cookie: this.cookieManager.get().cookie,
@@ -118,7 +120,7 @@ export class Client {
   private initSweeper() {
     setInterval(() => {
       if (this.options.debug) console.log("[DEBUG] Sweeping cache");
-      const filter: SweepFilterOptions<any> = v =>
+      const filter: SweepFilterOptions = v =>
         v.timestamp + this.options.cacheOptions.maxAge < Date.now() ||
         (this.options.cacheOptions.maxSize !== undefined ? v.size > this.options.cacheOptions.maxSize : false);
 
