@@ -1,4 +1,4 @@
-import { Callout } from 'nextra/components'
+import { Callout } from "nextra/components";
 
 # Daily rewards checkIn
 
@@ -6,11 +6,10 @@ import { Callout } from 'nextra/components'
 
 Since HoYoLab updated the checkIn API, you may trigger the geetest CAPTCHA.You need to solve the captcha to get the rewards.
 
-<Callout>
-Genshin-kit.js wouldn't help you to solve geetest, you need to solve it manually.
-</Callout>
+<Callout>Genshin-kit.js wouldn't help you to solve geetest, you need to solve it manually.</Callout>
 
 If you want to solve the geetest when it tiggers, you can use the following code:
+
 ```js
 await client.dailyReward.checkIn({
   geetestCallback: (challenge, gt) => {
