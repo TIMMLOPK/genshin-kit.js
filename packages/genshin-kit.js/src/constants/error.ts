@@ -1,5 +1,5 @@
 export enum APIError {
-  INVALID_COOKIE = "The provided cookie is invalid or expired",
+  INVALID_COOKIES = "The provided cookies are invalid or expired",
   COOKIE_LIMIT = "Cannot get data for more than 30 accounts per cookie per day. Please use a different cookie.",
   API_BUSY = "API system busy. Please try again later.",
   ACCOUNT_NOT_FOUND = "The account is not found",
@@ -12,9 +12,9 @@ export interface HoYoLabError {
   description?: string;
 }
 
-const ERROR = [
-  { retcode: -100, message: APIError.INVALID_COOKIE },
-  { retcode: 10001, message: APIError.INVALID_COOKIE },
+const ERRORS = [
+  { retcode: -100, message: APIError.INVALID_COOKIES },
+  { retcode: 10001, message: APIError.INVALID_COOKIES },
   {
     retcode: 10101,
     message: APIError.COOKIE_LIMIT,
@@ -31,8 +31,12 @@ const ERROR = [
     retcode: -2017,
     message: APIError.CODE_IS_USED,
   },
+  {
+    retcode: -1071,
+    message: APIError.INVALID_COOKIES,
+  },
 ];
 
 export function getErrorByRetcode(retcode: number): string | undefined {
-  return ERROR.find(error => error.retcode === retcode)?.message;
+  return ERRORS.find(error => error.retcode === retcode)?.message;
 }

@@ -31,6 +31,9 @@ interface Stats {
   achievement_number: number;
   anemoculus_number: number;
   geoculus_number: number;
+  dendroculus_number: number;
+  electroculus_number: number;
+  hydroculus_number: number;
   avatar_number: number;
   way_point_number: number;
   domain_number: number;
@@ -39,17 +42,17 @@ interface Stats {
   luxurious_chest_number: number;
   exquisite_chest_number: number;
   common_chest_number: number;
-  electroculus_number: number;
   magic_chest_number: number;
-  dendroculus_number: number;
 }
 
 interface WorldExploration {
+  // area_exploration_list: [];
+  // boss_list: [];
   level: number;
   exploration_percentage: number;
   icon: string;
   name: string;
-  type: string;
+  type: "Reputation" | "Offering";
   offerings: offering[];
   id: number;
   parent_id: number;

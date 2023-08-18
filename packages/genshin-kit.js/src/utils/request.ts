@@ -86,7 +86,7 @@ export class RequestManager {
       throw new Error(`Request failed with status code ${statusCode}`);
     }
 
-    const resData = await res.json();
+    const resData = (await res.json()) as Response<T>;
 
     this._debug([
       `Retcode: ${resData.retcode}`,
@@ -136,7 +136,7 @@ export class RequestManager {
       throw new Error(`Request failed with status code ${statusCode}`);
     }
 
-    const resData = await res.json();
+    const resData = (await res.json()) as Response<T>;
 
     this._debug([
       `Retcode: ${resData.retcode}`,
