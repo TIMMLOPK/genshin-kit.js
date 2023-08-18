@@ -1,6 +1,6 @@
 {
   "name": "genshin-kit.js",
-  "version": "2.4.8",
+  "version": "2.4.9",
   "description": "Hoyolab API unofficial library",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,6 +10,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "keywords": [
+    "genshin",
+    "HoYoLAB",
+    "mihoyo"
+  ],
   "scripts": {
     "build:check": "tsc --noEmit",
     "build:clean": "del-cli ./dist",
