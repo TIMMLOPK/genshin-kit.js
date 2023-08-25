@@ -13,6 +13,7 @@ interface Role {
   level: number;
   nickname: string;
   region: string;
+  game_head_icon: string;
 }
 
 interface Teapot {
