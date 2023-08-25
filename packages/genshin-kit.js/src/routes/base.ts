@@ -3,7 +3,12 @@ import type { ClientCookieManager } from "../client/clientCookieManager";
 import type { Language } from "../constants/lang";
 
 export interface FetchOptions {
-  cookie?: string;
+  /**
+   * @description The cookies to set.
+   * Examples: `ltoken=123456789; ltuid=123456789;` or `ltoken_v2=123456789; ltuid_v2=123456789;`
+   * @default undefined
+   */
+  cookie?: string | Record<string, string>;
   language?: Language;
 }
 

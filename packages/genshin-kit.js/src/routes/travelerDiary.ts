@@ -1,6 +1,13 @@
 import { BaseRoute, FetchOptions, Options } from "./base";
 import { API_URL } from "../constants/constants";
-import { basicValidator, getMonthValidator, mergeOptions, RequestManager, checkServerRegion } from "../utils";
+import {
+  basicValidator,
+  getMonthValidator,
+  mergeOptions,
+  RequestManager,
+  checkServerRegion,
+  OptionType,
+} from "../utils";
 import type { DiaryData } from "../interface";
 
 export type MonthDiaryOptions = FetchOptions & {
@@ -62,7 +69,7 @@ export class TravelerDiary extends BaseRoute<DiaryData> {
         cookieManager: this.cookieManager,
         defaultOptions: this.defaultOptions,
       },
-      "MonthDiaryOptions",
+      OptionType.MonthDiaryOptions,
     );
 
     if (!getMonthValidator(uid, optionsToUse)) {

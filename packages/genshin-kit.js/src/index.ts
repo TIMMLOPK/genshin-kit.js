@@ -11,7 +11,7 @@ export * from "./constants/error";
 
 // export UTILS
 export * from "./utils/getServer";
-export * from "./utils/cookieFormatter";
+export * from "./utils/cookie";
 
 // export INTERFACES
 export * from "./interface";

@@ -1,3 +1,6 @@
+/**
+ * @description Time object.
+ */
 export interface Time {
   year: number;
   month: number;

@@ -1,6 +1,14 @@
 import { API_URL } from "../constants/constants";
 import { BaseRoute, FetchOptions, Options } from "./base";
-import { mergeOptions, RequestManager, basicValidator, alias, claimHistoryValidator } from "../utils";
+import {
+  mergeOptions,
+  RequestManager,
+  basicValidator,
+  alias,
+  claimHistoryValidator,
+  OptionType,
+  CookieObjToString,
+} from "../utils";
 import type {
   DailyRewardSignInHistoryData,
   DayRewardData,
@@ -28,7 +36,8 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
    * @description Get the daily rewards info
    */
   public async fetch(options?: FetchOptions) {
-    if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
+    if (this.cache.has(CookieObjToString(options?.cookie) || ""))
+      return this.cache.get(CookieObjToString(options?.cookie) || "");
 
     const optionsToUse = mergeOptions({
       options,
@@ -116,7 +125,8 @@ class ExtraRewardInfo extends BaseRoute<DailyRewardExtraRewardData> {
    * @description Get the extra rewards info
    */
   async fetch(options?: FetchOptions) {
-    if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
+    if (this.cache.has(CookieObjToString(options?.cookie) || ""))
+      return this.cache.get(CookieObjToString(options?.cookie) || "");
 
     const optionsToUse = mergeOptions({
       options,
@@ -168,7 +178,8 @@ class ResignInfo extends BaseRoute<DailyRewardResignData> {
    * @description get resign info
    */
   async fetch(options?: FetchOptions) {
-    if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
+    if (this.cache.has(CookieObjToString(options?.cookie) || ""))
+      return this.cache.get(CookieObjToString(options?.cookie) || "");
 
     const optionsToUse = mergeOptions({
       options,
@@ -225,7 +236,8 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
    * @description get check in history
    */
   async fetch(options?: FetchClaimHistoryOption): Promise<DailyRewardSignInHistoryData> {
-    if (this.cache.has(options?.cookie || "")) return this.cache.get(options?.cookie || "");
+    if (this.cache.has(CookieObjToString(options?.cookie) || ""))
+      return this.cache.get(CookieObjToString(options?.cookie) || "");
 
     const optionsToUse = mergeOptions(
       {
@@ -233,7 +245,7 @@ class CheckInHistory extends BaseRoute<DailyRewardSignInHistoryData> {
         cookieManager: this.cookieManager,
         defaultOptions: this.defaultOptions,
       },
-      "FetchClaimHistoryOption",
+      OptionType.FetchClaimHistoryOption,
     );
 
     if (!claimHistoryValidator(optionsToUse)) {

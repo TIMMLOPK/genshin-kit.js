@@ -1,5 +1,5 @@
 import { BaseRoute, FetchOptions, Options } from "./base";
-import { mergeOptions, RequestManager, spiralAbyssValidator, checkServerRegion } from "../utils";
+import { mergeOptions, RequestManager, spiralAbyssValidator, checkServerRegion, OptionType } from "../utils";
 import type { AbyssBattleData } from "../interface";
 
 export type SpiralAbyssFetchOptions = FetchOptions & {
@@ -26,7 +26,7 @@ export class SpiralAbyss extends BaseRoute<AbyssBattleData> {
         cookieManager: this.cookieManager,
         defaultOptions: this.defaultOptions,
       },
-      "SpiralAbyssFetchOptions",
+      OptionType.SpiralAbyssFetchOptions,
     );
 
     if (!spiralAbyssValidator(uid, optionsToUse)) {

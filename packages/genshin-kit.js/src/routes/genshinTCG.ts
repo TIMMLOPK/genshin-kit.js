@@ -1,5 +1,13 @@
 import { BaseRoute, FetchOptions, Options } from "./base";
-import { mergeOptions, RequestManager, basicValidator, checkServerRegion, cardListValidator, alias } from "../utils";
+import {
+  mergeOptions,
+  RequestManager,
+  basicValidator,
+  checkServerRegion,
+  cardListValidator,
+  alias,
+  OptionType,
+} from "../utils";
 import type { CardBackListData, CardListData, TCGData, TCGGameRecordData } from "../interface";
 
 export type CardListOptions = FetchOptions &
@@ -85,7 +93,7 @@ class CardList extends BaseRoute<CardListData> {
         cookieManager: this.cookieManager,
         defaultOptions: this.defaultOptions,
       },
-      "CardListOptions",
+      OptionType.CardListOptions,
     );
 
     if (!cardListValidator(uid, optionsToUse)) {

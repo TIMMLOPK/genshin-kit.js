@@ -1,5 +1,5 @@
-export * from "./alias";
-export * from "./cookieFormatter";
+export * from "./objUtils";
+export * from "./cookie";
 export * from "./debug";
 export * from "./error";
 export * from "./generateDS";

@@ -1,4 +1,4 @@
-import { CookieFormatter } from "../utils/cookieFormatter";
+import { CookieFormatter } from "../utils/cookie";
 import { dynamic } from "../utils/import";
 
 interface cookie {
@@ -92,14 +92,17 @@ export class ClientCookieManager {
 
     let ltoken, ltuid, cookie_token;
     for (const key in cookie) {
-      if (key === "ltoken") {
+      if (key === "ltoken" || key === "ltoken_v2") {
         ltoken = cookie[key];
       }
-      if (key === "ltuid") {
+      if (key === "ltuid" || key === "ltuid_v2") {
         ltuid = cookie[key];
       }
-      if (key === "cookie_token") {
+      if (key === "cookie_token" || key === "cookie_token_v2") {
         cookie_token = cookie[key];
+      }
+      if (ltoken && ltuid && cookie_token) {
+        break;
       }
     }
 

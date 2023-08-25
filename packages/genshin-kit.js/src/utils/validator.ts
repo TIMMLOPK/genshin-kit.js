@@ -81,13 +81,13 @@ export const cardListValidator = (
   return true;
 };
 
-export const redeemValidator = (code: string, options?: RedeemOptions): options is Required<RedeemOptions> => {
+export const redeemValidator = (code: string, options?: Partial<RedeemOptions>): options is Required<RedeemOptions> => {
   const schema = z.object({
     code: z.string(),
     options: z.object({
       language: z.string(),
       cookie: z.string().min(1),
-      cookie_token: z.string(),
+      cookie_token: z.string().min(1),
       uid: z.string(),
     }),
   });
