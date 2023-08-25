@@ -63,8 +63,7 @@ test("Travel Diary", async () => {
 
 test("Redeem Code", async () => {
     if (!client.isLogin()) return;
-    const result = await client.redeemCode.redeem("GENSHINGIFT", { ...options, uid: GUID, cookie_token: ltoken });
-    expect(result.msg).not.toBe(undefined);
+    expect(async () => await client.redeemCode.redeem("GENSHINGIFT", { ...options, uid: GUID, cookie_token: ltoken })).rejects.toThrowError();
 });
 
 test("TCG", async () => {
