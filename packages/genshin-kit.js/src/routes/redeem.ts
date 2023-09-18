@@ -5,14 +5,14 @@ import { Language } from "../constants/lang";
 
 export interface RedeemOptions {
   uid: string;
-    /**
+  /**
    * @description The cookie token to set.
    * Examples: `cookie_token=123456789; account_id=123456789;` or `cookie_token_v2=123456789; account_id_v2=123456789;`
-   * 
+   *
    */
   cookie: string | Record<string, string>;
   language?: Language;
-};
+}
 
 export class RedeemCode {
   /**
