@@ -32,7 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "tslib": "^2.6.2",
-    "undici": "^5.24.0",
+    "undici": "^5.25.2",
     "zod": "^3.22.2"
   },
   "devDependencies": {
