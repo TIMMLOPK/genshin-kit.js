@@ -22,11 +22,14 @@ export function CookieToObj(cookies: string): Record<string, string> {
   const cookieObj: Record<string, string> = {};
   const cookieArr = cookies.split(";");
   cookieArr.forEach(cookie => {
-    const [key, value] = cookie.split("=");
-    if (key && value) {
-      cookieObj[key.trim()] = value.trim();
+    const index = cookie.indexOf("=");
+    if (index !== -1) {
+      const key = cookie.substring(0, index).trim();
+      const value = cookie.substring(index + 1).trim();
+      cookieObj[key] = value;
     }
   });
+
   return cookieObj;
 }
 

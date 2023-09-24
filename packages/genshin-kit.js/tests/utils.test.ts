@@ -18,10 +18,12 @@ test("Cookie Parser", () => {
     const testCookie = "ltoken=123456789; ltuid=123456789;";
     const testCookie2 = "ltoken_v2=123456789; ltuid_v2=123456789;";
     const testCookie3 = " ltoken=123456789; ltuid=123456789;  ";
+    const testCookie4 = "ltoken=123456789; ltuid=123456789; ltoken_v2=123456789=; ltuid_v2=123456789;";
 
     expect(CookieToObj(testCookie)).toStrictEqual({ ltoken: "123456789", ltuid: "123456789" });
     expect(CookieToObj(testCookie2)).toStrictEqual({ ltoken_v2: "123456789", ltuid_v2: "123456789" });
     expect(CookieToObj(testCookie3)).toStrictEqual({ ltoken: "123456789", ltuid: "123456789" });
+    expect(CookieToObj(testCookie4)).toStrictEqual({ ltoken: "123456789", ltuid: "123456789", ltoken_v2: "123456789=", ltuid_v2: "123456789" });
 });
 
 test("Cookie Formatter", () => {
