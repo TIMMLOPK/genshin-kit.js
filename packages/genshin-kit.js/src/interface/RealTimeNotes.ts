@@ -16,6 +16,7 @@ export interface RealTimeNoteData {
   home_coin_recovery_time: string;
   calendar_url: string;
   transformer: Transformer;
+  daily_task: DailyTask;
   expeditions: Expedition[];
 }
 
@@ -31,4 +32,22 @@ interface Expedition {
   avatar_side_icon: string;
   status: string;
   remained_time: string;
+}
+
+interface DailyTask {
+  total_num: number;
+  finished_num: number;
+  is_extra_reward_received: boolean;
+  task_rewards: TaskReward[];
+  attendance_rewards: AttendanceReward[];
+  attendance_visible: boolean;
+}
+
+interface TaskReward {
+  status: "TaskRewardStatusUnfinished" | "TaskRewardStatusTakenAward";
+}
+
+interface AttendanceReward {
+  status: "AttendanceRewardStatusUnfinished" | "AttendanceRewardStatusTakenAward" | "AttendanceRewardStatusForbid";
+  progress: number;
 }
