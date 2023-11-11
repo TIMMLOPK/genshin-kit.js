@@ -11,11 +11,12 @@ import {
 } from "../utils";
 import type {
   DailyRewardSignInHistoryData,
-  DayRewardData,
+  DayReward,
   DailyRewardSignInData,
   DailyRewardInfoData,
   DailyRewardExtraRewardData,
   DailyRewardResignData,
+  MonthRewardData,
 } from "../interface";
 import type { ClientCookieManager } from "../client/clientCookieManager";
 
@@ -74,10 +75,10 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
   }
 
   /**
-   * @description Get the daily rewards details
-   * @param {number} day Day of the rewards
+   * @description Get the daily rewards details for a specific day
+   * @param {number} day The day to fetch
    */
-  public async fetchDay(day: number, options?: FetchOptions): Promise<DayRewardData> {
+  public async fetchDay(day: number, options?: FetchOptions): Promise<DayReward> {
     const optionsToUse = mergeOptions({
       options,
       cookieManager: this.cookieManager,
@@ -85,6 +86,31 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
     });
 
     if (!basicValidator(day, optionsToUse)) {
+      throw new Error("No UID or Cookie provided");
+    }
+
+    const data = await this.fetchMonth(options);
+
+    const dayData = data.awards[day - 1];
+
+    if (!dayData) {
+      throw new Error("Day not found");
+    }
+
+    return dayData;
+  }
+
+  /**
+   * @description Get the daily rewards details
+   */
+  public async fetchMonth(options?: FetchOptions): Promise<MonthRewardData> {
+    const optionsToUse = mergeOptions({
+      options,
+      cookieManager: this.cookieManager,
+      defaultOptions: this.defaultOptions,
+    });
+
+    if (!basicValidator("", optionsToUse)) {
       throw new Error("No UID or Cookie provided");
     }
 
@@ -107,9 +133,9 @@ class RewardInfo extends BaseRoute<DailyRewardInfoData> {
 
     const { data } = res;
 
-    const resData = alias(data.awards[day - 1], { cnt: "count" });
+    alias(data.awards, { cnt: "count" });
 
-    return resData;
+    return data;
   }
 }
 
@@ -305,14 +331,6 @@ export class DailyRewards {
   }
 
   /**
-   * @description Get the daily rewards details
-   * @deprecated use `DailyRewards.dayReward.fetch()` instead
-   */
-  public async fetchDayReward(): Promise<DayRewardData> {
-    throw new Error("Deprecated, use `DailyRewards.rewardInfo.fetchDay()` instead");
-  }
-
-  /**
    * @description CheckIn to claim Daily Rewards
    */
   public async checkIn(options?: CheckInFetchOptions): Promise<DailyRewardSignInData> {
@@ -410,37 +428,5 @@ export class DailyRewards {
       status: "error",
       code: res.retcode,
     };
-  }
-
-  /**
-   * @description Get the daily rewards info
-   * @deprecated use `DailyRewards.rewardInfo.fetch()` instead
-   */
-  async fetchRewardInfo(): Promise<DailyRewardInfoData> {
-    throw new Error("Deprecated, use `DailyRewards.rewardInfo.fetch()` instead");
-  }
-
-  /**
-   * @description Get the extra rewards info
-   * @deprecated use `DailyRewards.extraReward.fetch()` instead
-   */
-  async fetchExtraRewardInfo(): Promise<DailyRewardExtraRewardData> {
-    throw new Error("Deprecated, use `DailyRewards.extraReward.fetch()` instead");
-  }
-
-  /**
-   * @description get resign info
-   * @deprecated use `DailyRewards.resignInfo.fetch()` instead
-   */
-  async fetchResignInfo(): Promise<DailyRewardResignData> {
-    throw new Error("Deprecated, use `DailyRewards.resignInfo.fetch()` instead");
-  }
-
-  /**
-   * @description get check in history
-   * @deprecated use `DailyRewards.checkInHistory.fetch()` instead
-   */
-  async fetchCheckInHistory(): Promise<DailyRewardSignInHistoryData> {
-    throw new Error("Deprecated, use `DailyRewards.checkInHistory.fetch()` instead");
   }
 }

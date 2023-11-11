@@ -1,6 +1,6 @@
 export type DailyRewardSignInData =
   | (DailyRewardSignInRawData<"success"> & {
-      rewards: DayRewardData;
+      rewards: DayReward;
     })
   | DailyRewardSignInRawData<"error" | "Already claimed" | "geetest triggered">;
 
@@ -9,10 +9,17 @@ interface DailyRewardSignInRawData<status = unknown> {
   code: number;
 }
 
-export interface DayRewardData {
+export interface DayReward {
   icon: string;
   name: string;
   count: number;
+}
+
+export interface MonthRewardData {
+  month: number;
+  now: string;
+  resign: boolean;
+  awards: DayReward[];
 }
 
 export interface DailyRewardInfoData {
@@ -26,7 +33,7 @@ export interface DailyRewardInfoData {
 }
 
 export interface DailyRewardExtraRewardData {
-  awards: DayRewardData & { highlight: boolean; id: number; sign_day: number }[];
+  awards: DayReward & { highlight: boolean; id: number; sign_day: number }[];
   has_short_act: boolean;
   login: boolean;
   month_card: MonthCard;
