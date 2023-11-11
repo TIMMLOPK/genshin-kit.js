@@ -18,7 +18,7 @@
   "license": "MIT",
   "devDependencies": {
     "prettier": "^3.0.3",
-    "turbo": "^1.10.14",
+    "turbo": "^1.10.16",
     "typescript": "^5.2.2"
   },
   "engines": {
