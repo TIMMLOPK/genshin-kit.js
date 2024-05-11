@@ -18,6 +18,7 @@ export interface RealTimeNoteData {
   transformer: Transformer;
   daily_task: DailyTask;
   expeditions: Expedition[];
+  archon_quest_progress: ArchonQuestProgress;
 }
 
 interface Transformer {
@@ -32,6 +33,18 @@ interface Expedition {
   avatar_side_icon: string;
   status: string;
   remained_time: string;
+}
+
+interface ArchonQuestProgress {
+  list: {
+    status: "StatusNotOpen" | string;
+    chapter_num: string;
+    chapter_title: string;
+    id: number;
+  }[];
+  is_open_archon_quest: boolean;
+  is_finish_all_mainline: boolean;
+  is_finish_all_interchapter: boolean;
 }
 
 interface DailyTask {

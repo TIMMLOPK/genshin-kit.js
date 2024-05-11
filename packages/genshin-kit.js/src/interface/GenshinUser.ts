@@ -47,13 +47,13 @@ interface Stats {
 }
 
 interface WorldExploration {
-  // area_exploration_list: [];
-  // boss_list: [];
+  area_exploration_list: AreaExploration[];
+  boss_list: Boss[];
   level: number;
   exploration_percentage: number;
   icon: string;
   name: string;
-  type: "Reputation" | "Offering";
+  type: "Reputation" | "Offering" | "TypeUnknown";
   offerings: offering[];
   id: number;
   parent_id: number;
@@ -62,10 +62,23 @@ interface WorldExploration {
   background_image: string;
   inner_icon: string;
   cover: string;
+  detail_active: boolean;
+  index_active: boolean;
+  is_hot: boolean;
+}
+
+interface AreaExploration {
+  exploration_percentage: number;
+  name: string;
 }
 
 interface offering {
   name: string;
   level: number;
   icon: string;
+}
+
+interface Boss {
+  kill_num: number;
+  name: string;
 }
