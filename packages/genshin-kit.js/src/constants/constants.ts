@@ -13,6 +13,13 @@ export const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36";
 export const SALT = "6s25p5ox5y14umn1p61aqyyvbvvl3lrt";
 
+export enum ServerRegion {
+  os_asia = "os_asia",
+  os_cht = "os_cht",
+  os_euro = "os_euro",
+  os_usa = "os_usa",
+}
+
 export const cacheKeys = (client: Client) => {
   if (!client.isLogin()) {
     return [];

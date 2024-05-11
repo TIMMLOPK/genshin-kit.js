@@ -2,12 +2,14 @@ import { checkServerRegion, CookieToObj, CookieFormatter, CookieObjToString } fr
 
 test("Check server_region by uid", () => {
     const asia_uid = 80000000;
+    const asia2_uid = 180000000;
     const sar_uid = 90000000;
     const eu_uid = 70000000;
     const na_uid = 60000000;
     const invalid_uid = 20000000;
 
     expect(checkServerRegion(asia_uid)).toBe("os_asia");
+    expect(checkServerRegion(asia2_uid)).toBe("os_asia");
     expect(checkServerRegion(sar_uid)).toBe("os_cht");
     expect(checkServerRegion(eu_uid)).toBe("os_euro");
     expect(checkServerRegion(na_uid)).toBe("os_usa");
