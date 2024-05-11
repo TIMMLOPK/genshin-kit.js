@@ -17,9 +17,9 @@
   "author": "TIMMLOPK",
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^3.0.3",
-    "turbo": "^1.10.16",
-    "typescript": "^5.2.2"
+    "prettier": "^3.2.5",
+    "turbo": "^1.13.3",
+    "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">=16.9.0"
