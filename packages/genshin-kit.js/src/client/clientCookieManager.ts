@@ -24,7 +24,7 @@ export class ClientCookieManager {
   public get size(): number {
     return this.cookie.length;
   }
-  
+
   public setCookie(ltuid: string, ltoken: string): void {
     this.cookie.push({ ltoken: ltoken, ltuid: ltuid });
   }

@@ -59,7 +59,6 @@ export class Client {
    */
   public characters?: Charcters;
 
-
   /**
    * @type {GenshinUser}
    * @description Genshin user endpoint
