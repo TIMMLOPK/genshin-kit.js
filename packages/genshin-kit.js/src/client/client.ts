@@ -29,24 +29,65 @@ interface CacheOptions {
 }
 
 export class Client {
+  /**
+   * @type {DailyRewards}
+   * @description Daily rewards endpoint
+   */
   public dailyReward?: DailyRewards;
 
+  /**
+   * @type {GameRecordCard}
+   * @description Game record card endpoint
+   */
   public gameRecordCard?: GameRecordCard;
 
+  /**
+   * @type {SpiralAbyss}
+   * @description Spiral abyss endpoint
+   */
   public sprialAbyss?: SpiralAbyss;
 
+  /**
+   * @type {Activities}
+   * @description Genshin activity endpoint
+   */
   public genshinActivity?: Activities;
 
+  /**
+   * @type {Charcters}
+   * @description Genshin character endpoint
+   */
   public characters?: Charcters;
 
+
+  /**
+   * @type {GenshinUser}
+   * @description Genshin user endpoint
+   */
   public genshinUser?: GenshinUser;
 
+  /**
+   * @type {RealTimeNotes}
+   * @description Real time notes endpoint
+   */
   public realTimeNotes?: RealTimeNotes;
 
+  /**
+   * @type {TravelerDiary}
+   * @description Traveler diary endpoint
+   */
   public travelDiary?: TravelerDiary;
 
+  /**
+   * @type {RedeemCode}
+   * @description Redeem code endpoint
+   */
   public redeemCode?: RedeemCode;
 
+  /**
+   * @type {TCG}
+   * @description TCG endpoint
+   */
   public tcg?: TCG;
 
   private options: ClientOptions & { cacheOptions: { maxAge: number; maxSize?: number } };

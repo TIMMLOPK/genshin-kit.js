@@ -2,8 +2,7 @@
 
 genshin-kit.js has cached most of responses from the API(except some routes you can check **API Reference**), so you can use cache instead making a new request.
 
-**Note**: The key of cache is the UID, cookie or other things you use to make the request.
-
+**Note**: In most of the cases, the key of cache is the `UID`.
 ```javascript
 //...
 <ROUTER>.cache.get("key");
@@ -16,6 +15,8 @@ You can customize it by passing `cacheOptions` to the constructor of router.
 ```javascript
 //...
   cacheOptions: {
+    maxAge: 60, // the cache will be deleted after 60 seconds
     maxSize: 0, // it wouldn't cache anythings
+  },
 //...
 ```

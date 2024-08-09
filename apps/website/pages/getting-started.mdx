@@ -1,8 +1,10 @@
 import { Tab, Tabs } from "nextra-theme-docs";
+import { Steps } from 'nextra/components'
 
 # Getting Started
 
-## Installation
+<Steps>
+### Installation
 
 **Node.js 16.9.0 or newer is required.**
 
@@ -24,11 +26,10 @@ import { Tab, Tabs } from "nextra-theme-docs";
   </Tab>
 </Tabs>
 
-## Quick Start
-
+### Getting Started
 ```js copy
 const { Client, Language, SpiralAbyss } = require("genshin-kit.js");
-// import { Client, Language, SpiralAbyss } from "genshin-kit.js"; (if you use typescript)
+// import { Client, Language, SpiralAbyss } from "genshin-kit.js"; (if you use typescript/ESM)
 
 (async () => {
   const client = new Client({
@@ -42,3 +43,8 @@ const { Client, Language, SpiralAbyss } = require("genshin-kit.js");
   console.log(abyss);
 })();
 ```
+
+### More Information
+- [API Reference](/api_reference/client)
+- [Cache](/cache)
+</Steps>

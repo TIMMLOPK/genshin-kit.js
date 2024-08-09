@@ -17,6 +17,7 @@ export function CookieFormatter(ltoken: string, ltuid: string): string {
 
 /**
  * @param {string} cookies - The cookie to parse.
+ * @returns {Record<string, string>} - The parsed cookie.
  */
 export function CookieToObj(cookies: string): Record<string, string> {
   const cookieObj: Record<string, string> = {};

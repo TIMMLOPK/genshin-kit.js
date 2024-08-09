@@ -16,6 +16,10 @@ export class ClientCache<V> extends Map<string, V> {
     this.lifeMap = new Map();
   }
 
+  /**
+   * @param {SweepFilterOptions<V>} fn
+   * @description Sweep the cache based on the filter function.
+   */
   public sweep(fn: SweepFilterOptions<V>): void {
     if (this.size === 0) return;
     for (const [key, value] of this) {
@@ -31,6 +35,11 @@ export class ClientCache<V> extends Map<string, V> {
     }
   }
 
+  /**
+   * @param {string} key
+   * @param {V} value
+   * @description Set a new value to the cache.
+   */
   public override set(key: string, value: V): this {
     if (this.maxSize !== undefined && this.size >= this.maxSize) {
       return this;

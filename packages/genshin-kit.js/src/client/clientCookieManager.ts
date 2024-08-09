@@ -18,12 +18,13 @@ export class ClientCookieManager {
   }
 
   /**
+   * @description Get the amount of cookies.
    * @returns {number} - The amount of cookies.
    */
   public get size(): number {
     return this.cookie.length;
   }
-
+  
   public setCookie(ltuid: string, ltoken: string): void {
     this.cookie.push({ ltoken: ltoken, ltuid: ltuid });
   }
@@ -62,10 +63,17 @@ export class ClientCookieManager {
     this.cookie.splice(key - 1, 1);
   }
 
+  /**
+   * @description Clear all cookies.
+   */
   public clear(): void {
     this.cookie = [];
   }
 
+  /**
+   * @description Get all cookies.
+   * @returns {cookie[]} - The cookies.
+   */
   public getAll(): cookie[] {
     const cookie = [];
 
@@ -81,6 +89,10 @@ export class ClientCookieManager {
     return cookie;
   }
 
+  /**
+   * @param {string} customProfile - The custom profile to get the cookie.
+   * @description Get the ltoken and ltuid from browser cookie. (Install chrome-cookies-secure first)
+   */
   public async getBrowserCookie(customProfile: string): Promise<CookieStore> {
     try {
       await dynamic("chrome-cookies-secure");
