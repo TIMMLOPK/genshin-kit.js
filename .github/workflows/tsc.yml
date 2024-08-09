@@ -14,6 +14,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 18
+    - name: enable corepack
+      run: corepack enable
     - name: install dependencies
       run: yarn install --frozen-lockfile
     - name: tsc

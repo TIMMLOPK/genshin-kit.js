@@ -21,6 +21,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: enable corepack
+        run: corepack enable
 
       # ESLint and Prettier must be in `package.json`
       - name: Install Node.js dependencies
