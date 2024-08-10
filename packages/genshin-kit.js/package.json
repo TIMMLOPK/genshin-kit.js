@@ -19,7 +19,7 @@
     "build:check": "tsc --noEmit",
     "build:clean": "del-cli ./dist",
     "build:compile": "tsc",
-    "build": "pnpm run build:clean && pnpm run build:compile && pnpm run build:check",
+    "build": "pnpm run build:check && pnpm run build:clean && pnpm run build:compile",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src/**/*.ts",
     "test": "jest --coverage"

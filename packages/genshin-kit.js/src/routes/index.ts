@@ -8,3 +8,4 @@ export * from "./genshinActivity";
 export * from "./travelerDiary";
 export * from "./redeem";
 export * from "./genshinTCG";
+export * from "./roleCombat";

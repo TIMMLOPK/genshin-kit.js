@@ -1,11 +1,23 @@
 import { Language } from "../constants/lang";
 import type { ClientCookieManager } from "../client/clientCookieManager";
 import type { FetchOptions } from "../routes/base";
-import type { FetchClaimHistoryOption, SpiralAbyssFetchOptions, CardListOptions, MonthDiaryOptions } from "../routes";
+import type {
+  FetchClaimHistoryOption,
+  SpiralAbyssFetchOptions,
+  CardListOptions,
+  MonthDiaryOptions,
+  RoleCombatOptions,
+} from "../routes";
 import { CookieObjToString } from "./cookie";
 
 interface mergeUtilOptions {
-  options?: FetchOptions | SpiralAbyssFetchOptions | FetchClaimHistoryOption | CardListOptions | MonthDiaryOptions;
+  options?:
+    | FetchOptions
+    | SpiralAbyssFetchOptions
+    | FetchClaimHistoryOption
+    | CardListOptions
+    | MonthDiaryOptions
+    | RoleCombatOptions<true | false>;
   cookieManager?: ClientCookieManager;
   defaultOptions?: FetchOptions;
 }
@@ -16,6 +28,7 @@ export enum OptionType {
   FetchClaimHistoryOption = "FetchClaimHistoryOption",
   CardListOptions = "CardListOptions",
   MonthDiaryOptions = "MonthDiaryOptions",
+  RoleCombatOptions = "RoleCombatOptions",
 }
 
 export function mergeOptions(input: mergeUtilOptions, type: OptionType = OptionType.FetchOptions) {
@@ -69,6 +82,15 @@ export function mergeOptions(input: mergeUtilOptions, type: OptionType = OptionT
         cookie,
         language,
         month,
+      };
+    }
+    case OptionType.RoleCombatOptions: {
+      const options = input.options as RoleCombatOptions<true | false> | undefined;
+
+      return {
+        cookie,
+        language,
+        need_detail: options?.need_detail,
       };
     }
     default: {

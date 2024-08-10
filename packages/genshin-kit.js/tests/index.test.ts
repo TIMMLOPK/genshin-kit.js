@@ -52,7 +52,7 @@ test("GenshinUser", async () => {
 test("Real-Time Notes", async () => {
     const notes = new RealTimeNotes();
     const result = await notes.fetch(GUID, options);
-    expect(result.max_resin).toBe(160);
+    expect(result.max_resin).toBe(200);
 });
 
 test("Travel Diary", async () => {
@@ -63,7 +63,7 @@ test("Travel Diary", async () => {
 
 test("Redeem Code", async () => {
     if (!client.isLogin()) return;
-    expect(async () => await client.redeemCode.redeem("GENSHINGIFT", { ...options, uid: GUID, cookie: ltoken })).rejects.toThrowError();
+    expect(async () => await client.redeemCode.redeem("GENSHINGIFT", { ...options, uid: GUID, cookie: ltoken })).rejects.toThrow();
 });
 
 test("TCG", async () => {
@@ -74,5 +74,20 @@ test("TCG", async () => {
     const listResult = await client.tcg.cardList.fetch(GUID);
     if (listResult.card_list[0]?.card_type === "CardTypeAssist") {
         expect(listResult.card_list[0]?.action_cost[0]?.cost_type).not.toBeUndefined();
+    }
+});
+
+test("Role Combat", async () => {
+    if (!client.isLogin()) return;
+
+    const result = await client.roleCombat.fetch(GUID, { ...options });
+    expect(result.data[result.data.length - 1]?.detail).toBeNull();
+
+    const detailResult = await client.roleCombat.fetch(GUID, { ...options, need_detail: true });
+    
+    if (detailResult.data[0]?.has_detail_data) {
+        expect(detailResult.data[0]?.detail).not.toBeNull();
+    } else {
+        expect(detailResult.data[0]?.detail).toBeNull();
     }
 });

@@ -9,6 +9,7 @@ import {
   Activities,
   RedeemCode,
   TCG,
+  RoleCombat,
 } from "../routes";
 import { ClientCookieManager } from "./clientCookieManager";
 import { Language } from "../constants/lang";
@@ -89,6 +90,12 @@ export class Client {
    */
   public tcg?: TCG;
 
+  /**
+   * @type {RoleCombat}
+   * @description Imaginarium Theater(Role Combat) endpoint
+   */
+  public roleCombat?: RoleCombat;
+
   private options: ClientOptions & { cacheOptions: { maxAge: number; maxSize?: number } };
 
   private logined: boolean;
@@ -139,6 +146,7 @@ export class Client {
     this.characters = new Charcters(option);
     this.travelDiary = new TravelerDiary(option);
     this.tcg = new TCG(option);
+    this.roleCombat = new RoleCombat(option);
     this.redeemCode = new RedeemCode();
 
     this.initSweeper();

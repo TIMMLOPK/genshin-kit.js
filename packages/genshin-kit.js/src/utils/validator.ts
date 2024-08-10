@@ -6,6 +6,7 @@ import type {
   CardListOptions,
   RedeemOptions,
   MonthDiaryOptions,
+  RoleCombatOptions,
 } from "../routes";
 
 type RequiredFetchOptions = Required<FetchOptions>;
@@ -56,6 +57,24 @@ export const spiralAbyssValidator = (
   });
 
   schema.parse({ uid, options });
+  return true;
+};
+
+export const roleCombatValidator = (
+  uid: string,
+  options?: RoleCombatOptions<true | false>,
+): options is RequiredFetchOptions & RoleCombatOptions<true | false> => {
+  const schema = z.object({
+    uid: z.string(),
+    options: z.object({
+      language: z.string(),
+      cookie: z.string().min(1),
+      need_detail: z.boolean().optional(),
+    }),
+  });
+
+  schema.parse({ uid, options });
+
   return true;
 };
 

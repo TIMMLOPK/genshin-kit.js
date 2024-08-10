@@ -13,7 +13,7 @@ test("Check server_region by uid", () => {
     expect(checkServerRegion(sar_uid)).toBe("os_cht");
     expect(checkServerRegion(eu_uid)).toBe("os_euro");
     expect(checkServerRegion(na_uid)).toBe("os_usa");
-    expect(() => checkServerRegion(invalid_uid)).toThrowError("Invalid UID");
+    expect(() => checkServerRegion(invalid_uid)).toThrow("Invalid UID");
 });
 
 test("Cookie Parser", () => {

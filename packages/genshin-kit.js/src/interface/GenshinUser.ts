@@ -44,6 +44,17 @@ interface Stats {
   exquisite_chest_number: number;
   common_chest_number: number;
   magic_chest_number: number;
+  /**
+   * @description Imaginarium Theater
+   */
+  role_combat: RoleCombat;
+}
+
+interface RoleCombat {
+  has_data: boolean;
+  has_detail_data: boolean;
+  is_unlock: boolean;
+  max_round_id: number;
 }
 
 interface WorldExploration {

@@ -41,7 +41,8 @@ export const cacheKeys = (client: Client) => {
     client.tcg.cardBackList.cache,
     client.tcg.basicInfo.cache,
     client.tcg.gameRecord.cache,
-  ];
+    client.roleCombat.cache,
+  ] as const;
 
   return caches;
 };

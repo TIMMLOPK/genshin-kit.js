@@ -36,10 +36,10 @@ describe("Client", () => {
 
     test("Client cookieManager", async () => {
         const cookieManager = new ClientCookieManager();
-        expect(() => cookieManager.get()).toThrowError();
+        expect(() => cookieManager.get()).toThrow();
 
         cookieManager.setCookie(undefined!, undefined!);
-        expect(() => cookieManager.get()).toThrowError();
+        expect(() => cookieManager.get()).toThrow();
 
         cookieManager.delete(1);
         expect(cookieManager.size === 0).toBe(true);
