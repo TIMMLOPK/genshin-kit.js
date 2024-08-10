@@ -19,7 +19,7 @@
     "build:check": "tsc --noEmit",
     "build:clean": "del-cli ./dist",
     "build:compile": "tsc",
-    "build": "yarn build:check && yarn build:clean && yarn build:compile",
+    "build": "pnpm run build:clean && pnpm run build:compile && pnpm run build:check",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src/**/*.ts",
     "test": "jest --coverage"
@@ -45,7 +45,7 @@
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.4",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.4"
   },
   "engines": {
     "node": ">=16.9.0"

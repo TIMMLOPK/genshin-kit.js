@@ -17,6 +17,6 @@ jobs:
     - name: enable corepack
       run: corepack enable
     - name: install dependencies
-      run: yarn install --frozen-lockfile
+      run: pnpm install --frozen-lockfile
     - name: tsc
-      run: yarn build
+      run: pnpm run build
