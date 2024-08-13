@@ -1,0 +1,13 @@
+# `RoleCombat` API Reference
+
+| Name                                                                              | Type                           | Description                                                                                                                                     |
+| --------------------------------------------------------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cache`                                                                           | `ClientCache<RoleCombatData>` | The cache for the role combat data                                                                                                            |
+| `fetch(uid: string, options?: RoleCombatOptions): Promise<RoleCombatData>` | `function`                     | Fetches the role combat data for the given user id. If the `need_detail` option is set to `true`, the detailed role combat data will be fetched. |
+
+### `RoleCombatOptions`
+
+Extend the [`BaseFetchOptions`](/api_reference/routes/base) interface.
+| Option | Type | Description |
+| ------ | ---- | ----------- |
+| `need_detail` | `boolean?` | Whether to fetch the detailed role combat data |
