@@ -1,0 +1,28 @@
+# FAQ
+
+This is a list of frequently asked questions about genshin-kit.js. If you have any other questions, feel free to open an issue on GitHub.
+
+1. What is genshin-kit.js?
+   - genshin-kit.js is a JavaScript library for interacting with the Genshin Impact API. It provides a simple and easy-to-use interface for developers to access game data, including player information, character stats, and more.
+
+2. How can I get ltuid and ltoken?
+   - You can obtain ltuid and ltoken by logging into HoYoLab and using the browser's developer tools to inspect the cookies. Look for the cookies named "ltuid" and "ltoken" in the application tab.
+   - Alternatively, you can use the `genshin-kit.js` library to automatically retrieve these tokens(see the [Cookies](/cookies)) section for more information).
+   - Remember to keep your ltuid and ltoken **secure** and **do not share them publicly**, as they are **sensitive** information that can be used to access your account.
+
+3. Is genshin-kit.js open source?
+   - Yes, genshin-kit.js is open source and available on GitHub. You can find the repository [here](https://github.com/TIMMLOPK/genshin-kit.js).
+
+4. What is the meaning of the API fields?
+   - It is a bit tricky to exlplain all the fields in the API. In most of the time, you can understand the fields by the name of the field. 
+   - When you find some fields like `[1, 2, 3]`, you better look at the HoYoLab page :))))
+   - We try our best to add annotations to the fields in the API, but it is not 100% complete. If you find some fields that are not annotated, please feel free to open an issue on GitHub or submit a pull request to the repository. We appreciate your help in improving the documentation!
+
+5. Why XXX is not available?
+   - genshin-kit.js is not a complete API wrapper for Genshin Impact. It only provides a subset of the available API endpoints. If you find that a specific endpoint is not available, it may be because it is not implemented in the library yet.
+   - You can check the [API Reference](/api_reference) section for the list of available endpoints. If you need a specific endpoint that is not available, please feel free to open an issue on GitHub or submit a pull request to the repository.
+
+6. Is it safe to use genshin-kit.js?
+   - genshin-kit.js is designed to be safe and secure. However, it is important to keep your ltuid and ltoken secure and do not share them publicly. 
+   - If you are using the library in a production environment, make sure to follow best practices for securing sensitive information.
+   - Additionally, be aware that using third-party libraries may violate the terms of service of the game, so use it at your own risk.

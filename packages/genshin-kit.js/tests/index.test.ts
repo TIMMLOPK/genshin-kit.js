@@ -38,8 +38,17 @@ test("Activity", async () => {
 
 test("GenshinCharacters", async () => {
     const characters = new Charcters();
-    const result = await characters.fetch(GUID, options);
-    expect(result[0]).not.toBe(0);
+    const charactersList = await characters.fetch(GUID, options);
+    expect(charactersList[0]?.id).not.toBe(undefined);
+
+    const avatarInfo = await characters.fetchAvatarInfo(charactersList[0]?.id as numberww, options);
+
+    expect(avatarInfo.id === charactersList[0]?.id).toBe(true);
+    expect(avatarInfo.name).not.toBe(undefined);
+
+    const avatarDetails = await characters.fetchAvatarDetail(GUID, avatarInfo.id, options);
+    expect(avatarDetails.list[0]?.base.id === avatarInfo.id).toBe(true);
+    expect(avatarDetails.list[0]?.base.id).not.toBe(undefined);
 
 });
 

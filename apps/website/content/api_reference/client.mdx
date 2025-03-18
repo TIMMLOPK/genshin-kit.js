@@ -27,18 +27,18 @@ Type guard to check if the client is logged in.
 | `sprialAbyss`     | The spiral abyss route. [SpiralAbyss](/api_reference/routes/spiralAbyss)    |
 | `genshinActivity` | The genshin activity route. [GenshinActivity](/api_reference/routes/others) |
 | `characters`      | The characters route. [Characters](/api_reference/routes/characters)        |
-| `genshinUser`     | The genshin user route. [GenshinUser](/api_reference/routes/others)         |
+| `genshinUser`     | The genshin user route. [GenshinUser](/api_reference/routes/genshinUser)         |
 | `realTimeNotes`   | The real time notes route. [RealTimeNotes](/api_reference/routes/others)    |
 | `travelDiary`     | The travel diary route. [TravelDiary](/api_reference/routes/travelDiary)    |
 | `redeemCode`      | The redeem code route. [RedeemCode](/api_reference/routes/redeemCode)       |
 | `tcg`             | The tcg route. [TCG](/api_reference/routes/tcg)                             |
-| `roleCombat`             | The roleCombat route. [TCG](/api_reference/routes/roleCombat)                             |
+| `roleCombat`             | The roleCombat route. [RoleCombat](/api_reference/routes/roleCombat)                             |
 
 ## Client Options
 
 | Option          | Type                             | Description                                                               |
 | --------------- | -------------------------------- | ------------------------------------------------------------------------- |
-| `language`      | [`Language?`](#language)         | The language to use for the API. Defaults to `Language.EnglishUS`.        |
+| `language`      | [`Language?`](/api_reference/language) | The language to use for the API. Defaults to `Language.EnglishUS`.  |
 | `cookieManager` | `ClientCookieManager?`           | The cookie manager to use for the API. Defaults to `ClientCookieManager`. |
 | `debug`         | `boolean?`                       | Whether to enable debug mode. Defaults to `false`.                        |
 | `cacheOptions`  | [`CacheOptions?`](#cacheoptions) | The cache options to use for the API. Defaults to `{}`.                   |

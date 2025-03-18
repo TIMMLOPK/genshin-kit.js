@@ -12,10 +12,11 @@ const client = new Client();
 client.addCookies([{ ltoken: "LTOKEN", ltuid: "LTUID" }, {}, {}, {}]);
 ```
 
-If you have more than one cookie, it will use the first , and then the second...
+If you have more than one cookie, it will use the first, second, third... cookie to send request in order.
 
 ## Custom Cookies Manager
 
+You can override the cookies manager by passing `cookieManager` to the constructor of client.
 ```javascript
 const { Client, ClientCookieManager } = require("genshin-kit.js");
 // import { Client , ClientCookieManager } from "genshin-kit.js"; (if you use typescript)
@@ -26,8 +27,7 @@ manager.setCookie("LTUID", "LTOKEN");
 const client = new Client({ cookieManager: manager });
 ```
 
-You can use your own cookie manager to manage cookies.
-
+You can use `ClientCookieManager` to manage cookies. It has some methods to help you manage cookies.
 ```javascript
 // ...
 manager.setCookie("", ""); // set cookie

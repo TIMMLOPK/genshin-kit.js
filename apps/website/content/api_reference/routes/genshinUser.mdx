@@ -1,0 +1,20 @@
+# `GenshinUser` API Reference
+
+| Name                                                                              | Type                           | Description                                                                                                                                     |
+| --------------------------------------------------------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cache`                                                                           | `ClientCache<GenshinUserData>` | The cache for the GenshinUser API                                                                                                          |
+| `achievement`                                                                      | `Achievement` | Endpoint of the GenshinUser achievement                                                                                               |
+| `fetch(uid: string, options?: UserFetchOptions): Promise<GenshinUserData>` | `function`                     | Fetches the GenshinUser data for the given UID |
+
+## `Achievement`
+| Name                                                                                     | Type                           | Description                                                                                   |
+| ---------------------------------------------------------------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------- |
+| `cache`                                                                                   | `ClientCache<AchievementData>` | The cache for the GenshinUser achievement API                                                 |
+| `fetch(uid: string, options?: BaseFetchOptions): Promise<AchievementData>` | `function` | Fetches the GenshinUser achievement data for the given UID. |
+
+### `UserFetchOptions`
+
+Extend the [`BaseFetchOptions`](/api_reference/routes/base) interface.
+| Option | Type | Description |
+| ------ | ---- | ----------- |
+| `avatar_list_type` | `number?` | The avatar list type. 1: Detailed Character Info, only return few characters, 2: All Characters with basic info. |

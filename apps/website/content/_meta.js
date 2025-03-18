@@ -20,4 +20,5 @@ export default {
     title: "API Reference",
   },
   "daily-rewards-checkin": "Daily Rewards CheckIn",
+  faq: "FAQ",
 };

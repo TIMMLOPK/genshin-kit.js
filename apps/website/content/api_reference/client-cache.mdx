@@ -1,6 +1,6 @@
 # ClientCache
 
-`ClientCache` extends JavaScript's native Map class, so it has all the methods of the Map class.
+`ClientCache` extends JavaScript's native Map class, so it inherits all the methods of Map. It is a simple cache implementation that stores key-value pairs in memory.
 
 ## Types
 
@@ -12,7 +12,7 @@ const cache = new ClientCache<valueType>(options);
 
 ## Options
 
-`ClientCache` has some options that you can pass in the constructor.
+`ClientCache` accepts an options object as a parameter. The options object can have the following properties:
 
 ### `maxSize`
 

@@ -3,5 +3,17 @@
 | Name                                                                                           | Type                           | Description                                        |
 | ---------------------------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------------- |
 | `cache`                                                                                        | `ClientCache<CharacterData[]>` | The cache for the characters API                   |
-| `fetch(uid: string, options?: BaseFetchOptions): Promise<CharacterData[]>`                     | `function`                     | Fetches the character data for the given UID       |
+| `fetch(uid: string, options?: CharctersListFetchOptions): Promise<CharacterData[]>`                     | `function`                     | Fetches the character data for the given UID       |
 | `fetchAvatarInfo(characterId: number, options?: BaseFetchOptions): Promise<CharacterInfoData>` | `function`                     | Fetches the avatar info for the given character ID |
+| `fetchAvatarDetails(uid: string, characterId: number, options?: BaseFetchOptions): Promise<CharacterDetailsData>` | `function`                     | Fetches the avatar details for the given UID and character ID |
+
+**Note**: fetchAvatarInfo and fetchAvatarDetails are not cached.
+
+### `CharctersListFetchOptions`
+
+Extend the [`BaseFetchOptions`](/api_reference/routes/base) interface.
+| Option | Type | Description |
+| ------ | ---- | ----------- |
+| `sort_type` | `number?` | The sort type of the characters. 1: Level Descending, 5: Level Ascending, 2: Rarity Descending, 3: Rarity Ascending, 6: Fetter Descending, 7: Fetter Ascending |
+| `elements` | `string[]?` | The elements filters of the characters. Pyro, Hydro, Electro, Dendro, Anemo, Geo, Cryo |
+| `weapon_types` | `number[]?` | The weapon types filters of the characters. 1: Sword, 11: Claymore, 13: Polearm, 12: Bow, 10: Catalyst |

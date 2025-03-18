@@ -21,7 +21,7 @@ export default async function RootLayout({ children }) {
         <Layout
           navbar={navbar}
           pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
+          docsRepositoryBase="https://github.com/TIMMLOPK/genshin-kit.js/tree/master/apps/website"
           footer={footer}
         >
           {children}

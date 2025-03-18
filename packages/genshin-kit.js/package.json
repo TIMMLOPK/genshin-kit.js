@@ -12,6 +12,10 @@
   },
   "keywords": [
     "genshin",
+    "genshin impact",
+    "genshin api",
+    "genshin-kit",
+    "genshin-kit.js",
     "HoYoLAB",
     "mihoyo"
   ],
@@ -27,7 +31,7 @@
   "repository": {
     "url": "https://github.com/TIMMLOPK/genshin-kit.js"
   },
-  "homepage": "https://github.com/TIMMLOPK/genshin-kit.js",
+  "homepage": "https://genshin-kit-js.vercel.app",
   "author": "TIMMLOPK",
   "license": "MIT",
   "dependencies": {
