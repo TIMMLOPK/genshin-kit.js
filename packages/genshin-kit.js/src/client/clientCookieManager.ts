@@ -97,7 +97,7 @@ export class ClientCookieManager {
     try {
       await dynamic("chrome-cookies-secure");
     } catch (e) {
-      throw new Error("Please install chrome-cookies-secure");
+      throw new Error("Please install chrome-cookies-secure" + e);
     }
     const chrome = await dynamic("chrome-cookies-secure");
     const cookie = await chrome.getCookiesPromised("https://www.hoyolab.com/", "chrome", `${customProfile}`);
