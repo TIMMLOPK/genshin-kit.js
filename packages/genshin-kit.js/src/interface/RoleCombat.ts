@@ -8,7 +8,7 @@ export type RoleCombatData<need_detail extends boolean = false> = {
 interface Data<detailed extends boolean = false> {
   detail: detailed extends true ? Detail : null;
   has_data: boolean;
-  has_detail_data: detailed;
+  has_detail_data: boolean;
   schedule: Schedule;
   stat: Stat;
 }

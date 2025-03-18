@@ -14,6 +14,8 @@ export interface AbyssBattleData {
   total_battle_times: number;
   total_star: number;
   total_win_times: number;
+  is_just_skipped_floor: boolean;
+  skipped_floor: string;
 }
 
 interface Rank {

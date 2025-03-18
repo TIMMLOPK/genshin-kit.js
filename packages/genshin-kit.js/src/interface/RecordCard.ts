@@ -5,18 +5,19 @@ export interface RecordCardData {
 
 interface List {
   has_role: boolean;
+  game_name: string;
   game_id: number;
   game_role_id: string;
   nickname: string;
   region: string;
+  region_name: string;
   level: number;
   background_image: string;
   is_public: boolean;
   /**
-   * @description 1: Days Active, 2: Characters, 3: Achievements, 4: Spiral Abyss
+   * @description [0]: Days Active, [1]: Characters, [2]: Achievements, [3]: Spiral Abyss
    */
   data: [Data, Data, Data, Data];
-  region_name: string;
   url: string;
 }
 

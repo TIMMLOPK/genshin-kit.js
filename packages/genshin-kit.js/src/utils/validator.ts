@@ -7,6 +7,7 @@ import type {
   RedeemOptions,
   MonthDiaryOptions,
   RoleCombatOptions,
+  CharctersListFetchOptions,
 } from "../routes";
 
 type RequiredFetchOptions = Required<FetchOptions>;
@@ -57,6 +58,71 @@ export const spiralAbyssValidator = (
   });
 
   schema.parse({ uid, options });
+  return true;
+};
+
+export const charctersListValidator = (
+  uid: string,
+  options?: CharctersListFetchOptions,
+): options is RequiredFetchOptions & CharctersListFetchOptions => {
+  // "Pyro" | "Hydro" | "Dendro" | "Electro" | "Anemo" | "Geo" | "Cryo"
+  const elements = z.enum(["Pyro", "Hydro", "Dendro", "Electro", "Anemo", "Geo", "Cryo"]).array().optional();
+
+  // 1 | 12 | 10 | 13 | 11
+  const weapon_type = {
+    Sword: 1,
+    Claymore: 11,
+    Bow: 12,
+    Polearm: 13,
+    Catalyst: 10,
+  } as const;
+
+  const schema = z.object({
+    uid: z.string(),
+    options: z.object({
+      sort_type: z.number().optional(),
+      elements,
+      weapon_type: z.nativeEnum(weapon_type).array().optional(),
+      language: z.string(),
+      cookie: z.string().min(1),
+    }),
+  });
+
+  schema.parse({ uid, options });
+  return true;
+};
+
+export const characterDetailsValidator = (
+  uid: string,
+  character_id: number,
+  options?: FetchOptions,
+): options is RequiredFetchOptions => {
+  const schema = z.object({
+    uid: z.string(),
+    character_id: z.number(),
+    options: z.object({
+      language: z.string(),
+      cookie: z.string().min(1),
+    }),
+  });
+
+  schema.parse({ uid, character_id, options });
+
+  return true;
+};
+
+export const userInfoValidator = (uid: string, options?: FetchOptions): options is RequiredFetchOptions => {
+  const schema = z.object({
+    uid: z.string(),
+    options: z.object({
+      avatar_list_type: z.number().optional(),
+      language: z.string(),
+      cookie: z.string().min(1),
+    }),
+  });
+
+  schema.parse({ uid, options });
+
   return true;
 };
 

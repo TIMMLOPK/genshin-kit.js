@@ -6,11 +6,13 @@ export interface TCGData {
   avatar_card_num_gained: number;
   avatar_card_num_total: number;
   challenge_basic: ChallengeBasic;
-  covers: Cover[];
-  hornor_character: null;
+  covers: Cover & { has_data: boolean; action_cost: ActionCost[] }[];
+  hornor_character: unknown;
   level: number;
   nickname: string;
   replays: MatchData[];
+  is_hide_covers: boolean;
+  is_hide_replays: boolean;
 }
 
 interface ChallengeBasic {
@@ -57,16 +59,20 @@ export interface MatchData {
 interface Player {
   name: string;
   linups: string[];
+  is_overflow: boolean;
 }
 
 interface Cover {
+  category: "GCGCardCategoryAvatarCard" | "CGCCardCategoryCardBack" | "GCGCardCategoryActionCard";
   id: number;
   image: string;
+  imgae_v2: string;
 }
 
-interface BasicCardList<CardType> {
-  card_sources: undefined[];
+interface BasicCardList<CardType, Category> {
+  card_sources: string[];
   card_type: CardType;
+  category: Category;
   card_wiki: string;
   deck_recommend: string;
   desc: string;
@@ -82,8 +88,8 @@ interface BasicCardList<CardType> {
 }
 
 type CardList =
-  | (BasicCardList<"CardTypeCharacter"> & { card_skills: CardSkills[] })
-  | (BasicCardList<"CardTypeAssist" | "CardTypeModify" | "CardTypeEvent"> & {
+  | (BasicCardList<"CardTypeCharacter", "GCGCardCategoryAvatarCard"> & { card_skills: CardSkills[] })
+  | (BasicCardList<"CardTypeAssist" | "CardTypeModify" | "CardTypeEvent", "GCGCardCategoryActionCard"> & {
       action_cost: ActionCost[];
     });
 
@@ -95,6 +101,15 @@ interface CardSkills {
 }
 
 interface ActionCost {
-  cost_type: string;
+  cost_type:
+    | "CostTypeSame"
+    | "CostTypeGeo"
+    | "CostTypeElectro"
+    | "CostTypePyro"
+    | "CostTypeHydro"
+    | "CostTypeCryo"
+    | "CostTypeDenro"
+    | "CostTypeAnemo"
+    | "CostTypeVoid";
   cost_value: number;
 }

@@ -6,6 +6,7 @@ export interface GenshinUserData {
   role: Role;
   stats: Stats;
   world_explorations: WorldExploration[];
+  city_explorations: unknown[];
 }
 
 interface Role {
@@ -31,19 +32,21 @@ interface Stats {
   active_day_number: number;
   achievement_number: number;
   anemoculus_number: number;
-  geoculus_number: number;
-  dendroculus_number: number;
-  electroculus_number: number;
-  hydroculus_number: number;
   avatar_number: number;
-  way_point_number: number;
-  domain_number: number;
-  spiral_abyss: string;
-  precious_chest_number: number;
-  luxurious_chest_number: number;
-  exquisite_chest_number: number;
   common_chest_number: number;
+  dendroculus_number: number;
+  domain_number: number;
+  electroculus_number: number;
+  exquisite_chest_number: number;
+  full_fetter_avatar_num: number;
+  geoculus_number: number;
+  hydroculus_number: number;
+  luxurious_chest_number: number;
   magic_chest_number: number;
+  precious_chest_number: number;
+  pyroculus_number: number;
+  way_point_number: number;
+  spiral_abyss: string;
   /**
    * @description Imaginarium Theater
    */
@@ -60,22 +63,24 @@ interface RoleCombat {
 interface WorldExploration {
   area_exploration_list: AreaExploration[];
   boss_list: Boss[];
-  level: number;
-  exploration_percentage: number;
-  icon: string;
-  name: string;
-  type: "Reputation" | "Offering" | "TypeUnknown";
-  offerings: offering[];
-  id: number;
-  parent_id: number;
-  map_url: string;
-  strategy_url: string;
-  background_image: string;
-  inner_icon: string;
   cover: string;
   detail_active: boolean;
+  exploration_percentage: number;
+  icon: string;
+  id: number;
   index_active: boolean;
+  inner_icon: string;
   is_hot: boolean;
+  level: number;
+  map_url: string;
+  name: string;
+  natan_reputation: unknown;
+  offerings: offering[];
+  parent_id: number;
+  seven_statue_level: number;
+  strategy_url: string;
+  type: "Reputation" | "Offering" | "TypeUnknown";
+  world_type: number;
 }
 
 interface AreaExploration {
