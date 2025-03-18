@@ -154,7 +154,7 @@ export class Charcters extends BaseRoute<CharacterData[]> {
     });
 
     const res = await instance.post<CharacterDetailsData>(
-      "avatarDetail",
+      "character/detail",
       {
         Cookie: cookie,
       },
