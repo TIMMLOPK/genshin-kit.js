@@ -29,7 +29,6 @@ export class Activities extends BaseRoute<ActivitiesData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new RequestManager({
-      withDS: true,
       withExtraHeaders: true,
       language,
     });

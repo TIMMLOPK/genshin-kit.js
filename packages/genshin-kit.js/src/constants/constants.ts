@@ -1,10 +1,10 @@
 import type { Client } from "../client/client";
 
 export enum API_URL {
-  Genshin_Battle = "https://bbs-api-os.hoyolab.com/game_record/genshin/api/",
-  Genshin_HoYolab = " https://bbs-api-os.hoyolab.com/game_record/card/wapi/",
+  Genshin_Battle = "https://sg-public-api.hoyolab.com/event/game_record/genshin/api/",
+  Genshin_HoYolab = " https://sg-public-api.hoyolab.com/event/game_record/card/wapi/",
   Genshin_HoYolab_Reward = "https://sg-hk4e-api.hoyolab.com/event/sol/",
-  Genshin_HoYolab_Diary = "https://hk4e-api-os.hoyoverse.com/event/ysledgeros/",
+  Genshin_HoYolab_Diary = "https://sg-hk4e-api.hoyolab.com/event/ysledgeros/",
   Genshin_Redeem_Code = "https://sg-hk4e-api.hoyoverse.com/common/apicdkey/api/webExchangeCdkey",
   Genshin_HoYolab_Cookie = "https://webapi-os.account.hoyoverse.com/Api/fetch_cookie_accountinfo",
 }

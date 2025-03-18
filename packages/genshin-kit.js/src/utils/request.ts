@@ -1,6 +1,5 @@
 import { API_URL, UA } from "../constants/constants";
 import { request } from "undici";
-import { generate_dynamic_secret } from "./generateDS";
 import { APIERROR } from "./error";
 import { getErrorByRetcode } from "../constants/error";
 import { Language } from "../constants/lang";
@@ -9,7 +8,6 @@ import { isDebug } from "./debug";
 interface Option {
   route?: API_URL;
   withUA?: boolean;
-  withDS?: boolean;
   withExtraHeaders?: boolean;
   language?: Language;
 }
@@ -35,7 +33,7 @@ export class RequestManager {
     this.language = option?.language || Language.EnglishUS;
 
     this.headers = {
-      "x-rpc-language": this.language,
+      "X-Rpc-language": this.language,
     };
 
     if (option?.withUA) {
@@ -43,12 +41,8 @@ export class RequestManager {
     }
 
     if (option?.withExtraHeaders) {
-      this.headers["x-rpc-app_version"] = "1.5.0";
-      this.headers["x-rpc-client_type"] = "5";
-    }
-
-    if (option?.withDS) {
-      this.headers.DS = generate_dynamic_secret();
+      this.headers["X-Rpc-app_version"] = "1.5.0";
+      this.headers["X-Rpc-client_type"] = "5";
     }
   }
 
@@ -106,7 +100,7 @@ export class RequestManager {
   public async post<T = any>(
     url: string,
     headers?: Headers,
-    data?: Record<string, string | number[] | number | boolean>,
+    data?: Record<string, string | number[] | string[] | number | boolean>,
     params?: Record<string, string>,
   ): Promise<Response<T>> {
     const URL = `${this.baseURL}${url}`;

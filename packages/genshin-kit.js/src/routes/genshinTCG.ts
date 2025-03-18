@@ -46,7 +46,6 @@ class BasicInfo extends BaseRoute<TCGData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new RequestManager({
-      withDS: true,
       withExtraHeaders: true,
       language,
     });
@@ -103,7 +102,6 @@ class CardList extends BaseRoute<CardListData> {
     const { language, cookie, need_avatar, need_action, need_stats, offset, limit } = optionsToUse;
 
     const instance = new RequestManager({
-      withDS: true,
       withExtraHeaders: true,
       language,
     });
@@ -158,7 +156,6 @@ class CardBackList extends BaseRoute<CardBackListData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new RequestManager({
-      withDS: true,
       withExtraHeaders: true,
       language,
     });
@@ -209,7 +206,6 @@ export class GameRecord extends BaseRoute<TCGGameRecordData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new RequestManager({
-      withDS: true,
       withExtraHeaders: true,
       language,
     });

@@ -14,7 +14,7 @@ export class GameRecordCard extends BaseRoute<RecordCardData> {
   /**
    * @param {string} uid HoYoLab Account ID
    */
-  public async fetch(uid: string, options?: FetchOptions): Promise<RecordCardData> {
+  public async fetch(uid: string, options?: FetchOptions) {
     if (this.cache.has(uid)) return this.cache.get(uid);
 
     const optionsToUse = mergeOptions({
@@ -51,7 +51,7 @@ export class GameRecordCard extends BaseRoute<RecordCardData> {
     const returnData = {
       list: data.list,
       current: data.list[0],
-    };
+    } as RecordCardData;
 
     this.cache.set(uid, returnData);
 

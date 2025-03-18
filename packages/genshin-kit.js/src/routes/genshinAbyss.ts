@@ -36,7 +36,6 @@ export class SpiralAbyss extends BaseRoute<AbyssBattleData> {
     const { language, cookie, previous } = optionsToUse;
 
     const instance = new RequestManager({
-      withDS: true,
       withExtraHeaders: true,
       language,
     });

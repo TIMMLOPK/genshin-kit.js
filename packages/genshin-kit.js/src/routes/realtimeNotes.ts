@@ -29,7 +29,6 @@ export class RealTimeNotes extends BaseRoute<RealTimeNoteData> {
     const { language, cookie } = optionsToUse;
 
     const instance = new RequestManager({
-      withDS: true,
       withExtraHeaders: true,
       language,
     });
