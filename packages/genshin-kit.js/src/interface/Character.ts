@@ -155,7 +155,7 @@ interface ArtifactSet {
 }
 
 /**
- * @deprecated Use Artifact instead
+ * @deprecated Use ArtifactSet instead
  */
 interface ReliquarySet {
   id: number;
