@@ -34,6 +34,7 @@ export const cacheKeys = (client: Client) => {
     client.gameRecordCard.cache,
     client.sprialAbyss.cache,
     client.genshinUser.cache,
+    client.genshinUser.achievement.cache,
     client.realTimeNotes.cache,
     client.characters.cache,
     client.travelDiary.cache,
