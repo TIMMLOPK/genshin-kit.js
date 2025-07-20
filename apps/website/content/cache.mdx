@@ -1,24 +1,66 @@
 # Cache
 
-genshin-kit.js has cached most of responses from the API(except some routes you can check **API Reference**).
-If the response is cached, it will return the cached response instead of sending a new request.
+genshin-kit.js implements intelligent caching to improve performance and reduce unnecessary API calls to HoYoLab. The cache system automatically stores API responses in memory and serves them for subsequent identical requests, significantly reducing response times and API rate limiting issues.
 
-**Note**: In most of the cases, the key of cache is the `UID`.
+## How Cache Works
+
+The cache system operates automatically in the background:
+
+1. **First Request**: When you make an API call, the data is fetched from HoYoLab and stored in cache
+2. **Subsequent Requests**: If the same data is requested again (before expiration), it's served instantly from cache
+3. **Automatic Cleanup**: Expired cache entries are automatically removed based on your configuration
+
+## What Gets Cached
+
+Most API endpoints are cached automatically.
+
+### What's NOT Cached
+
+- **Redeem Codes**: One-time actions that shouldn't be cached
+- **Check-in Actions**: Daily check-in submissions (results are cached, but not the action itself)
+- **Character Details/Info**: Individual character detailed information (use with caution)
+
+## Cache Configuration
+
+Configure cache behavior when creating the client:
 
 ```javascript
-//...
-<ROUTER>.cache.get("key");
-```
+import { Client } from 'genshin-kit.js';
 
-## Custom Sweeper
-
-You can customize it by passing `cacheOptions` to the constructor of router.
-
-```javascript
-//...
+const client = new Client({
   cacheOptions: {
-    maxAge: 60, // the cache will be deleted after 60 seconds
-    maxSize: 0, // it wouldn't cache anythings
-  },
-//...
+    maxAge: 300,    // Cache expires after 5 minutes (default: 60 seconds)
+    maxSize: 100,   // Maximum number of cached items (default: unlimited)
+  }
+});
 ```
+
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `maxAge` | `number` | `60` | Cache expiration time in seconds |
+| `maxSize` | `number` | `undefined` | Maximum number of items to cache (unlimited if not set) |
+
+## Cache Management
+
+### Accessing Cache
+
+Each route has its own cache instance that you can interact with:
+
+```javascript
+// Check if data is cached
+const isCached = client.genshinUser.cache.has("UID");
+
+// Get cached data directly
+const cachedData = client.genshinUser.cache.get("UID");
+```
+
+## Cache Keys
+
+Different endpoints use different cache keys:
+
+- **UID-based**: Most routes use Genshin Impact UID as the cache key
+- **Cookie-based**: Daily rewards use cookie string as the key
+- **Combined**: Some routes combine UID with additional parameters (e.g., `uid-month` for specific month data)
+

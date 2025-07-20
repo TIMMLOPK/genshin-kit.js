@@ -8,7 +8,7 @@ export const metadata = {
   description: "Genshin-kit.js is a JavaScript library for Genshin Impact.",
 };
 
-const navbar = <Navbar logo={<b>Genshin-kit.js</b>} />;
+const navbar = <Navbar logo={<b>Genshin-kit.js</b>} projectLink="https://github.com/TIMMLOPK/genshin-kit.js" />;
 const footer = <Footer>Built with ❤️ by TIMMLOPK</Footer>;
 
 export default async function RootLayout({ children }) {

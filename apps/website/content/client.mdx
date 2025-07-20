@@ -2,50 +2,86 @@ import { Callout } from "nextra/components";
 
 # Client
 
-Client contains all routes, and you could login with the ltoken and ltuid.
+The Client is the main class of genshin-kit.js that provides access to all Genshin Impact API routes. It handles authentication, caching, cookie management, and provides a unified interface for interacting with the HoYoLab API.
+
+## Quick Start
 
 ```ts
+import { Client } from "genshin-kit.js";
+
 const client = new Client();
+client.login("YOUR_LTUID", "YOUR_LTOKEN");
 
-client.login("LTUID", "LTOKEN");
+// Now you can access all routes
+const userData = await client.genshinUser.fetch("123456789");
+const spiralAbyss = await client.sprialAbyss.fetch("123456789");
 ```
 
-## Routes
-
-Client contains all routes, and you could use it like this:
-```ts
-await client.<route>.<method>(<params>);
-```
-<Callout>
-  You do not need to pass the ltoken and ltuid every time you want to send a request when using client.
+<Callout type="info">
+  You only need to login once. After logging in, you don't need to pass the ltoken and ltuid for each request.
 </Callout>
 
-## Cache Sweeper
+## Constructor Options(Optional)
 
-Client has built-in cache sweeper that clear the cache automatically. You can customize the cache options by passing an object to the `cacheOptions` parameter when creating a new client.
-### Custom Cache Sweeper
+Create a new client with customizable options:
 
-```javascript
+```ts
+import { Client, Language } from "genshin-kit.js";
+
+const client = new Client({
+  language: Language.EnglishUS, // Set the language for API responses
+  debug: false, // Enable debug logging
+  cacheOptions: {
+    maxAge: 60, // Cache expiration time in seconds
+    maxSize: 100, // Maximum number of cached items
+  },
+  cookieManager: new ClientCookieManager(), // Custom cookie manager
+});
+```
+
+### Cache Sweeper(Optional)
+
+The cache automatically removes expired entries. You can also manually control cache behavior:
+
+```ts
+// Disable caching completely
 const client = new Client({
   cacheOptions: {
-    maxAge: 60, // the cache will be deleted after 60 seconds
-    maxSize: 0, // it wouldn't cache anythings
+    maxSize: 0, // No caching
+  },
+});
+
+// Custom cache duration for different data types
+const client = new Client({
+  cacheOptions: {
+    maxAge: 60, // Default 1 minute
   },
 });
 ```
 
-More information about caching can be found [here](/cache.mdx).
+<Callout type="info">
+  The cache sweeper runs automatically to remove expired entries. Each route has its own cache instance.
+</Callout>
 
-## Cookies Manager
+More information about caching can be found [here](/cache).
 
-Client could using cookies manager to store cookies. You can use the `addCookies` method to add more cookies.
+## Cookie Management(Optional)
 
-```javascript
-const { Client } = require("genshin-kit.js");
-// import { Client } from "genshin-kit.js"; (if you use typescript)
+The client supports multiple authentication methods and cookie management strategies.
 
+### Multiple Cookies
+
+Add multiple accounts to rotate between them:
+
+```ts
 const client = new Client();
-client.addCookies([{ ltoken: "LTOKEN", ltuid: "LTUID" }, {}, {}, {}]);
+
+// Add multiple cookie pairs
+client.addCookies([
+  { ltuid: "LTUID_1", ltoken: "LTOKEN_1" },
+  { ltuid: "LTUID_2", ltoken: "LTOKEN_2" },
+  { ltuid: "LTUID_3", ltoken: "LTOKEN_3" },
+]);
 ```
 
-More information about cookies can be found [here](/cookies.mdx).
+More information about cookie can be found [here](/cookies).

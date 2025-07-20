@@ -1,58 +1,171 @@
-# Cookies
+# Cookie Management
 
-## Multiple cookies
+Cookie management is essential for making authenticated requests to the Genshin Impact API. This guide covers different approaches to handle cookies effectively in your application.
 
-If you want to use different cookies to send request to avoid hitting cookies limit, you could use `addCookies` to add more than one cookies to the client.
+## Overview
+
+The genshin-kit.js library provides flexible cookie management options:
+- **Simple single cookie**: For basic usage with one set of credentials
+- **Multiple cookies**: To distribute requests and avoid rate limits
+- **Custom cookie manager**: For advanced cookie handling and browser integration
+
+## Basic Cookie Usage
+
+### Single Cookie Setup
+
+For simple applications, you can set a single cookie when creating the client:
 
 ```javascript
 const { Client } = require("genshin-kit.js");
-// import { Client } from "genshin-kit.js"; (if you use typescript)
+// import { Client } from "genshin-kit.js"; // TypeScript
 
 const client = new Client();
-client.addCookies([{ ltoken: "LTOKEN", ltuid: "LTUID" }, {}, {}, {}]);
+ 
+client.login("LTUID", "LTOKEN");
 ```
 
-If you have more than one cookie, it will use the first, second, third... cookie to send request in order.
+## Multiple Cookies
 
-## Custom Cookies Manager
+### Why Use Multiple Cookies?
 
-You can override the cookies manager by passing `cookieManager` to the constructor of client.
+Using multiple cookies helps you:
+- **Avoid rate limits**: Distribute requests across different accounts
+- **Increase reliability**: Fallback to other cookies if one fails
+- **Handle high-volume applications**: Scale your requests effectively
+
+### Adding Multiple Cookies
+
+```javascript
+const { Client } = require("genshin-kit.js");
+// import { Client } from "genshin-kit.js"; // TypeScript
+
+const client = new Client();
+
+// Add multiple cookies at once
+client.addCookies([
+  { ltoken: "LTOKEN_1", ltuid: "LTUID_1" },
+  { ltoken: "LTOKEN_2", ltuid: "LTUID_2" },
+  { ltoken: "LTOKEN_3", ltuid: "LTUID_3" }
+]);
+```
+
+### How Cookie Rotation Works
+
+When you have multiple cookies, the client automatically:
+1. Uses cookies in sequential order (first, second, third, etc.)
+2. Cycles back to the first cookie after using all cookies
+
+## Custom Cookie Manager
+
+For advanced use cases, you can create a custom cookie manager with full control over cookie handling.
+
+### Basic Custom Manager
+
 ```javascript
 const { Client, ClientCookieManager } = require("genshin-kit.js");
-// import { Client , ClientCookieManager } from "genshin-kit.js"; (if you use typescript)
+// import { Client, ClientCookieManager } from "genshin-kit.js"; // TypeScript
 
+// Create a custom cookie manager
 const manager = new ClientCookieManager();
-manager.setCookie("LTUID", "LTOKEN");
 
+// Add cookies individually
+manager.setCookie("LTUID_1", "LTOKEN_1");
+manager.setCookie("LTUID_2", "LTOKEN_2");
+
+// Create client with custom manager
 const client = new Client({ cookieManager: manager });
 ```
 
-You can use `ClientCookieManager` to manage cookies. It has some methods to help you manage cookies.
+### Cookie Manager Methods
+
+The `ClientCookieManager` provides several useful methods:
+
 ```javascript
-// ...
-manager.setCookie("", ""); // set cookie
-manager.getAll(); // get all cookies
-manager.delete(0); // delete cookie by index
-manager.clear(); // clear all cookies
-manager.get(); // get cookie to send request
+const manager = new ClientCookieManager();
+
+// Add a cookie
+manager.setCookie("LTUID", "LTOKEN");
+
+// Get all stored cookies
+const allCookies = manager.getAll();
+console.log("Total cookies:", allCookies.length);
+
+// Get the current cookie for requests
+const currentCookie = manager.get();
+console.log("Current cookie:", currentCookie);
+
+// Remove a specific cookie by index
+manager.delete(0); // Removes the first cookie
+
+// Clear all cookies
+manager.clear();
+
+// Check if manager has any cookies
+const hasCookies = manager.getAll().length > 0;
 ```
 
-### Get Cookies from browser(Chrome)
+## Browser Cookie Integration
 
-Prepare:
+### Getting Cookies from Chrome
 
-1. Install https://www.npmjs.com/package/chrome-cookies-secure
+You can automatically extract cookies from your Chrome browser, eliminating the need to manually copy them.
+
+#### Prerequisites
+
+1. Install the required dependency:
 
 ```bash
-npm i chrome-cookies-secure
+npm install chrome-cookies-secure
 ```
 
-2. Open Chrome and login to the HoYoLab website
-3. Get the cookie in ClientCookieManager
+2. Make sure you're logged into HoYoLab in Chrome
+3. Close Chrome completely before running the extraction
+
+#### Implementation
 
 ```javascript
-// ...
-manager.getBrowserCookie("Profile"); // you need to pass browser Profile
+const { Client, ClientCookieManager } = require("genshin-kit.js");
+
+async function setupBrowserCookies() {
+  const manager = new ClientCookieManager();
+  
+  try {
+    // Extract cookies from Chrome
+    // Replace "Default" with your Chrome profile name if different
+    await manager.getBrowserCookie("Default");
+    
+    console.log("Successfully loaded cookies from Chrome");
+    console.log("Total cookies found:", manager.getAll().length);
+    
+    return new Client({ cookieManager: manager });
+  } catch (error) {
+    console.error("Failed to load browser cookies:", error.message);
+    throw error;
+  }
+}
+
+// Usage
+async function main() {
+  try {
+    const client = await setupBrowserCookies();
+    // Now you use the client to make requests
+    // ...
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+}
+
+main();
 ```
 
-4. Done ✨
+#### Finding Your Chrome Profile
+
+Chrome profiles are typically located at:
+- **Windows**: `%LOCALAPPDATA%\Google\Chrome\User Data\`
+- **macOS**: `~/Library/Application Support/Google/Chrome/`
+- **Linux**: `~/.config/google-chrome/`
+
+Common profile names:
+- `Default` (most common)
+- `Profile 1`, `Profile 2`, etc.
+- Custom profile names you've created
