@@ -1,7 +1,7 @@
 {
   "name": "genshin-kit.js",
   "version": "2.5.0",
-  "description": "Hoyolab API unofficial library",
+  "description": "A powerful JavaScript library for interacting with the Genshin Impact API",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -36,8 +36,8 @@
   "license": "MIT",
   "dependencies": {
     "tslib": "^2.8.1",
-    "undici": "^7.5.0",
-    "zod": "^3.24.2"
+    "undici": "^7.11.0",
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
