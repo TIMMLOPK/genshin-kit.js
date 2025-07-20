@@ -41,7 +41,7 @@ test("GenshinCharacters", async () => {
     const charactersList = await characters.fetch(GUID, options);
     expect(charactersList[0]?.id).not.toBe(undefined);
 
-    const avatarInfo = await characters.fetchAvatarInfo(charactersList[0]?.id as numberww, options);
+    const avatarInfo = await characters.fetchAvatarInfo(charactersList[0]?.id as number, options);
 
     expect(avatarInfo.id === charactersList[0]?.id).toBe(true);
     expect(avatarInfo.name).not.toBe(undefined);

@@ -8,6 +8,7 @@ import type {
   MonthDiaryOptions,
   RoleCombatOptions,
   CharctersListFetchOptions,
+  UserFetchOptions,
 } from "../routes";
 
 type RequiredFetchOptions = Required<FetchOptions>;
@@ -82,7 +83,7 @@ export const charctersListValidator = (
     options: z.object({
       sort_type: z.number().optional(),
       elements,
-      weapon_type: z.nativeEnum(weapon_type).array().optional(),
+      weapon_type: z.enum(weapon_type).array().optional(),
       language: z.string(),
       cookie: z.string().min(1),
     }),
@@ -111,7 +112,7 @@ export const characterDetailsValidator = (
   return true;
 };
 
-export const userInfoValidator = (uid: string, options?: FetchOptions): options is RequiredFetchOptions => {
+export const userInfoValidator = (uid: string, options?: UserFetchOptions): options is RequiredFetchOptions & UserFetchOptions => {
   const schema = z.object({
     uid: z.string(),
     options: z.object({

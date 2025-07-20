@@ -49,9 +49,9 @@ export class RequestManager {
   public _debug(message: string | string[]): void {
     if (isDebug()) {
       if (Array.isArray(message)) {
-        console.log(`[DEBUG] ${message.join("\n[DEBUG] ")}`);
+        console.log(`[DEBUG_REQUEST] ${message.join("\n[DEBUG_REQUEST] ")}`);
       } else {
-        console.log(`[DEBUG] ${message}`);
+        console.log(`[DEBUG_REQUEST] ${message}`);
       }
     }
   }

@@ -167,7 +167,7 @@ export class Client {
 
   private initSweeper() {
     setInterval(() => {
-      if (this.options.debug) console.log("[DEBUG] Sweeping cache");
+      if (this.options.debug) console.log("[DEBUG_CACHE] Sweeping cache");
       const filter: SweepFilterOptions = v =>
         v.timestamp + this.options.cacheOptions.maxAge < Date.now() ||
         (this.options.cacheOptions.maxSize !== undefined ? v.size > this.options.cacheOptions.maxSize : false);
