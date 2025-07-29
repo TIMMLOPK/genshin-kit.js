@@ -112,7 +112,10 @@ export const characterDetailsValidator = (
   return true;
 };
 
-export const userInfoValidator = (uid: string, options?: UserFetchOptions): options is RequiredFetchOptions & UserFetchOptions => {
+export const userInfoValidator = (
+  uid: string,
+  options?: UserFetchOptions,
+): options is RequiredFetchOptions & UserFetchOptions => {
   const schema = z.object({
     uid: z.string(),
     options: z.object({
